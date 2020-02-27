@@ -1,4 +1,4 @@
-# portalgaoi
+# PORTAL GA OI
 Portal de Atividades da equipe GA OI no projeto Oi.
 
 # SOBRE O LARAVEL 
