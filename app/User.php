@@ -16,24 +16,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'login', 'password', 'period', 'level_id'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $primaryKey = 'rowid';
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function level(){
+        return $this->belongsTo('App\Level', 'level_id');
+    }
+
+    public function activity(){
+        return $this->belongsToMany('App\Acitivity');
+    }
+
+    public function teamSchedule(){
+        return $this->belongsToMany('App\TeamSchedule');
+    }
+
 }
