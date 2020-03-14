@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('login', 20);
             $table->string('password', 128);
             $table->enum('period', ['MANHÃ', 'TARDE']);
+            $table->string('remember_token')->nullable();
             $table->unsignedSmallInteger('level_id');
             $table->timestamps();
         });

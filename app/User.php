@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'login', 'password', 'period', 'level_id'
+        'name', 'email', 'login', 'password', 'period', 'level_id', 'profile_image', 'work_phone', 'personal_phone', 'login_oi', 'login_remedy'
     ];
 
     protected $primaryKey = 'rowid';
@@ -31,6 +31,10 @@ class User extends Authenticatable
 
     public function teamSchedule(){
         return $this->belongsToMany('App\TeamSchedule');
+    }
+
+    public function notices(){
+        return $this->belongsTo('App\Notice', 'rowid');
     }
 
 }

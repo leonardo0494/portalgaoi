@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -37,4 +39,30 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
+    public function show(){
+        return view('auth.login')->with(['error' => 'Informações de login incorretas...']);;
+    }
+
+    public function authenticate(Request $request){
+        
+        $email    = $request->email;
+        $password = $request->password;
+
+        if(\Auth::attempt(['email' => $email, 'password' => $password])){
+            return redirect()->route('home');
+        } else {
+            \Auth::logout();
+            return redirect('login')->with('error', 'Informações de login incorretas...');
+        }
+
+    }
+
+    public function logout(){
+        \Auth::logout();
+
+        return redirect()->route('login');
+
+    }
+
 }
