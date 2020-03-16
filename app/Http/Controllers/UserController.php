@@ -40,7 +40,7 @@ class UserController extends Controller
         $profileImageName = "";
 
         if($profileImage != null){
-            if(\Auth::user()->profile_image != "")
+            if(\Auth::user()->profile_image != "" && \Auth::user()->profile_image != "perfil-user.jpg")
                 Storage::disk('public')->delete('imagens/' . $profileImage->hashName());
 
             Storage::disk('public')->put('imagens', $profileImage);
@@ -69,6 +69,11 @@ class UserController extends Controller
 
         return redirect()->route('perfil');        
 
+    }
+
+    public function list(){
+        $Users = User::all(['name', 'email', 'work_phone', 'personal_phone', 'login_oi', 'login_remedy', 'period']);
+        return view('users.list', ['usuarios' => $Users]);
     }
 
 }

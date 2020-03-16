@@ -29,6 +29,7 @@ Route::post('/authenticate', 'Auth\LoginController@authenticate')->name('authent
 
 Route::get('/home', 'UserController@index')->name('home');
 Route::get('/perfil', 'UserController@perfil')->name('perfil');
+Route::get('/usuarios', 'UserController@list')->name('usuarios');
 Route::post('/editar-perfil', 'UserController@update')->name('editar-perfil');
 
 // ATIVIDADES

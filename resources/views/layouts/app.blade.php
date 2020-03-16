@@ -9,6 +9,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/1469da1d47.js" crossorigin="anonymous"></script>
 </head>
@@ -22,7 +23,7 @@
                 <li><a href="{{route("home")}}"><i class="fa fa-home"></i>&nbsp; Dashboard</a></li>
                 <li><a href="{{route("atividades")}}"><i class="fa fa-tasks"></i>&nbsp; Atividades</a></li>
                 <li><a href="#"><i class="fa fa-calendar"></i>&nbsp; Calendário</a></li>
-                <li><a href="#"><i class="fa fa-users"></i>&nbsp; Usuários</a></li>
+                <li><a href="{{route('usuarios')}}"><i class="fa fa-users"></i>&nbsp; Usuários</a></li>
                 <li><a href="{{route('perfil')}}"><i class="fa fa-user"></i>&nbsp; Perfil</a></li>
                 <li><a href="{{route('logout')}}"><i class="fa fa-sign-out-alt"></i>&nbsp; Logout</a></li>
             </ul>
@@ -36,7 +37,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{  (\Auth::user()->profile_image == "") ?  asset('images/perfil-user.jpg') : asset( 'storage/imagens/' . \Auth::user()->profile_image . '') }}" class="user-image"> 
+                                <img src="{{  asset( 'storage/imagens/' . \Auth::user()->profile_image . '') }}" class="user-image"> 
                                 &nbsp; Olá, {{ explode(' ', \Auth::user()->name)[0] }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -55,6 +56,8 @@
 
     <!-- BOOTSTRAP -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <!-- CUSTOM JS -->
     <script src="{{ asset('js/custom.js') }}"></script>
     {{-- CK EDITOR --}}
