@@ -32,6 +32,6 @@ class NotificacaoGmud extends Mailable
      */
     public function build()
     {
-        return $this->subject('GMUD ' . $this->gmud . " - NOTIFICAÇÃO")->markdown('mail.notificacao-gmud', ['gmud' => $this->gmud, 'usuario' => $this->user]);
+        return $this->subject('GMUD ' . $this->gmud->ars_number . " - NOTIFICAÇÃO")->markdown('mail.notificacao-gmud', ['gmud' => $this->gmud, 'usuario' => $this->user]);
     }
 }

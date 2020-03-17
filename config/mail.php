@@ -56,7 +56,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'leandro.valcace@trescon.com.br'),
-        'name' => env('MAIL_FROM_NAME', 'Leandro Valcace'),
+        'name' => env('MAIL_FROM_NAME', 'Nao Responda'),
     ],
 
     /*
@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION'),
+    'encryption' => env('MAIL_ENCRYPTION', 'null'),
 
     /*
     |--------------------------------------------------------------------------
@@ -83,9 +83,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('MAIL_USERNAME', 'laraveldevemail@gmail.com'),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('MAIL_PASSWORD', 'vlqbuwffmpinblvt'),
 
     /*
     |--------------------------------------------------------------------------

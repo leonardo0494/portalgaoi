@@ -35,16 +35,17 @@ class ActivityController extends Controller
         $activity->start_date = Utils::converterDataParaPadraoAmericano($request->input('start_date'));
         $activity->end_date   = Utils::converterDataParaPadraoAmericano($request->input('end_date'));
 
-        $activity->save();
+        //$activity->save();
 
         $activity->start_date = Utils::converterDataParaPadraoBrasileiro($activity->start_date);
         $activity->end_date   = Utils::converterDataParaPadraoBrasileiro($activity->end_date);
 
-        //Mail::to($executor->email)->send(new NotificacaoGmud($activity, $executor));
+        Mail::to($executor->email)
+            ->send(new NotificacaoGmud($activity, $executor));
 
         //dd($activity);
 
-        return redirect()->route('atividades');
+        //return redirect()->route('atividades');
 
     }
 
