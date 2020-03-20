@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Notice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\NotificaoNotice;
+use Illuminate\Support\Facades\Mail;
 
 class NoticeController extends Controller
 {
@@ -19,6 +21,8 @@ class NoticeController extends Controller
         $notice->status = 'PENDENTE';
         $notice->user_id = Auth::user()->rowid;
         $notice->save();
+
+        Mail::to('leonardo.lima@trescon.com.br')->send(new NotificaoNotice($notice, \App\User::find($notice->user_id)->name));
 
         return redirect()->route('home');
 

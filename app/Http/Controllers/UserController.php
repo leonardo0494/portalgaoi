@@ -23,7 +23,7 @@ class UserController extends Controller
         $resultsPerPage = 10;
         $users = User::all();
         $notices = Notice::where('status', 'PENDENTE')->get();
-        $activities = (\Auth::user()->level_id == 1) ? Activity::orderBy('status', 'asc')->paginate($resultsPerPage) : Activity::where('user_id', \Auth::user()->rowid)->orderby('status', 'asc')->paginate($resultsPerPage);
+        $activities = (\Auth::user()->level_id == 1) ? Activity::where('status', 'ABERTO')->orderBy('status', 'asc')->paginate($resultsPerPage) : Activity::where('user_id', \Auth::user()->rowid)->where('status', 'ABERTO')->orderby('status', 'asc')->paginate($resultsPerPage);
 
         return view('users.home', ['atividades' => $activities, 'usuarios' => $users, 'notices' => $notices]);
     }

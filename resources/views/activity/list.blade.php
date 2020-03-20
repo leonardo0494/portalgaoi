@@ -40,7 +40,7 @@
                         </tr>
                     @else
                         @foreach($atividades as $atividade)
-                            <tr>
+                            <tr data-atividade="{{ $atividade->rowid }}">
                                 <td>{{ $atividade->ars_number }}</td>
                                 <td>{{ $atividade->ttype }}</td>
                                 <td>{{ \App\Utils::converterDataParaPadraoBrasileiro($atividade->start_date) }}</td>
@@ -70,7 +70,7 @@
                         </tr>
                     @else
                         @foreach($atividades as $atividade)
-                            <tr>
+                            <tr data-atividade="{{ $atividade->rowid }}">
                                 <td>{{ $atividade->ars_number }}</td>
                                 <td>{{ $atividade->ttype }}</td>
                                 <td>{{ \App\Utils::converterDataParaPadraoBrasileiro($atividade->start_date) }}</td>
@@ -140,4 +140,33 @@
     </div>
 </div>
     
+{{-- MODAL DADOS DA ATIVIDADE --}}
+<div class="modal fade" id="dados-atividade" tabindex="1" role="dialog" arial-labelledby="dados-atividade-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="title-activity">GMUD - 00009616635</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Horário:</strong> <span id="hour-activity">23/03/2020 15:40 - 23/03/2020 18:00</span></p>
+                <hr />
+                <p>
+                    <strong>Descrição:</strong><br>
+                    <span id="body-activity">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi autem ab quaerat repudiandae cupiditate molestias commodi corrupti ut laudantium voluptate doloremque beatae ullam expedita, magni doloribus minus voluptatem dicta. Cum?
+                    </span>
+                </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary atualizar-atividade" data-tipo="concluir">Concluir Atividade</button>
+              <button type="button" class="btn btn-secondary atualizar-atividade" data-tipo="cancelar">Cancelar Atividade</button>
+            </div>
+          </div>
+    </div>
+</div>
+
+
 @endsection

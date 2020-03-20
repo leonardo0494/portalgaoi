@@ -36,8 +36,14 @@ Route::post('/editar-perfil', 'UserController@update')->name('editar-perfil');
 
 Route::get('/atividades', 'ActivityController@index')->name('atividades');
 Route::post('/cadastrar-atividade', 'ActivityController@create')->name('cadastrar-atividade');
+Route::get('/searchById', 'ActivityController@searchById')->name('searchById');
+Route::get('/atualizar-atividade', 'ActivityController@update')->name('atualizar-atividade');
 
 // Avisos
 
 Route::post('/cadastrar-aviso', 'NoticeController@create')->name('cadastrar-aviso');
 Route::get('/close-notice/{id}', 'NoticeController@destroy')->name('close-notice');
+
+// Calendário
+
+Route::get('/calendario', 'TeamScheduleController@index')->name('calendario');

@@ -35,7 +35,7 @@ class ActivityController extends Controller
         $activity->start_date = Utils::converterDataParaPadraoAmericano($request->input('start_date'));
         $activity->end_date   = Utils::converterDataParaPadraoAmericano($request->input('end_date'));
 
-        //$activity->save();
+        $activity->save();
 
         $activity->start_date = Utils::converterDataParaPadraoBrasileiro($activity->start_date);
         $activity->end_date   = Utils::converterDataParaPadraoBrasileiro($activity->end_date);
@@ -45,8 +45,31 @@ class ActivityController extends Controller
 
         //dd($activity);
 
-        //return redirect()->route('atividades');
+        return redirect()->route('atividades');
 
+    }
+
+    public function searchById(Request $request){
+        $activity = Activity::find($request->get('id'));
+
+        $atividade = [
+            'tipo' => $activity->ttype,
+            'numero_atividade' => $activity->ars_number,
+            'data_inicio' => Utils::converterDataParaPadraoBrasileiro($activity->start_date),
+            'data_fim' => Utils::converterDataParaPadraoBrasileiro($activity->end_date),
+            'descricao' => $activity->description,
+            'status' => $activity->status
+        ];
+
+        return $atividade;
+    }
+
+    public function update(Request $request){
+        $activity = Activity::find($request->get('id'));
+        $activity->status = ($request->get('tipo') == 'concluir') ? "CONCLUÍDO" : "CANCELADA";
+        $activity->save();
+        
+        return $activity->status;
     }
 
 }

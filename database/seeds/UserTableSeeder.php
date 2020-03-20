@@ -15,8 +15,8 @@ class UserTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                'name' => 'LEANDRO VALCACE GONCALVES',
-               'email' => 'leandro.valcace@trescon.com.br',
-               'login' => 'leandro.valcace',
+               'email' => 'leandro.goncalves@trescon.com.br',
+               'login' => 'leandro.goncalves',
                'password' => hash::make('123456'),
                'period' => 'MANHÃ',
                'level_id' => 1
@@ -31,7 +31,7 @@ class UserTableSeeder extends Seeder
             ],
             [
                 'name' => 'ALDERICO QUEIROZ PEREIRA JUNIOR',
-                'email' => 'alderico.junior@trescon.br',
+                'email' => 'alderico.junior@trescon.com.br',
                 'login' => 'alderico.junior',
                 'password' => hash::make('123456'),
                 'period' => 'MANHÃ',
