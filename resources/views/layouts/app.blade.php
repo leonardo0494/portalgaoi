@@ -26,6 +26,16 @@
                 {{-- <li><a href="{{route("calendario")}}"><i class="fa fa-calendar"></i>&nbsp; Calendário</a></li> --}}
                 <li><a href="{{route('usuarios')}}"><i class="fa fa-users"></i>&nbsp; Usuários</a></li>
                 <li><a href="{{route('perfil')}}"><i class="fa fa-user"></i>&nbsp; Perfil</a></li>
+                <li><a href="#"><i class="fas fa-link"></i>&nbsp; Links Úteis</a>
+                    <ul>
+                        <li><a href="http://portalbackup.telemar/">Portal Backup</a></li>
+                        <li><a href="http://portalcmdb/relGenerico.asp">Portal CMDB</a></li>
+                        <li><a href="http://10.32.202.36/doc/index.php?class=ViewList&method=onReload">Monitor de Defeitos</a></li>
+                        <li><a href="http://10.58.198.137:8080/midtier_linux/shared/login.jsp">Remedy</a></li>
+                        <li><a href="http://sharepoint/tecnologia/0066/Procedimentos%20GAOI/Forms/AllItems.aspx">Sharepoint GA OI</a></li>
+                        <li><a href="http://fep">FEP</a></li>
+                    </ul>
+                </li>
                 <li><a href="{{route('logout')}}"><i class="fa fa-sign-out-alt"></i>&nbsp; Logout</a></li>
             </ul>
         </div>

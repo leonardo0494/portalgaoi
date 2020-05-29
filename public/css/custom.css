@@ -27,6 +27,8 @@ body {
     position: fixed;
     background-color: #181818;
     padding: 20px;
+    position: absolute;
+    z-index: 9;
 }
 
 .wrapper .sidebar h2 {
@@ -62,6 +64,35 @@ body {
     color: #fff;
     display: block;
     text-decoration: none;
+}
+
+@keyframes teste{
+    from{margin-left: 180px; opacity: 0;}
+    to{margin-left: 195px; opacity: 1;}
+}
+
+.wrapper .sidebar ul li ul{
+    width: 200px;
+    position: absolute;
+    margin-top: -34px;
+    margin-left: 195px;
+    background-color: #181818;
+    display: none;
+    animation-name: teste;
+    animation-duration: 0.3s;
+}
+
+
+.wrapper .sidebar ul li:hover ul{
+    display: block;
+} 
+
+.wrapper .sidebar ul li ul li:first-child{
+    border-top: 1px solid #1f1f1f;
+}
+
+.wrapper .sidebar ul li:hover ul{
+    display: block;
 }
 
 .wrapper .main {
