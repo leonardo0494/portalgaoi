@@ -9,7 +9,7 @@ use App\Activity;
 use App\Notice;
 use App\TeamSchedule;
 use Illuminate\Support\Facades\Storage;
-
+use Hash;
 
 class UserController extends Controller
 {

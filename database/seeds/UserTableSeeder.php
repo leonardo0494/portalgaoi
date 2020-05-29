@@ -12,6 +12,12 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+
+	DB::table('levels')->insert([
+            ['name' => 'ADMINISTRADOR'],
+            ['name' => 'TÉCNICO']
+        ]);
+
         DB::table('users')->insert([
             [
                'name' => 'LEANDRO VALCACE GONCALVES',
