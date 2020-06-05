@@ -7,9 +7,10 @@ use App\User;
 use App\Level;
 use App\Activity;
 use App\Notice;
-use App\TeamSchedule;
+use App\Reports;
 use Illuminate\Support\Facades\Storage;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -32,7 +33,7 @@ class UserController extends Controller
         return view('users.perfil');
     }
 
-    public function update(Request $request){
+    public function update(Request $request) {
 
         // UPLOAD PROFILE IMAGE
 
@@ -71,10 +72,10 @@ class UserController extends Controller
 
     }
 
-    public function list(){
+    public function list() {
         $Users = User::all(['name', 'email', 'work_phone', 'personal_phone', 'login_oi', 'login_remedy', 'period']);
         return view('users.list', ['usuarios' => $Users]);
     }
-
+    
 }
 

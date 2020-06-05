@@ -47,3 +47,8 @@ Route::get('/close-notice/{id}', 'NoticeController@destroy')->name('close-notice
 // Calendário
 
 Route::get('/calendario', 'TeamScheduleController@index')->name('calendario');
+
+// REPORTS
+
+Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
+Route::get('/list-reports', 'ReportsController@listReports')->name('list-reports');

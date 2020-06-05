@@ -1,0 +1,114 @@
+localStorage.clear();
+
+/* BOTOES DE ACAO DA ATIVIDADE */
+const INICIAR_ATIVIDADE = document.getElementById("iniciar-atividade");
+const PARAR_ATIVIDADE   = document.getElementById("parar-atividade");
+
+/* CAMPOS ATIVIDADE */
+
+const TIPO_ATIVIDADE = document.getElementById("tipo");
+const COD_ATIVIDADE  = document.getElementById("cod");
+const ARS_ATIVIDADE  = document.getElementById('ars');
+const SYS_ATIVIDADE  = document.getElementById('sys');
+const HORA_INICIO    = document.getElementById('hora-inicio');
+const HORA_FIM       = document.getElementById('hora-fim');
+const HORA_INICIO_RL = document.getElementById('hora-inicio-real');
+const HORA_FIM_RL    = document.getElementById('hora-fim-real');
+
+let horaInicio = "";
+let horaFim    = "";
+let atividadeIniciada = "";
+
+INICIAR_ATIVIDADE.addEventListener('click', function(){
+    iniciarAtividade();
+    let data = createDate();
+    HORA_INICIO.value    = converterDataPadraoBrasileiro(data);
+    HORA_INICIO_RL.value = data;
+    document.getElementById("contador-atividade").classList.remove('d-none');
+    INICIAR_ATIVIDADE.classList.add('d-none');
+});
+
+PARAR_ATIVIDADE.addEventListener('click', ()=>{
+    fecharAtividade();
+})
+
+TIPO_ATIVIDADE.addEventListener('change', () => {
+
+    COD_ATIVIDADE.classList.add('d-none');
+    ARS_ATIVIDADE.classList.add('d-none');
+    SYS_ATIVIDADE.classList.add('d-none');
+    
+    if(TIPO_ATIVIDADE.value == 'DEFEITO' || TIPO_ATIVIDADE.value == 'CALL'){
+        COD_ATIVIDADE.classList.remove('d-none');
+        SYS_ATIVIDADE.classList.remove('d-none');
+        return true;
+    }
+
+    if(TIPO_ATIVIDADE.value == 'ARS'){
+        ARS_ATIVIDADE.classList.remove('d-none');
+        SYS_ATIVIDADE.classList.remove('d-none');
+        return true;
+    }
+
+    if(TIPO_ATIVIDADE.value == 'MELHORIAS' || TIPO_ATIVIDADE.value == "MONITORAMENTO" || TIPO_ATIVIDADE.value == "TREINAMENTO"){
+        SYS_ATIVIDADE.classList.remove('d-none');
+        return true;
+    }
+
+    return true;
+
+});
+
+function createDate(){
+    let data     = new Date();
+    let ano      = data.getFullYear();
+    let mes      = ( (data.getMonth() + 1) < 10 ) ? `0${data.getMonth() + 1}` : data.getMonth() + 1;
+    let dia      = ( data.getDate() < 10 ) ? `0${data.getDate()}` : data.getDate();
+    let hora     = (data.getHours() < 10) ? `0${data.getHours()}` : data.getHours();
+    let minutos  = (data.getMinutes() < 10) ? `0${data.getMinutes()}` : data.getMinutes();
+    let segundos = (data.getSeconds() < 10) ? `0${data.getSeconds()}` : data.getSeconds();
+    return `${ano}-${mes}-${dia} ${hora}:${minutos}:${segundos}`
+}
+
+function converterDataPadraoBrasileiro(data){
+    let dataFull = data.split('-');
+    let horaSplite = dataFull[2].split(" ");
+    return `${horaSplite[0]}/${dataFull[1]}/${dataFull[0]} ${horaSplite[1]}`;
+}
+
+function iniciarAtividade(){
+    hora          = 0;
+    minutos       = 0;
+    segundos      = 0;
+    
+    document.getElementById("horasAtividade").innerHTML = "00:00:00";
+    localStorage.setItem('atividade', true);    
+
+    atividadeIniciada = setInterval(()=>{
+        if(localStorage.getItem('atividade') == 'true'){
+            segundos +=1;
+            if(segundos == 60){
+                minutos += 1;
+                segundos = 0;
+                if(minutos == 60){
+                    hora +=1;
+                    minutos = 0;
+                }
+            }
+            document.getElementById("horasAtividade").innerHTML = `${(hora < 10) ? '0' + hora : hora}:${(minutos < 10) ? '0' + minutos : minutos}:${(segundos < 10) ? '0' + segundos : segundos}`
+        }
+    }, 1000);
+}
+
+function fecharAtividade(){
+    let data = createDate();
+    HORA_FIM.value    = converterDataPadraoBrasileiro(data);
+    HORA_FIM_RL.value = data;
+    localStorage.setItem('atividade', false);
+    clearInterval(atividadeIniciada)
+    localStorage.clear();
+    sessionStorage.clear();    
+    document.getElementById("contador-atividade").classList.add('d-none');
+    INICIAR_ATIVIDADE.classList.remove('d-none');
+}
+
