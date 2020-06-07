@@ -44,6 +44,12 @@ TIPO_ATIVIDADE.addEventListener('change', () => {
         return true;
     }
 
+    if(TIPO_ATIVIDADE.value == 'DEFEITO_ARS'){
+        COD_ATIVIDADE.classList.remove('d-none');
+        ARS_ATIVIDADE.classList.remove('d-none');
+        return true;
+    }
+
     if(TIPO_ATIVIDADE.value == 'ARS'){
         ARS_ATIVIDADE.classList.remove('d-none');
         SYS_ATIVIDADE.classList.remove('d-none');

@@ -88,6 +88,7 @@
                         <select name="tipo" id="tipo" class="form-control">
                             <option value="">Selecione o tipo de atividade</option>
                             <option value="DEFEITO">DEFEITO</option>
+                            <option value="DEFEITO_ARS">DEFEITO + ARS</option>
                             <option value="CALL">CALL</option>
                             <option value="ARS">ARS</option>
                             <option value="MELHORIAS">MELHORIAS</option>
