@@ -129,5 +129,17 @@ $(document).ready(function() {
         }
 
     });
-
+    
+    setTimeout(() => {
+        $("#mensagem-atividade").animate(
+            {
+                opacity : 0
+            },
+            'slow',
+            () => {
+                $("#mensagem-atividade").attr('class', 'd-none');
+            }
+        )
+    }, 1500);
+    
 });

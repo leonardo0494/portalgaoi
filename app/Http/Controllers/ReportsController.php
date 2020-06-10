@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityOnline;
 use App\Reports;
 use App\User;
 use Illuminate\Http\Request;
@@ -64,7 +65,20 @@ class ReportsController extends Controller
 
         $reports->save();
 
-        return redirect()->route('home');
+        return redirect()->route('home', [ 'mensagem' => "Atividade registrada com sucesso."]);
 
     }
+
+    public function exposeBusyResource(){
+        DB::table('activity_onlines')->insert([
+            "recurso" => Auth::user()->name,
+            "user_id" => Auth::user()->rowid,
+            "hora_inicio" => Utils::converterDataParaPadraoBrasileiro(date('Y-m-d H:i:s'))
+        ]);       
+    }
+
+    public function deleteBusyResourceActivity(){
+        DB::table('activity_onlines')->where('user_id', Auth::user()->rowid)->delete();
+    }
+
 }

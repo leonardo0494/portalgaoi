@@ -90,6 +90,10 @@ function iniciarAtividade(){
     document.getElementById("horasAtividade").innerHTML = "00:00:00";
     localStorage.setItem('atividade', true);    
 
+    let ajaxReq = new XMLHttpRequest();
+    ajaxReq.open('GET', '/atividade-online');
+    ajaxReq.send();
+
     atividadeIniciada = setInterval(()=>{
         if(localStorage.getItem('atividade') == 'true'){
             segundos +=1;
@@ -115,6 +119,10 @@ function fecharAtividade(){
     localStorage.clear();
     sessionStorage.clear();    
     document.getElementById("contador-atividade").classList.add('d-none');
-    INICIAR_ATIVIDADE.classList.remove('d-none');
+    INICIAR_ATIVIDADE.classList.remove('d-none');let 
+    
+    ajaxReq = new XMLHttpRequest();
+    ajaxReq.open('GET', '/atividade-finalizada');
+    ajaxReq.send();
 }
 

@@ -52,3 +52,6 @@ Route::get('/calendario', 'TeamScheduleController@index')->name('calendario');
 
 Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
 Route::get('/list-reports', 'ReportsController@listReports')->name('list-reports');
+
+Route::get('/atividade-online', 'ReportsController@exposeBusyResource')->name('atividade-online');
+Route::get('/atividade-finalizada', 'ReportsController@deleteBusyResourceActivity')->name('atividade-finalizada');
