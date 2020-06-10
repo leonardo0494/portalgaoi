@@ -1,6 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
+    
+@if(isset($_GET['mensagem']))
+    <div class='alert alert-success' id='mensagem-atividade'>
+        {{ $_GET['mensagem']}}
+    </div>
+@endif
+
+@if(Auth::user()->level_id == 1)
+    <div class="col-md-12">
+        <div class="row">
+            <h3>Recursos com Atividade em Andamento</h3>
+        </div>
+        <div class="row">
+
+        @if (count($recursosOcupados) == 0)
+            <p class="text-muted">Não há atividades em andamento...</p>
+        @else
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Recurso</th>
+                        <th>Em atividade desde</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($recursosOcupados as $recurso)
+                        <tr>
+                            <td>{{$recurso->recurso}}</td>
+                            <td>{{$recurso->hora_inicio}}</td>
+                        </tr>                        
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+        </div>
+    </div>
+@endif
 
 <div class="col-md-12">
     <div class="row">

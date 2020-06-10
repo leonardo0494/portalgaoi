@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Level;
 use App\Activity;
+use App\ActivityOnline;
 use App\Notice;
 use App\Reports;
 use Illuminate\Support\Facades\Storage;
@@ -19,18 +20,19 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function index(){    
         
         $resultsPerPage = 10;
         $users = User::all();
         $notices = Notice::where('status', 'PENDENTE')->get();
-        $activities = (\Auth::user()->level_id == 1) ? Activity::where('status', 'ABERTO')->orderBy('status', 'asc')->paginate($resultsPerPage) : Activity::where('user_id', \Auth::user()->rowid)->where('status', 'ABERTO')->orderby('status', 'asc')->paginate($resultsPerPage);
+        $activiyOnline = ActivityOnline::select('recurso', 'hora_inicio')->get();
+        $activities = (Auth::user()->level_id == 1) ? Activity::where('status', 'ABERTO')->orderBy('status', 'asc')->paginate($resultsPerPage) : Activity::where('user_id', Auth::user()->rowid)->where('status', 'ABERTO')->orderby('status', 'asc')->paginate($resultsPerPage);
 
-        return view('users.home', ['atividades' => $activities, 'usuarios' => $users, 'notices' => $notices]);
+        return view('users.home', ['atividades' => $activities, 'usuarios' => $users, 'notices' => $notices, 'recursosOcupados' => $activiyOnline]);
     }
 
     public function perfil(){
-        return view('users.perfil');
+        return view('users.perfil')->with('mensagem', "Atividade registrada com sucesso.");
     }
 
     public function update(Request $request) {
