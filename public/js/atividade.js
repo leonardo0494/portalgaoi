@@ -1,4 +1,4 @@
-localStorage.clear();
+inicializar();
 
 /* BOTOES DE ACAO DA ATIVIDADE */
 const INICIAR_ATIVIDADE = document.getElementById("iniciar-atividade");
@@ -20,10 +20,17 @@ let horaFim    = "";
 let atividadeIniciada = "";
 
 INICIAR_ATIVIDADE.addEventListener('click', function(){
-    iniciarAtividade();
+    
     let data = createDate();
+
     HORA_INICIO.value    = converterDataPadraoBrasileiro(data);
     HORA_INICIO_RL.value = data;
+
+    localStorage.setItem('atividade', true);   
+    localStorage.setItem('hora_inicio', data);
+    
+    iniciarAtividade();    
+
     document.getElementById("contador-atividade").classList.remove('d-none');
     INICIAR_ATIVIDADE.classList.add('d-none');
 });
@@ -83,19 +90,16 @@ function converterDataPadraoBrasileiro(data){
     return `${horaSplite[0]}/${dataFull[1]}/${dataFull[0]} ${horaSplite[1]}`;
 }
 
-function iniciarAtividade(){
-    hora          = 0;
-    minutos       = 0;
-    segundos      = 0;
-    
-    document.getElementById("horasAtividade").innerHTML = "00:00:00";
-    localStorage.setItem('atividade', true);    
+function iniciarAtividade(hora = 00, minutos = 00, segundos = 00, sinalizarAtividade=true){
 
-    let ajaxReq = new XMLHttpRequest();
-    ajaxReq.open('GET', '/atividade-online');
-    ajaxReq.send();
+    if(sinalizarAtividade){
+        document.getElementById("horasAtividade").innerHTML = '00:00:00'; 
+        let ajaxReq = new XMLHttpRequest();
+        ajaxReq.open('GET', '/atividade-online');
+        ajaxReq.send();
+    }
 
-    atividadeIniciada = setInterval(()=>{
+    setInterval(()=>{
         if(localStorage.getItem('atividade') == 'true'){
             segundos +=1;
             if(segundos == 60){
@@ -107,6 +111,7 @@ function iniciarAtividade(){
                 }
             }
             document.getElementById("horasAtividade").innerHTML = `${(hora < 10) ? '0' + hora : hora}:${(minutos < 10) ? '0' + minutos : minutos}:${(segundos < 10) ? '0' + segundos : segundos}`
+            localStorage.setItem('time', `${(hora < 10) ? '0' + hora : hora}:${(minutos < 10) ? '0' + minutos : minutos}:${(segundos < 10) ? '0' + segundos : segundos}`);
         }
     }, 1000);
 }
@@ -115,9 +120,8 @@ function fecharAtividade(){
     let data = createDate();
     HORA_FIM.value    = converterDataPadraoBrasileiro(data);
     HORA_FIM_RL.value = data;
-    localStorage.setItem('atividade', false);
-    clearInterval(atividadeIniciada)
     localStorage.clear();
+    clearInterval(atividadeIniciada);
     sessionStorage.clear();    
     document.getElementById("contador-atividade").classList.add('d-none');
     INICIAR_ATIVIDADE.classList.remove('d-none');let 
@@ -127,3 +131,22 @@ function fecharAtividade(){
     ajaxReq.send();
 }
 
+function inicializar(){
+
+    if(localStorage.length > 0){
+        let time = localStorage.getItem('time').split(":");
+
+        let hora     = parseInt(time[0]);
+        let minutos  = parseInt(time[1]);
+        let segundos = parseInt(time[2]);
+        clearInterval();
+        iniciarAtividade(hora, minutos, segundos, false);
+        document.getElementById('hora-inicio').value    = converterDataPadraoBrasileiro(localStorage.getItem('hora_inicio'));
+        document.getElementById('hora-inicio-real').value = localStorage.getItem('hora_inicio');
+        document.getElementById("horasAtividade").innerHTML = localStorage.getItem('time');
+        document.getElementById("contador-atividade").classList.remove('d-none');
+        document.getElementById("iniciar-atividade").classList.add('d-none');
+
+    }
+
+}

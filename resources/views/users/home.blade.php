@@ -2,9 +2,12 @@
 
 @section('content')
     
-@if(isset($_GET['mensagem']))
+@if(session()->has('status'))
     <div class='alert alert-success' id='mensagem-atividade'>
-        {{ $_GET['mensagem']}}
+        {{ session('status')}}
+        @php
+            session()->forget('status');
+        @endphp
     </div>
 @endif
 
