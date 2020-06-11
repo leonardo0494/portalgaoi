@@ -65,7 +65,9 @@ class ReportsController extends Controller
 
         $reports->save();
 
-        return redirect()->route('home', [ 'mensagem' => "Atividade registrada com sucesso."]);
+        session()->flash('status', "Atividade registrada com sucesso.");
+
+        return redirect()->route('home');
 
     }
 

@@ -18,11 +18,6 @@
                 <thead>
                     <tr>
                         <th>TIPO</th>
-                        <th>PRJ_ENT</th>
-                        <th>ARS</th>
-                        <th>DEFEITO</th>
-                        <th>PENDENCIA</th>
-                        <th>SISTEMA</th>
                         <th>DESCRICAO</th>
                         <th>INICIO ATENDIMENTO</th>
                         <th>FINAL ATENDIMENTO</th>
@@ -34,11 +29,6 @@
                     @foreach($relatorios as $relatorio)
                         <tr>
                             <td>{{$relatorio->tipo}}</td>
-                            <td>{{$relatorio->prj_ent}}</td>
-                            <td>{{$relatorio->ars}}</td>
-                            <td>{{$relatorio->def}}</td>
-                            <td>{{$relatorio->pendencia}}</td>
-                            <td>{{$relatorio->sistema}}</td>
                             <td>{{$relatorio->descricao}}</td>
                             <td>{{$relatorio->inicio_atendimento}}</td>
                             <td>{{$relatorio->final_atendimento}}</td>
