@@ -11,13 +11,17 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
 Route::get('/home', function () {
-    return redirect()->route('login');
-});
+    if(!Auth::check()){
+        return redirect()->route('login');
+    }
+})->name('home');
 
 
 // AUTENTICAÇÃO
@@ -27,7 +31,7 @@ Route::post('/authenticate', 'Auth\LoginController@authenticate')->name('authent
 
 // USUÁRIOS
 
-Route::get('/home', 'UserController@index')->name('home');
+Route::get('/inicial', 'UserController@index')->name('inicial');
 Route::get('/perfil', 'UserController@perfil')->name('perfil');
 Route::get('/usuarios', 'UserController@list')->name('usuarios');
 Route::post('/editar-perfil', 'UserController@update')->name('editar-perfil');
