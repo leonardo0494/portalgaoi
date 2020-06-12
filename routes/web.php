@@ -23,39 +23,42 @@ Route::get('/home', function () {
     }
 })->name('home');
 
-
 // AUTENTICAÇÃO
 Route::get('/login', 'Auth\LoginController@show')->name('login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/authenticate', 'Auth\LoginController@authenticate')->name('authenticate');
 
-// USUÁRIOS
+Route::group(['middleware' => ['auth']], function () {
 
-Route::get('/inicial', 'UserController@index')->name('inicial');
-Route::get('/perfil', 'UserController@perfil')->name('perfil');
-Route::get('/usuarios', 'UserController@list')->name('usuarios');
-Route::post('/editar-perfil', 'UserController@update')->name('editar-perfil');
+    // USUÁRIOS
 
-// ATIVIDADES
+    Route::get('/inicial', 'UserController@index')->name('inicial');
+    Route::get('/perfil', 'UserController@perfil')->name('perfil');
+    Route::get('/usuarios', 'UserController@list')->name('usuarios');
+    Route::post('/editar-perfil', 'UserController@update')->name('editar-perfil');
 
-Route::get('/atividades', 'ActivityController@index')->name('atividades');
-Route::post('/cadastrar-atividade', 'ActivityController@create')->name('cadastrar-atividade');
-Route::get('/searchById', 'ActivityController@searchById')->name('searchById');
-Route::get('/atualizar-atividade', 'ActivityController@update')->name('atualizar-atividade');
+    // ATIVIDADES
 
-// Avisos
+    Route::get('/atividades', 'ActivityController@index')->name('atividades');
+    Route::post('/cadastrar-atividade', 'ActivityController@create')->name('cadastrar-atividade');
+    Route::get('/searchById', 'ActivityController@searchById')->name('searchById');
+    Route::get('/atualizar-atividade', 'ActivityController@update')->name('atualizar-atividade');
 
-Route::post('/cadastrar-aviso', 'NoticeController@create')->name('cadastrar-aviso');
-Route::get('/close-notice/{id}', 'NoticeController@destroy')->name('close-notice');
+    // Avisos
 
-// Calendário
+    Route::post('/cadastrar-aviso', 'NoticeController@create')->name('cadastrar-aviso');
+    Route::get('/close-notice/{id}', 'NoticeController@destroy')->name('close-notice');
 
-Route::get('/calendario', 'TeamScheduleController@index')->name('calendario');
+    // Calendário
 
-// REPORTS
+    Route::get('/calendario', 'TeamScheduleController@index')->name('calendario');
 
-Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
-Route::get('/list-reports', 'ReportsController@listReports')->name('list-reports');
+    // REPORTS
 
-Route::get('/atividade-online', 'ReportsController@exposeBusyResource')->name('atividade-online');
-Route::get('/atividade-finalizada', 'ReportsController@deleteBusyResourceActivity')->name('atividade-finalizada');
+    Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
+    Route::get('/list-reports', 'ReportsController@listReports')->name('list-reports');
+
+    Route::get('/atividade-online', 'ReportsController@exposeBusyResource')->name('atividade-online');
+    Route::get('/atividade-finalizada', 'ReportsController@deleteBusyResourceActivity')->name('atividade-finalizada');
+
+});
