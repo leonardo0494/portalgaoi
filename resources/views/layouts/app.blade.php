@@ -160,7 +160,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <!-- CUSTOM JS -->
     <script src="{{ asset('js/custom.js') }}"></script>
-    <script src="{{ asset('js/atividade.js?v0.2') }}"></script>
+    <script src="{{ asset('js/atividade.js?v0.4') }}"></script>
     {{-- CK EDITOR --}}
     <script src="http://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
     <script>

@@ -67,7 +67,7 @@ class ReportsController extends Controller
 
         session()->flash('status', "Atividade registrada com sucesso.");
 
-        return redirect()->route('home');
+        return redirect()->route('inicial');
 
     }
 
