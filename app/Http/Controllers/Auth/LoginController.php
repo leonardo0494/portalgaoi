@@ -50,7 +50,7 @@ class LoginController extends Controller
         $password = $request->password;
 
         if(\Auth::attempt(['email' => $email, 'password' => $password])){
-            return redirect()->route('home');
+            return redirect()->route('inicial');
         } else {
             \Auth::logout();
             return redirect('login')->with('error', 'Informações de login incorretas...');
