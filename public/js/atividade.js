@@ -132,7 +132,7 @@ function fecharAtividade(){
 
 function inicializar(){
 
-    if(localStorage.length > 0){
+    if(localStorage.getItem('time')){
         let time = localStorage.getItem('time').split(":");
 
         let hora     = parseInt(time[0]);
