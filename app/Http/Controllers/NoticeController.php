@@ -24,7 +24,7 @@ class NoticeController extends Controller
 
         Mail::to('leonardo.lima@trescon.com.br')->send(new NotificaoNotice($notice, \App\User::find($notice->user_id)->name));
 
-        return redirect()->route('home');
+        return redirect()->route('inicial');
 
     }
 
@@ -36,7 +36,7 @@ class NoticeController extends Controller
             $notice->save();
         }
 
-        return redirect()->route('home');
+	return redirect()->route('inicial');
 
     }
 

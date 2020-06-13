@@ -19,7 +19,7 @@
         <div class="sidebar">
             <h2>Portal GA OI</h2>
             <ul>
-                <li><a href="{{route("home")}}"><i class="fa fa-home"></i>&nbsp; Dashboard</a></li>
+                <li><a href="{{route("inicial")}}"><i class="fa fa-home"></i>&nbsp; Dashboard</a></li>
                 <li><a href="{{route("atividades")}}"><i class="fa fa-tasks"></i>&nbsp; Atividades</a></li>
                 <li><a href="{{route('list-reports')}}"><i class="fas fa-hourglass-end"></i>&nbsp; Relatório de Horas</a></li>
                 {{-- <li><a href="{{route("calendario")}}"><i class="fa fa-calendar"></i>&nbsp; Calendário</a></li> --}}
