@@ -14,7 +14,11 @@
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    if(!Auth::check()){
+	return redirect()->route('login');
+    } else {
+	return redirect()->route('inicial');
+    }
 });
 
 Route::get('/home', function () {
