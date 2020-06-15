@@ -99,7 +99,7 @@ function iniciarAtividade(hora = 00, minutos = 00, segundos = 00, sinalizarAtivi
         ajaxReq.send();
     }
 
-    atividadeIniciada = setInterval(()=>{
+    setInterval(()=>{
         if(localStorage.getItem('atividade') == 'true'){
             segundos +=1;
             if(segundos == 60){
@@ -139,7 +139,7 @@ function inicializar(){
         let hora     = parseInt(time[0]);
         let minutos  = parseInt(time[1]);
         let segundos = parseInt(time[2]);
-        clearInterval(atividadeIniciada);
+        clearInterval();
         iniciarAtividade(hora, minutos, segundos, false);
         document.getElementById('hora-inicio').value    = converterDataPadraoBrasileiro(localStorage.getItem('hora_inicio'));
         document.getElementById('hora-inicio-real').value = localStorage.getItem('hora_inicio');
