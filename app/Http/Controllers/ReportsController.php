@@ -61,9 +61,9 @@ class ReportsController extends Controller
     }
 
     public function saveReports(Request $request) {
-
+	
         $reports = new Reports();
-        $activityOnline = ActivityOnline::find($request->input('id-atividade'))->first();
+	$activityOnline = ActivityOnline::find($request->input('id-atividade'));
 
         $reports->tipo = $request->input('tipo');
         $reports->prj_ent = $request->input('prj_ent');
