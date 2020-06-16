@@ -15,15 +15,17 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if(!Auth::check()){
-	return redirect()->route('login');
+        return redirect()->route('login');
     } else {
-	return redirect()->route('inicial');
+        return redirect()->route('inicial');
     }
 });
 
 Route::get('/home', function () {
     if(!Auth::check()){
         return redirect()->route('login');
+    } else {
+        return redirect()->route('inicial');
     }
 })->name('home');
 
@@ -35,32 +37,28 @@ Route::post('/authenticate', 'Auth\LoginController@authenticate')->name('authent
 Route::group(['middleware' => ['auth']], function () {
 
     // USUÁRIOS
-
     Route::get('/inicial', 'UserController@index')->name('inicial');
     Route::get('/perfil', 'UserController@perfil')->name('perfil');
     Route::get('/usuarios', 'UserController@list')->name('usuarios');
     Route::post('/editar-perfil', 'UserController@update')->name('editar-perfil');
 
     // ATIVIDADES
-
     Route::get('/atividades', 'ActivityController@index')->name('atividades');
     Route::post('/cadastrar-atividade', 'ActivityController@create')->name('cadastrar-atividade');
     Route::get('/searchById', 'ActivityController@searchById')->name('searchById');
     Route::get('/atualizar-atividade', 'ActivityController@update')->name('atualizar-atividade');
 
     // Avisos
-
     Route::post('/cadastrar-aviso', 'NoticeController@create')->name('cadastrar-aviso');
     Route::get('/close-notice/{id}', 'NoticeController@destroy')->name('close-notice');
 
     // Calendário
-
     Route::get('/calendario', 'TeamScheduleController@index')->name('calendario');
 
     // REPORTS
-
-    Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
+    Route::get('/save-reports', 'ReportsController@saveReportsScreen')->name('save-reports');
     Route::get('/list-reports', 'ReportsController@listReports')->name('list-reports');
+    Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
 
     Route::get('/atividade-online', 'ReportsController@exposeBusyResource')->name('atividade-online');
     Route::get('/atividade-finalizada', 'ReportsController@deleteBusyResourceActivity')->name('atividade-finalizada');

@@ -131,7 +131,7 @@
 
                     <div class="form-group">
                         <label for="descricao">Descrição</label>
-                        <textarea class="form-control" rows="3" col="30" name='descricao' maxlength="180" placeholder="Limite de 180 caracteres..."></textarea>
+                        <textarea class="form-control" rows="3" col="30" name='descricao' maxlength="50" placeholder="Limite de 50 caracteres..."></textarea>
                     </div>
 
                     <div class="form-group row">

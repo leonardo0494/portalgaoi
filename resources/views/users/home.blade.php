@@ -44,7 +44,7 @@
 
 <div class="col-md-12">
     <div class="row">
-        <h3>Próximas Atividades</h3>
+        <h3>Próximas GMUDS</h3>
     </div>
     <div class="row">            
     @if(\Auth::user()->level_id == 1)
@@ -62,7 +62,7 @@
             <tbody>
                 @if(count($atividades) == 0)
                     <tr>
-                        <td colspan="6" class='text-center'>Cadastre uma atividade para ela aparecer aqui :)</td>
+                        <td colspan="6" class='text-center'>Cadastre uma gmud para ela aparecer aqui :)</td>
                     </tr>
                 @else
                     @foreach($atividades as $atividade)
@@ -92,7 +92,7 @@
             <tbody>
                 @if(count($atividades) == 0)
                     <tr>
-                        <td colspan="6" class='text-center'>Não foram cadastradas atividades para você ainda :)</td>
+                        <td colspan="6" class='text-center'>Não foram cadastradas gmuds para você ainda :)</td>
                     </tr>
                 @else
                     @foreach($atividades as $atividade)

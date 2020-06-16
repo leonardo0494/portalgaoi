@@ -48,6 +48,10 @@ class ReportsController extends Controller
 
     }
 
+    public function saveReportsScreen(Request $request) {
+        
+    }
+
     public function saveReports(Request $request) {
 
         $reports = new Reports();
