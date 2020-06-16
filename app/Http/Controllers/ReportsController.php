@@ -7,6 +7,7 @@ use App\Reports;
 use App\User;
 use Illuminate\Http\Request;
 use App\Utils;
+use Hamcrest\Util;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -48,13 +49,21 @@ class ReportsController extends Controller
 
     }
 
-    public function saveReportsScreen(Request $request) {
+    public function saveReportsScreen() {
+        $activityOnline = ActivityOnline::where('user_id', Auth::user()->rowid)->first();
         
+        if( ($activityOnline) && ($activityOnline->hora_termino != "")){
+            return view('users.save-reports', ["activityOnline" => $activityOnline]);
+        } else {
+            return redirect()->route('inicial');
+        }
+
     }
 
     public function saveReports(Request $request) {
 
         $reports = new Reports();
+        $activityOnline = ActivityOnline::find($request->input('id-atividade'))->first();
 
         $reports->tipo = $request->input('tipo');
         $reports->prj_ent = $request->input('prj_ent');
@@ -63,11 +72,13 @@ class ReportsController extends Controller
         $reports->pendencia = $request->input('pendencia');
         $reports->sistema = $request->input('sistema');
         $reports->descricao = $request->input('descricao');
-        $reports->inicio_atendimento = $request->input('hora-inicio-real');
-        $reports->final_atendimento = $request->input('hora-fim-real');
+        $reports->inicio_atendimento = Utils::converterDataParaPadraoAmericano($activityOnline->hora_inicio);
+        $reports->final_atendimento = Utils::converterDataParaPadraoAmericano($activityOnline->hora_termino);
         $reports->user_id = Auth::user()->rowid;
 
         $reports->save();
+
+        ActivityOnline::find($request->input('id-atividade'))->delete();
 
         session()->flash('status', "Atividade registrada com sucesso.");
 
@@ -76,15 +87,43 @@ class ReportsController extends Controller
     }
 
     public function exposeBusyResource(){
-        DB::table('activity_onlines')->insert([
-            "recurso" => Auth::user()->name,
-            "user_id" => Auth::user()->rowid,
-            "hora_inicio" => Utils::converterDataParaPadraoBrasileiro(date('Y-m-d H:i:s'))
-        ]);       
+        $activityOnline = new ActivityOnline();
+        $activityOnline->recurso = Auth::user()->name;
+        $activityOnline->user_id = Auth::user()->rowid;
+        $activityOnline->hora_inicio = Utils::converterDataParaPadraoBrasileiro(date('Y-m-d H:i:s'));
+        $activityOnline->save();
+
+        return response()
+            ->json(['id_atividade' => $activityOnline->id]);
+
     }
 
-    public function deleteBusyResourceActivity(){
-        DB::table('activity_onlines')->where('user_id', Auth::user()->rowid)->delete();
+    public function completeBusyResourceActivity(Request $request){
+        $activityOnline = ActivityOnline::find($request->input('id-atividade'));
+        $activityOnline->hora_termino = Utils::converterDataParaPadraoBrasileiro(date('Y-m-d H:i:s'));
+        $activityOnline->save();
+
+        return redirect()->route('save-reports');
+    }
+
+    public function checkReport(){
+
+        $activityOnline = ActivityOnline::where('user_id', Auth::user()->rowid)->first();
+
+        if($activityOnline && $activityOnline->hora_termino != "")
+            return response()
+                ->json(['existe' => 'finalizada']);
+        else 
+            return response()
+                ->json([
+                    'existe' => 'iniciada', 
+                    'hora_inicio' => $activityOnline->hora_inicio, 
+                    'id_atividade' => $activityOnline->id
+                ]);
+
+        return response()
+            ->json(['existe' => false]);
+
     }
 
 }

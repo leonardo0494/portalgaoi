@@ -116,13 +116,15 @@
         <div class="col-md-10 pl-0 pt-2">
             <h3>Avisos</h3>
         </div>
-        <div class="col-md-2 text-right p-0">
-            <button type="button" class="btn btn-success" data-toggle='modal' data-target='#cadastrar-aviso'>Cadastrar Aviso</button>
-        </div>
     </div>
 </div>
 
 <div class="col-md-12 mb-2">
+    <div class="row">
+        <div class="col-md-12 text-right p-0">
+            <button type="button" class="btn btn-success" data-toggle='modal' data-target='#cadastrar-aviso'>Cadastrar Aviso</button>
+        </div>
+    </div>
     <div class="row">
         @if($notices->count() > 0)
             <div class="card-columns">

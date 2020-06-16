@@ -16,9 +16,7 @@ class CreateReportsTable extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('tipo', ['DEFEITO', 'CALL', 'ARS', 'MELHORIAS', 'MONITORAMENTO', 'TREINAMENTO', 'RELATORIOS', 'REUNIÃO', 'DEFEITO_ARS']);
-            $table->string('prj_ent', 24)->nullable();
             $table->string('ars', 16)->nullable();
-            $table->string('def', 5)->nullable();
             $table->enum('pendencia', ['SIM', 'NAO']);
             $table->string('sistema', 20)->nullable();
             $table->string('descricao', 180);

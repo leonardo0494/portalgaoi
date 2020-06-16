@@ -8,7 +8,8 @@ class ActivityOnline extends Model
 {
     protected $fillable = [
         'recurso',
-        'data_inicio'
+        'hora_inicio',
+        'hora_termino'
     ];
 
     protected $hidden = [

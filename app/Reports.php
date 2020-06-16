@@ -19,4 +19,8 @@ class Reports extends Model
         'user_id'
     ];
 
+    public function defeitos(){
+        return $this->hasMany(Defeito::class, 'reports_id', 'id');
+    }
+
 }

@@ -16,11 +16,9 @@ $(document).ready(function(){
     const HORA_FIM       = $("#hora-fim");
     const HORA_INICIO_RL = $("#hora-inicio-real");
     const HORA_FIM_RL    = $("#hora-fim-real");
-    
-    let horaInicio = "";
-    let horaFim    = "";
 
     $(INICIAR_ATIVIDADE).click(function(){
+      
         let data = createDate();
 
         $(HORA_INICIO).val(converterDataPadraoBrasileiro(data));
@@ -29,14 +27,36 @@ $(document).ready(function(){
         localStorage.setItem('atividade', true);   
         localStorage.setItem('hora_inicio', data);
         
-        iniciarAtividade();    
+        //iniciarAtividade();    
+
+        $.ajax({
+            method: 'GET',
+            url : '/atividade-online',
+            data: {
+                "hora_inicio" : data
+            }
+        }).done( response => {
+            $("#id-atividade").val(response.id_atividade);
+        })
 
         $("#contador-atividade").removeClass('d-none');
         $(INICIAR_ATIVIDADE).addClass('d-none');
+
     });
 
     $(PARAR_ATIVIDADE).click(function(){
-        fecharAtividade();
+        let data = createDate();
+        fecharAtividade(data);
+        $.ajax(
+            {
+                method: 'GET',
+                url: '/atividade-finalizada',
+                data: {
+                    "hora_termino" : data
+                }
+            }
+        );
+
     });
 
     $(TIPO_ATIVIDADE).change(function() {
@@ -91,12 +111,8 @@ $(document).ready(function(){
     
     function iniciarAtividade(hora = 00, minutos = 00, segundos = 00, sinalizarAtividade=true){
     
-        if(sinalizarAtividade){
+        if(sinalizarAtividade)
             document.getElementById("horasAtividade").innerHTML = '00:00:00'; 
-            let ajaxReq = new XMLHttpRequest();
-            ajaxReq.open('GET', '/atividade-online');
-            ajaxReq.send();
-        }
     
         setInterval(()=>{
             if(localStorage.getItem('atividade') == 'true'){
@@ -115,37 +131,38 @@ $(document).ready(function(){
         }, 1000);
     }
     
-    function fecharAtividade(){
-        let data = createDate();
+    function fecharAtividade(data){
         HORA_FIM.value    = converterDataPadraoBrasileiro(data);
         HORA_FIM_RL.value = data;
         localStorage.clear();
-        clearInterval(atividadeIniciada);
+        clearInterval();
         sessionStorage.clear();    
         document.getElementById("contador-atividade").classList.add('d-none');
         INICIAR_ATIVIDADE.classList.remove('d-none');let 
-        
-        ajaxReq = new XMLHttpRequest();
-        ajaxReq.open('GET', '/atividade-finalizada');
-        ajaxReq.send();
+
+        // ajaxReq = new XMLHttpRequest();
+        // ajaxReq.open('GET', '/atividade-finalizada');
+        // ajaxReq.send();
     }
     
     function inicializar(){
-    
-        if(localStorage.getItem('time')){
-            let time = localStorage.getItem('time').split(":");
-    
-            let hora     = parseInt(time[0]);
-            let minutos  = parseInt(time[1]);
-            let segundos = parseInt(time[2]);
-            clearInterval();
-            iniciarAtividade(hora, minutos, segundos, false);
-            document.getElementById('hora-inicio').value    = converterDataPadraoBrasileiro(localStorage.getItem('hora_inicio'));
-            document.getElementById('hora-inicio-real').value = localStorage.getItem('hora_inicio');
-            document.getElementById("horasAtividade").innerHTML = localStorage.getItem('time');
-            document.getElementById("contador-atividade").classList.remove('d-none');
-            document.getElementById("iniciar-atividade").classList.add('d-none');
-    
-        }
+        
+        $.ajax({
+            method: 'GET',
+            url : '/check-atividade'
+        }).done( response => {
+            if(response.existe == "finalizada"){
+                $(INICIAR_ATIVIDADE).addClass('d-none');
+                $("#fechar-atividade").removeClass('d-none');
+            } else if (response.existe == "iniciada") {
+                localStorage.setItem('atividade', true);   
+                localStorage.setItem('hora_inicio', response.hora_inicio);
+                $("#id-atividade").val(response.id_atividade);
+                $("#iniciar-atividade").addClass('d-none');
+                $("#contador-atividade").removeClass('d-none');
+            }
+        });
+
+    }
 
 });
