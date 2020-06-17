@@ -28,14 +28,14 @@ class ReportsController extends Controller
             $username        = User::select('name')->where('rowid', $reports[$key]->user_id)->first(['name'])->name;
             $username        = explode(" ", $username);
             $username        = ucfirst(strtolower($username[0])) . " " . ucfirst(strtolower($username[count($username) - 1]));
-            $horaInicial     = explode(" ", $reports[$key]->inicio_atendimento)[1];
-            $horaFinal       = explode(" ", $reports[$key]->final_atendimento)[1];
+            $horaDataInicial = explode(" ", $reports[$key]->inicio_atendimento);
+            $horaDataFinal   = explode(" ", $reports[$key]->final_atendimento);
             
             $reports[$key]->prj_ent             = ($reports[$key]->prj_ent == "") ? "-" : $reports[$key]->prj_ent;
             $reports[$key]->def                 = ($reports[$key]->def == "") ? "-" : $reports[$key]->def;
             $reports[$key]->ars                 = ($reports[$key]->ars == "") ? "-" : $reports[$key]->ars;
             $reports[$key]->sistema             = ($reports[$key]->sistema == "") ? "-" : $reports[$key]->sistema;
-            $reports[$key]->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaInicial, $horaFinal);
+            $reports[$key]->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaDataInicial[1], $horaDataFinal[1], $horaDataInicial[0], $horaDataFinal[0]);
             $reports[$key]->username            = $username;
             $reports[$key]->inicio_atendimento  = Utils::converterDataParaPadraoBrasileiro($reports[$key]->inicio_atendimento);
             $reports[$key]->final_atendimento   = Utils::converterDataParaPadraoBrasileiro($reports[$key]->final_atendimento);
@@ -63,7 +63,7 @@ class ReportsController extends Controller
     public function saveReports(Request $request) {
 	
         $reports = new Reports();
-	$activityOnline = ActivityOnline::find($request->input('id-atividade'));
+	    $activityOnline = ActivityOnline::find($request->input('id-atividade'));
 
         $reports->tipo = $request->input('tipo');
         $reports->prj_ent = $request->input('prj_ent');
