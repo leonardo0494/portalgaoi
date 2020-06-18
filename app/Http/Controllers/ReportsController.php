@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ActivityOnline;
+use App\Defeito;
 use App\Reports;
 use App\User;
 use Illuminate\Http\Request;
@@ -49,6 +50,29 @@ class ReportsController extends Controller
 
     }
 
+    public function detailsReports(Request $request){
+
+        $reports                      = Reports::find(19);
+        $defeitos                     = $reports->defeitos()->get();
+        $horaDataInicial              = explode(" ", $reports->inicio_atendimento);
+        $horaDataFinal                = explode(" ", $reports->final_atendimento);
+        $reports->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaDataInicial[1], $horaDataFinal[1], $horaDataInicial[0], $horaDataFinal[0]);
+        $username                     = User::select('name')->where('rowid', $reports->user_id)->first(['name'])->name;
+        $username                     = explode(" ", $username);
+        $reports->username            = $username;
+        $reports->inicio_atendimento  = Utils::converterDataParaPadraoBrasileiro($reports->inicio_atendimento);
+        $reports->final_atendimento   = Utils::converterDataParaPadraoBrasileiro($reports->final_atendimento);
+
+
+        return response()->json(
+            [
+                "reports" => $reports,
+                "defeitos" => $defeitos
+            ]
+        );
+
+    }
+
     public function saveReportsScreen() {
         $activityOnline = ActivityOnline::where('user_id', Auth::user()->rowid)->first();
         
@@ -62,12 +86,18 @@ class ReportsController extends Controller
 
     public function saveReports(Request $request) {
 	
-        $reports = new Reports();
-	    $activityOnline = ActivityOnline::find($request->input('id-atividade'));
+        $reports        = new Reports();
+        $activityOnline = ActivityOnline::find($request->input('id-atividade'));
+        
+        /**
+         * Tanto faz pegar pelo PRJ ou pelo defeito. 
+         * 
+         * Para garantir, sempre que um prj ou defeito não
+         * vir preenchido ele vai ser pulado.
+         * 
+         */
 
         $reports->tipo = $request->input('tipo');
-        $reports->prj_ent = $request->input('prj_ent');
-        $reports->def = $request->input('defeito');
         $reports->ars = $request->input('chamado');
         $reports->pendencia = $request->input('pendencia');
         $reports->sistema = $request->input('sistema');
@@ -78,7 +108,31 @@ class ReportsController extends Controller
 
         $reports->save();
 
-        ActivityOnline::find($request->input('id-atividade'))->delete();
+        if($reports){
+
+            if($request->input('prj_ent')[0] != null){
+
+                foreach($request->input('prj_ent') as $key => $value){
+
+                    $prj_ent = $request->input('prj_ent')[$key];
+                    $defeito = $request->input('defeito')[$key];
+
+                    if($prj_ent == "" || $defeito == ""){
+                        continue;
+                    } else {
+                        $reports->defeitos()->create([
+                            "prj_ent" => $prj_ent,
+                            "def" => $defeito
+                        ]);
+                    }            
+
+                }
+
+            }
+
+            ActivityOnline::find($request->input('id-atividade'))->delete();
+
+        }
 
         session()->flash('status', "Atividade registrada com sucesso.");
 
@@ -110,16 +164,17 @@ class ReportsController extends Controller
 
         $activityOnline = ActivityOnline::where('user_id', Auth::user()->rowid)->first();
 
-        if($activityOnline && $activityOnline->hora_termino != "")
+        if($activityOnline && $activityOnline->hora_termino != ""){
             return response()
                 ->json(['existe' => 'finalizada']);
-        else 
+        } else if($activityOnline && $activityOnline->hora_termino == "") {
             return response()
                 ->json([
                     'existe' => 'iniciada', 
                     'hora_inicio' => $activityOnline->hora_inicio, 
                     'id_atividade' => $activityOnline->id
                 ]);
+        }
 
         return response()
             ->json(['existe' => false]);

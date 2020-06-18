@@ -45,7 +45,7 @@
                     <button type="button" class="btn btn-sm btn-success pt-2" id="iniciar-atividade"><i class="fas fa-play"></i> &nbsp; Iniciar Atividade</button>
                     <div class="contador text-white d-none" id="contador-atividade">
                         <form action="{{route('atividade-finalizada')}}" method="POST">
-                            @csrf
+                            {{ csrf_field() }}
                             <input type="hidden" name="id-atividade" id='id-atividade' class="d-none" hidden>
                             <button type="submit" class="btn btn-sm btn-danger pt-2" id="parar-atividade" ><i class="fas fa-stop"></i> &nbsp; Parar Atividade</button> &nbsp;
                             {{-- <span id="horasAtividade">00:00:00</span> --}}

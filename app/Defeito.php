@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Defeito extends Model
 {
+
     protected $fillable=[
         'prj_ent',
         'def',

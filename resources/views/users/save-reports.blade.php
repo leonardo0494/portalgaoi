@@ -36,14 +36,23 @@
                 </div>
 
                 <div class="d-none" id="cod">
-                    <div class="form-group">
-                        <label for="prj_ent">PRJ_ENT</label>
-                        <input type="text" name="prj_ent" id="prj_ent" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="defeito">Defeito</label>
-                        <input type="text" name="defeito" id="defeito" maxlength="4" placeholder="Ex: 765" class="form-control" />
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table" id="table-def-prj">
+                                <thead>
+                                    <th>PRJ_ENT</th>
+                                    <th>DEFEITO</th>
+                                    <th width=1 class="text-center"><button type="button" class="btn btn-sm btn-md btn-primary" id="add-line-def"><i class="fas fa-plus"></i></button></th>
+                                </thead>
+                                <tbody>
+                                    <tr class="first-line">
+                                        <td><input type="text" name="prj_ent[]" id="prj_ent" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" /></td>
+                                        <td><input type="text" name="defeito[]" id="defeito" maxlength="4" placeholder="Ex: 765" class="form-control" /></td>
+                                        <td class="text-center pt-3">&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

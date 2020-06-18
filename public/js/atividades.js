@@ -165,4 +165,90 @@ $(document).ready(function(){
 
     }
 
+    /**
+     * ACOES DE TABELA - LINHA DEFEITO
+     */
+
+     /** 
+      * ADICIONAR LINHA 
+      * */
+     $("#add-line-def").click(function(){
+
+        /**
+         * Recuperar número de linhas na tabela
+         */
+        let proximaLinha = ($("#table-def-prj tbody tr").length) + 1;
+
+        let linha = `    
+            <tr class="linha-${proximaLinha}">
+                <td><input type="text" name="prj_ent[]" id="prj_ent" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" /></td>
+                <td><input type="text" name="defeito[]" id="defeito" maxlength="4" placeholder="Ex: 765" class="form-control" /></td>
+                <td class="text-center pt-3"><button type="button" class="btn btn-sm btn-md btn-danger" id="del-line-def" data-linha="${proximaLinha}"><i class="far fa-trash-alt"></i></button></td>
+            </tr>
+        `
+
+        $("#table-def-prj tbody").append(linha);
+
+     });    
+
+     $(document).on('click', '#del-line-def', function(){
+        let linhaParaDeletar = $(this).data('linha');
+
+        $(`#table-def-prj tbody tr.linha-${linhaParaDeletar}`).remove();
+
+     });
+
+    /**
+     * Detalhes da Tarefa
+     */
+
+    // $(".detalhe-report").click(function(){
+    //     const idTarefa = $(this).data('id');
+
+    //     let modalContent = `
+    //         <p>
+    //             <strong>Horário -</strong> <span id="hour-activity">23/03/2020 15:40 - 23/03/2020 18:00</span> <br>
+    //             <strong>Tempo Total de Atividade: </strong> 00:15 <br>
+    //             <strong>Tipo Atividade -</strong> Defeito <br>
+    //             <strong>ARS: </strong> 12345678 <br>
+    //             <strong>Sistema: </strong> SIEBEL
+    //         </p>
+    //         <hr />
+
+    //         <strong>Defeitos: </strong>
+    //         <ul>
+    //             <li>1234 - PRJ0001211_ENT00012112</li>
+    //             <li>1234 - PRJ0001211_ENT00012112</li>
+    //         </ul>
+
+    //         <p>
+    //             <strong>Descrição:</strong><br>
+    //             <span id="body-activity">
+                    
+    //             </span>
+    //         </p>
+    //     `;
+
+    //     $.ajax({
+    //         method: "GET",
+    //         url: "/detalhe-atividade",
+    //         data: {
+    //             id: idTarefa
+    //         }
+    //     }).done( response => {
+    //         console.log(response);
+    //     });
+
+    // });
+    
+    // $.ajax({
+    //     method: "GET",
+    //     url: "/detalhe-atividade",
+    //     data: {
+    //         id: idTarefa
+    //     }
+    // }).done( response => {
+    //     console.log(response);
+    // });
+
 });

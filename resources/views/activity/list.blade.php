@@ -40,7 +40,7 @@
                         </tr>
                     @else
                         @foreach($atividades as $atividade)
-                            <tr data-atividade="{{ $atividade->rowid }}">
+                            <tr data-atividade="{{ $atividade->rowid }}" >
                                 <td>{{ $atividade->ars_number }}</td>
                                 <td>{{ $atividade->ttype }}</td>
                                 <td>{{ \App\Utils::converterDataParaPadraoBrasileiro($atividade->start_date) }}</td>

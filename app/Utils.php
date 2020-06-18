@@ -29,7 +29,7 @@ class Utils extends Model
         $dataSaida   = explode("-", $dataSaida)[2];
 
         if($dataSaida > $dataEntrada){
-
+            
             $horaEntradaPonto = 23 - $horaEntrada[0];
             $horaTotal        = ($horaEntradaPonto + $horaSaida[0]) + floor(($horaEntrada[1] + $horaSaida[1]) /60 );
             $minutosTotal     = floor(($horaEntrada[1] + $horaSaida[1]) % 60 );
@@ -40,11 +40,12 @@ class Utils extends Model
             return $horaTotal . ":" . $minutosTotal;
 
         } else {
-
+            
             $acumulador1 = ($horaEntrada[0] * 3600) + ($horaEntrada[1] * 60) + $horaEntrada[2];
             $acumulador2 = ($horaSaida[0] * 3600) + ($horaSaida[1] * 60) + $horaSaida[2];
-
+            
             $resultado = $acumulador2 - $acumulador1;
+
             $hora_ponto = (floor($resultado / 3600) < 10) ? "0" . floor($resultado / 3600) : floor($resultado / 3600);
             $resultado = $resultado - ($hora_ponto * 3600);
             $min_ponto = (floor($resultado / 60) < 10) ? "0" . floor($resultado / 60) : floor($resultado / 60);
