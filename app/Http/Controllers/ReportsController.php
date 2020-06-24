@@ -23,7 +23,7 @@ class ReportsController extends Controller
         } else {
             $reports = DB::table('reports')->where('user_id', Auth::user()->rowid)->orderBy('inicio_atendimento', 'DESC')->get();
         }
-        
+       
         foreach($reports as $key => $value){
             /* Nome do Usuário */
             $username        = User::select('name')->where('rowid', $reports[$key]->user_id)->first(['name'])->name;
@@ -45,7 +45,7 @@ class ReportsController extends Controller
             unset($reports[$key]->created_at);
             unset($reports[$key]->updated_at);
         }
-
+	
         return view('users.reports', ['relatorios' => $reports]);
 
     }
@@ -153,7 +153,7 @@ class ReportsController extends Controller
     }
 
     public function completeBusyResourceActivity(Request $request){
-        $activityOnline = ActivityOnline::find($request->input('id-atividade'));
+	$activityOnline = ActivityOnline::find($request->input('id-atividade'));
         $activityOnline->hora_termino = Utils::converterDataParaPadraoBrasileiro(date('Y-m-d H:i:s'));
         $activityOnline->save();
 
