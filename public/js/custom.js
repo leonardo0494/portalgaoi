@@ -114,9 +114,10 @@ $(document).ready(function() {
         )
     }, 1500);
 
-    $("#detalhes-tarefa").click(function(){
+    $(".detalhes-tarefa").click(function(){
         let reportId = $(this).data('id');
-        $.ajax({
+
+	$.ajax({
             method: 'get',
             url: 'detalhe-atividade',
             data: {

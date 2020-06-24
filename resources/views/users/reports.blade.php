@@ -35,7 +35,7 @@
                             <td>{{$relatorio->final_atendimento}}</td>
                             <td>{{$relatorio->tempo_atendimento}}</td>
                             <td>{{$relatorio->username}}</td>
-                            <td><i class="fas fa-eye" id="detalhes-tarefa" data-id="{{$relatorio->id}}" style="cursor: pointer;" data-toggle="modal" data-target="#modalReports"></i></td>
+                            <td><i class="fas fa-eye detalhes-tarefa" data-id="{{$relatorio->id}}" style="cursor: pointer;" data-toggle="modal" data-target="#modalReports"></i></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -48,13 +48,13 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Detalhes da Atividade</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+	                <h5 class="modal-title" id="exampleModalLongTitle">Detalhes da Atividade</h5>
+        	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	    <span aria-hidden="true">&times;</span>
+	                </button>
                 </div>
                 <div class="modal-body" id="reportsDetails">
-
+		</div>
             </div>
             </div>
         </div>
