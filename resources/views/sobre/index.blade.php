@@ -33,7 +33,7 @@
                     <textarea name="sobre" id="description" cols="30" rows="10">{!! $sobre->sobre !!}</textarea>
                 </div>
                 <div class="form-group text-right">
-                    <button type="button" class="btn btn-secondary" id="cancelar-edicao">Cancelar Ediçãor</button>
+                    <button type="button" class="btn btn-secondary" id="cancelar-edicao">Cancelar Edição</button>
                     <button type="submit" class="btn btn-dark">Salvar Edição</button>
                 </div>
             </form>
