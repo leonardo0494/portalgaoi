@@ -79,7 +79,6 @@
                             <option value="{{ $sistema->sistema }}">{{ $sistema->sistema }}</option>
                         @endforeach
                     </select>
-
                 </div>
 
                 <div class="form-group">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item" aria-current="page">Home</li>
@@ -12,7 +12,7 @@
     <div class="row">
         <h3>&nbsp;</h3>
     </div>
-    <div class="row">            
+    <div class="row">
         <div class="table-responsive">
             <table class="table table-users table-bordered table-hover" style="text-align: center">
                 <thead>
@@ -23,6 +23,7 @@
                         <th>FINAL ATENDIMENTO</th>
                         <th>TEMPO ATENDIMENTO</th>
                         <th>USUÁRIO</th>
+                        <th>AÇÃO</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +35,7 @@
                             <td>{{$relatorio->final_atendimento}}</td>
                             <td>{{$relatorio->tempo_atendimento}}</td>
                             <td>{{$relatorio->username}}</td>
+                            <td><i class="fas fa-eye" id="detalhes-tarefa" data-id="{{$relatorio->id}}" style="cursor: pointer;" data-toggle="modal" data-target="#modalReports"></i></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -42,7 +44,7 @@
 
         <!-- Modal Reports -->
 
-        {{-- <div class="modal fade" id="modalReports" tabindex="-1" role="dialog" aria-labelledby="modalReportsTitle" aria-hidden="true">
+        <div class="modal fade" id="modalReports" tabindex="-1" role="dialog" aria-labelledby="modalReportsTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -51,37 +53,55 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
-                <div class="modal-body">
-                    <p>
-                        <strong>Horário -</strong> <span id="hour-activity">23/03/2020 15:40 - 23/03/2020 18:00</span> <br>
-                        <strong>Tempo Total de Atividade: </strong> 00:15 <br>
-                        <strong>Tipo Atividade -</strong> Defeito <br>
-                        <strong>ARS: </strong> 12345678 <br>
-                        <strong>Sistema: </strong> SIEBEL
-                    </p>
-                    <hr />
-                    <strong>Defeitos: </strong>
+                <div class="modal-body" id="reportsDetails">
 
-                    <ul>
-                        <li>1234 - PRJ0001211_ENT00012112</li>
-                        <li>1234 - PRJ0001211_ENT00012112</li>
-                    </ul>
-
-                    <p>
-                        <strong>Descrição:</strong><br>
-                        <span id="body-activity">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi autem ab quaerat repudiandae cupiditate molestias commodi corrupti ut laudantium voluptate doloremque beatae ullam expedita, magni doloribus minus voluptatem dicta. Cum?
-                        </span>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
             </div>
             </div>
-        </div> --}}
+        </div>
 
     </div>
+
+    <div class="row d-none">
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="col-md-12">
+
+                    <h5 style="font-weight: bold">Tipo Tarefa</h5>
+                    <p style="font-size: 14px;">ARS</p>
+
+                    <h5 style="font-weight: bold">ARS</h5>
+                    <p style="font-size: 14px;">000000012345678</p>
+
+                    <h5 style="font-weight: bold">Defeitos</h5>
+                    <table class="table">
+                        <tr>
+                            <td>12345</td>
+                            <td>PRJ00001234_ENT00001234</td>
+                        </tr>
+                        <tr>
+                            <td>12345</td>
+                            <td>PRJ00001234_ENT00001234</td>
+                        </tr>
+                        <tr>
+                            <td>12345</td>
+                            <td>PRJ00001234_ENT00001234</td>
+                        </tr>
+                    </table>
+
+                    <h5 style="font-weight: bold">Sistema</h5>
+                    <p style="font-size: 14px;">SIEBEL</p>
+
+                    <h5 style="font-weight: bold">Descrição</h5>
+                    <p style="font-size: 14px;">Lorem ipsum dolor sit amet consectetur adipisicing</p>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
 </div>
 @endsection

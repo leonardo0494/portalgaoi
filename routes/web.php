@@ -68,11 +68,13 @@ Route::group(['middleware' => ['auth']], function () {
     // SISTEMAS
 
     Route::get('/sistemas', 'SistemaController@index')->name('sistemas');
+
     Route::post('/salvar-sistemas', 'SistemaController@save')->name('salvar-sistema');
 
     // Sobre
 
     Route::get('/sobre', 'SobreController@index')->name('sobre');
+
     Route::post('/salvar-sobre/{id}', 'SobreController@save')->name('salvar-sobre');
 
 });

@@ -1,13 +1,13 @@
 $(document).ready(function(){
-    
+
     inicializar();
 
     /* BOTOES DE ACAO DA ATIVIDADE */
     const INICIAR_ATIVIDADE = $("#iniciar-atividade");
     const PARAR_ATIVIDADE   = $("#parar-atividade");
-    
+
     /* CAMPOS ATIVIDADE */
-    
+
     const TIPO_ATIVIDADE = $("#tipo");
     const COD_ATIVIDADE  = $("#cod");
     const ARS_ATIVIDADE  = $("#ars");
@@ -18,16 +18,16 @@ $(document).ready(function(){
     const HORA_FIM_RL    = $("#hora-fim-real");
 
     $(INICIAR_ATIVIDADE).click(function(){
-      
+
         let data = createDate();
 
         $(HORA_INICIO).val(converterDataPadraoBrasileiro(data));
         $(HORA_INICIO_RL).val(data);
 
-        localStorage.setItem('atividade', true);   
+        localStorage.setItem('atividade', true);
         localStorage.setItem('hora_inicio', data);
-        
-        //iniciarAtividade();    
+
+        //iniciarAtividade();
 
         $.ajax({
             method: 'GET',
@@ -64,7 +64,11 @@ $(document).ready(function(){
         $(COD_ATIVIDADE).addClass('d-none');
         $(ARS_ATIVIDADE).addClass('d-none');
         $(SYS_ATIVIDADE).addClass('d-none');
-        
+
+        // COD -> PRJ e DEF
+        // ARS -> ARS e PENDENCIA
+        // SYS - SISTEMAS
+
         if(TIPO_ATIVIDADE.val() == 'DEFEITO' || TIPO_ATIVIDADE.val() == 'CALL'){
             $(COD_ATIVIDADE).removeClass('d-none');
             $(SYS_ATIVIDADE).removeClass('d-none');
@@ -102,18 +106,18 @@ $(document).ready(function(){
         let segundos = (data.getSeconds() < 10) ? `0${data.getSeconds()}` : data.getSeconds();
         return `${ano}-${mes}-${dia} ${hora}:${minutos}:${segundos}`
     }
-    
+
     function converterDataPadraoBrasileiro(data){
         let dataFull = data.split('-');
         let horaSplite = dataFull[2].split(" ");
         return `${horaSplite[0]}/${dataFull[1]}/${dataFull[0]} ${horaSplite[1]}`;
     }
-    
+
     function iniciarAtividade(hora = 00, minutos = 00, segundos = 00, sinalizarAtividade=true){
-    
+
         if(sinalizarAtividade)
-            document.getElementById("horasAtividade").innerHTML = '00:00:00'; 
-    
+            document.getElementById("horasAtividade").innerHTML = '00:00:00';
+
         setInterval(()=>{
             if(localStorage.getItem('atividade') == 'true'){
                 segundos +=1;
@@ -130,23 +134,23 @@ $(document).ready(function(){
             }
         }, 1000);
     }
-    
+
     function fecharAtividade(data){
         HORA_FIM.value    = converterDataPadraoBrasileiro(data);
         HORA_FIM_RL.value = data;
         localStorage.clear();
         clearInterval();
-        sessionStorage.clear();    
+        sessionStorage.clear();
         document.getElementById("contador-atividade").classList.add('d-none');
-        INICIAR_ATIVIDADE.classList.remove('d-none');let 
+        INICIAR_ATIVIDADE.classList.remove('d-none');let
 
         // ajaxReq = new XMLHttpRequest();
         // ajaxReq.open('GET', '/atividade-finalizada');
         // ajaxReq.send();
     }
-    
+
     function inicializar(){
-        
+
         $.ajax({
             method: 'GET',
             url : '/check-atividade'
@@ -155,7 +159,7 @@ $(document).ready(function(){
                 $(INICIAR_ATIVIDADE).addClass('d-none');
                 $("#fechar-atividade").removeClass('d-none');
             } else if (response.existe == "iniciada") {
-                localStorage.setItem('atividade', true);   
+                localStorage.setItem('atividade', true);
                 localStorage.setItem('hora_inicio', response.hora_inicio);
                 $("#id-atividade").val(response.id_atividade);
                 $("#iniciar-atividade").addClass('d-none');
@@ -169,8 +173,8 @@ $(document).ready(function(){
      * ACOES DE TABELA - LINHA DEFEITO
      */
 
-     /** 
-      * ADICIONAR LINHA 
+     /**
+      * ADICIONAR LINHA
       * */
      $("#add-line-def").click(function(){
 
@@ -179,7 +183,7 @@ $(document).ready(function(){
          */
         let proximaLinha = ($("#table-def-prj tbody tr").length) + 1;
 
-        let linha = `    
+        let linha = `
             <tr class="linha-${proximaLinha}">
                 <td><input type="text" name="prj_ent[]" id="prj_ent" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" /></td>
                 <td><input type="text" name="defeito[]" id="defeito" maxlength="4" placeholder="Ex: 765" class="form-control" /></td>
@@ -189,7 +193,7 @@ $(document).ready(function(){
 
         $("#table-def-prj tbody").append(linha);
 
-     });    
+     });
 
      $(document).on('click', '#del-line-def', function(){
         let linhaParaDeletar = $(this).data('linha');
@@ -224,7 +228,7 @@ $(document).ready(function(){
     //         <p>
     //             <strong>Descrição:</strong><br>
     //             <span id="body-activity">
-                    
+
     //             </span>
     //         </p>
     //     `;
@@ -240,7 +244,7 @@ $(document).ready(function(){
     //     });
 
     // });
-    
+
     // $.ajax({
     //     method: "GET",
     //     url: "/detalhe-atividade",

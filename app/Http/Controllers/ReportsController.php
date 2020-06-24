@@ -51,7 +51,7 @@ class ReportsController extends Controller
 
     public function detailsReports(Request $request){
 
-        $reports                      = Reports::find(19);
+        $reports                      = Reports::find($request->get('id'));
         $defeitos                     = $reports->defeitos()->get();
         $horaDataInicial              = explode(" ", $reports->inicio_atendimento);
         $horaDataFinal                = explode(" ", $reports->final_atendimento);
