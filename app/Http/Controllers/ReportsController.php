@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ActivityOnline;
 use App\Defeito;
 use App\Reports;
+use App\Sistema;
 use App\User;
 use Illuminate\Http\Request;
 use App\Utils;
@@ -19,11 +20,11 @@ class ReportsController extends Controller
 
     public function listReports(){
         if(Auth::user()->level_id == 1){
-            $reports = DB::table('reports')->orderBy('inicio_atendimento', 'DESC')->get();
+            $reports = DB::table('reports')->orderBy('final_atendimento', 'DESC')->get();
         } else {
-            $reports = DB::table('reports')->where('user_id', Auth::user()->rowid)->orderBy('inicio_atendimento', 'DESC')->get();
+            $reports = DB::table('reports')->where('user_id', Auth::user()->rowid)->orderBy('final_atendimento', 'DESC')->get();
         }
-        
+
         foreach($reports as $key => $value){
             /* Nome do Usuário */
             $username        = User::select('name')->where('rowid', $reports[$key]->user_id)->first(['name'])->name;
@@ -31,9 +32,7 @@ class ReportsController extends Controller
             $username        = ucfirst(strtolower($username[0])) . " " . ucfirst(strtolower($username[count($username) - 1]));
             $horaDataInicial = explode(" ", $reports[$key]->inicio_atendimento);
             $horaDataFinal   = explode(" ", $reports[$key]->final_atendimento);
-            
-            $reports[$key]->prj_ent             = ($reports[$key]->prj_ent == "") ? "-" : $reports[$key]->prj_ent;
-            $reports[$key]->def                 = ($reports[$key]->def == "") ? "-" : $reports[$key]->def;
+
             $reports[$key]->ars                 = ($reports[$key]->ars == "") ? "-" : $reports[$key]->ars;
             $reports[$key]->sistema             = ($reports[$key]->sistema == "") ? "-" : $reports[$key]->sistema;
             $reports[$key]->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaDataInicial[1], $horaDataFinal[1], $horaDataInicial[0], $horaDataFinal[0]);
@@ -75,9 +74,10 @@ class ReportsController extends Controller
 
     public function saveReportsScreen() {
         $activityOnline = ActivityOnline::where('user_id', Auth::user()->rowid)->first();
-        
+        $sistemas = Sistema::select('sistema')->get();
+
         if( ($activityOnline) && ($activityOnline->hora_termino != "")){
-            return view('users.save-reports', ["activityOnline" => $activityOnline]);
+            return view('users.save-reports', ["activityOnline" => $activityOnline, "sistemas" => $sistemas]);
         } else {
             return redirect()->route('inicial');
         }
@@ -85,16 +85,16 @@ class ReportsController extends Controller
     }
 
     public function saveReports(Request $request) {
-	
+
         $reports        = new Reports();
         $activityOnline = ActivityOnline::find($request->input('id-atividade'));
-        
+
         /**
-         * Tanto faz pegar pelo PRJ ou pelo defeito. 
-         * 
+         * Tanto faz pegar pelo PRJ ou pelo defeito.
+         *
          * Para garantir, sempre que um prj ou defeito não
          * vir preenchido ele vai ser pulado.
-         * 
+         *
          */
 
         $reports->tipo = $request->input('tipo');
@@ -124,7 +124,7 @@ class ReportsController extends Controller
                             "prj_ent" => $prj_ent,
                             "def" => $defeito
                         ]);
-                    }            
+                    }
 
                 }
 
@@ -170,8 +170,8 @@ class ReportsController extends Controller
         } else if($activityOnline && $activityOnline->hora_termino == "") {
             return response()
                 ->json([
-                    'existe' => 'iniciada', 
-                    'hora_inicio' => $activityOnline->hora_inicio, 
+                    'existe' => 'iniciada',
+                    'hora_inicio' => $activityOnline->hora_inicio,
                     'id_atividade' => $activityOnline->id
                 ]);
         }

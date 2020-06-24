@@ -46,8 +46,8 @@
                                 </thead>
                                 <tbody>
                                     <tr class="first-line">
-                                        <td><input type="text" name="prj_ent[]" id="prj_ent" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" /></td>
-                                        <td><input type="text" name="defeito[]" id="defeito" maxlength="4" placeholder="Ex: 765" class="form-control" /></td>
+                                        <td><input type="text" name="prj_ent[]" id="prj_ent" maxlength="24" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" /></td>
+                                        <td><input type="text" name="defeito[]" id="defeito" maxlength="5" placeholder="Ex: 765" class="form-control" /></td>
                                         <td class="text-center pt-3">&nbsp;</td>
                                     </tr>
                                 </tbody>
@@ -59,7 +59,7 @@
                 <div class="d-none" id="ars">
                     <div class="form-group">
                         <label for="chamado">ARS</label>
-                        <input type="text" name="chamado" id="chamado" placeholder="Ex: 000000012345678" class="form-control" />
+                        <input type="text" name="chamado" id="chamado" placeholder="Ex: 000000012345678"  maxlength="14" class="form-control" />
                     </div>
 
                     <div class="form-group">
@@ -73,7 +73,13 @@
 
                 <div class="form-group d-none" id="sys">
                     <label for="sistema">Sistema</label>
-                    <input type="text" class="form-control" name='sistema' placeholder="Ex: SIEBEL 6.3" />
+                    <!-- <input type="text" class="form-control" name='sistema' placeholder="Ex: SIEBEL 6.3" /> -->
+                    <select name="sistema" id="sistema" class="form-control">
+                        @foreach($sistemas as $sistema)
+                            <option value="{{ $sistema->sistema }}">{{ $sistema->sistema }}</option>
+                        @endforeach
+                    </select>
+
                 </div>
 
                 <div class="form-group">
