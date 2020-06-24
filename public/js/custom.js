@@ -1,19 +1,3 @@
-// Datepicker BR 
-
-// ! function(a) {
-//     a.fn.datepicker.dates["pt-BR"] = {
-//         days: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
-//         daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-//         daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sa"],
-//         months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-//         monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-//         today: "Hoje",
-//         monthsTitle: "Meses",
-//         clear: "Limpar",
-//         format: "dd/mm/yyyy"
-//     }
-// }(jQuery);
-
 $(document).ready(function() {
 
     $(".show-form").css('display', 'none');
@@ -67,18 +51,6 @@ $(document).ready(function() {
         }
     });
 
-    // $('#datepicker').datepicker({
-    //     language: 'pt-BR',
-    //     autoSize: true,
-    //     weekStart: 1
-    // });
-
-    // $("#datepicker").on('changeDate', function() {
-    //     $("#data-selecionada").val(
-    //         $("#datepicker").datepicker('getFormattedDate')
-    //     );
-    // });
-
     $("#tabela-atividades tbody tr").dblclick(function() {
         let idAtividade = $(this).attr('data-atividade');
 
@@ -129,7 +101,7 @@ $(document).ready(function() {
         }
 
     });
-    
+
     setTimeout(() => {
         $("#mensagem-atividade").animate(
             {
@@ -141,5 +113,124 @@ $(document).ready(function() {
             }
         )
     }, 1500);
-    
+
+    $("#detalhes-tarefa").click(function(){
+        let reportId = $(this).data('id');
+        $.ajax({
+            method: 'get',
+            url: 'detalhe-atividade',
+            data: {
+                id: reportId
+            }
+        }).done( response => {
+
+            let html = "";
+
+            html += `
+                <h5 style="font-weight: bold">Tipo Atividade</h5>
+                <p style="font-size: 14px;">${response.reports.tipo}</p>
+            `;
+
+            if(response.reports.tipo == "DEFEITO" || response.reports.tipo == "CALL" ){
+                html += `
+                    <h5 style="font-weight: bold">Defeitos</h5>
+                    <table class="table">
+                `;
+
+                response.defeitos.forEach( defeito => {
+                    html += `
+                        <tr>
+                            <td>${defeito.def}</td>
+                            <td>${defeito.prj_ent}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `</table>`;
+
+                html += `
+                    <h5 style="font-weight: bold">Sistema</h5>
+                    <p style="font-size: 14px;">${response.reports.sistema}</p>
+                `;
+
+            }
+
+            if(response.reports.tipo == "DEFEITO_ARS" ){
+
+                html = `
+                    <h5 style="font-weight: bold">Tipo Atividade</h5>
+                    <p style="font-size: 14px;">DEFEITO + ARS</p>
+                `;
+
+                html += `
+                    <h5 style="font-weight: bold">ARS</h5>
+                    <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
+
+                    <h5 style="font-weight: bold">Defeitos</h5>
+                    <table class="table">
+                `;
+
+                response.defeitos.forEach( defeito => {
+                    html += `
+                        <tr>
+                            <td>${defeito.def}</td>
+                            <td>${defeito.prj_ent}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `</table>`;
+
+                html += `
+                    <h5 style="font-weight: bold">Pendência</h5>
+                    <p style="font-size: 14px;">${response.reports.pendencia}</p>
+                `;
+
+                html += `
+                    <h5 style="font-weight: bold">Sistema</h5>
+                    <p style="font-size: 14px;">${response.reports.sistema}</p>
+                `;
+
+            }
+
+            if(response.reports.tipo == "ARS" ){
+                html += `
+                    <h5 style="font-weight: bold">ARS</h5>
+                    <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
+                `;
+
+                html += `
+                    <h5 style="font-weight: bold">Pendência</h5>
+                    <p style="font-size: 14px;">${response.reports.pendencia}</p>
+                `;
+
+                html += `
+                    <h5 style="font-weight: bold">Sistema</h5>
+                    <p style="font-size: 14px;">${response.reports.sistema}</p>
+                `;
+
+            }
+
+            if(response.reports.tipo== 'MELHORIAS' || response.reports.tipo== "MONITORAMENTO" || response.reports.tipo== "TREINAMENTO"){
+
+                html += `
+                    <h5 style="font-weight: bold">Sistema</h5>
+                    <p style="font-size: 14px;">${response.reports.sistema}</p>
+                `;
+
+            }
+
+            html += `
+                <h5 style="font-weight: bold">Descrição</h5>
+                <p style="font-size: 14px;">${response.reports.descricao}</p>
+            `;
+
+            $("#reportsDetails").html(html);
+
+            console.log(response);
+        })
+
+
+    });
+
 });

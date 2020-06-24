@@ -25,6 +25,7 @@
                 {{-- <li><a href="{{route("calendario")}}"><i class="fa fa-calendar"></i>&nbsp; Calendário</a></li> --}}
                 <li><a href="{{route('usuarios')}}"><i class="fa fa-users"></i>&nbsp; Usuários</a></li>
                 <li><a href="{{route('perfil')}}"><i class="fa fa-user"></i>&nbsp; Perfil</a></li>
+                <li><a href="{{route('sobre')}}"><i class="fas fa-question-circle"></i>&nbsp;Sobre</a></li>
                 <li><a href="#"><i class="fas fa-link"></i>&nbsp; Links Úteis</a>
                     <ul>
                         <li><a href="http://portalbackup.telemar/">Portal Backup</a></li>
@@ -56,10 +57,13 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{  asset( 'storage/imagens/' . \Auth::user()->profile_image . '') }}" class="user-image"> 
+                                <img src="{{  asset( 'storage/imagens/' . \Auth::user()->profile_image . '') }}" class="user-image">
                                 &nbsp; Olá, {{ explode(' ', \Auth::user()->name)[0] }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @if(Auth::user()->level_id == 1)
+                                    <a class="dropdown-item" href="{{route('sistemas')}}">Atualizar Sistemas</a>
+                                @endif
                                 <a class="dropdown-item" href="{{route('perfil')}}">Editar Perfil</a>
                                 <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
                             </div>
@@ -73,16 +77,17 @@
         </div>
     </div>
 
-    
+
 
     <!-- BOOTSTRAP -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>    
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <!-- CUSTOM JS -->
-    <script src="{{ asset('js/custom.js') }}"></script>
-    <script src="{{ asset('js/atividades.js?v0.8') }}"></script>
+    <script src="{{ asset('js/custom.js?v0.1') }}"></script>
+    <script src="{{ asset('js/sobre.js') }}"></script>
+    <script src="{{ asset('js/atividades.js?v0.2') }}"></script>
     {{-- CK EDITOR --}}
     <script src="http://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
     <script>

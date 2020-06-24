@@ -61,8 +61,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/atividade-online', 'ReportsController@exposeBusyResource')->name('atividade-online');
     Route::get('/check-atividade', 'ReportsController@checkReport')->name('check-atividade');
     Route::get('/detalhe-atividade', 'ReportsController@detailsReports')->name('detalhes-atividade');
-    
+
     Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
     Route::post('/atividade-finalizada', 'ReportsController@completeBusyResourceActivity')->name('atividade-finalizada');
+
+    // SISTEMAS
+
+    Route::get('/sistemas', 'SistemaController@index')->name('sistemas');
+
+    Route::post('/salvar-sistemas', 'SistemaController@save')->name('salvar-sistema');
+
+    // Sobre
+
+    Route::get('/sobre', 'SobreController@index')->name('sobre');
+
+    Route::post('/salvar-sobre/{id}', 'SobreController@save')->name('salvar-sobre');
 
 });
