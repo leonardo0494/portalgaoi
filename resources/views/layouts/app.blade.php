@@ -85,7 +85,7 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <!-- CUSTOM JS -->
-    <script src="{{ asset('js/custom.js?v0.1') }}"></script>
+    <script src="{{ asset('js/custom.js?v0.3') }}"></script>
     <script src="{{ asset('js/sobre.js') }}"></script>
     <script src="{{ asset('js/atividades.js?v0.2') }}"></script>
     {{-- CK EDITOR --}}

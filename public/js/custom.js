@@ -114,7 +114,7 @@ $(document).ready(function() {
         )
     }, 1500);
 
-    $(".detalhes-tarefa").click(function(){
+    $(".detalhes-tarefa").on('click', 'i', function(){
         let reportId = $(this).data('id');
 
 	$.ajax({

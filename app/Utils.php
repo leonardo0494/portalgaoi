@@ -46,10 +46,9 @@ class Utils extends Model
             
             $resultado = $acumulador2 - $acumulador1;
 
-            $hora_ponto = (floor($resultado / 3600) < 10) ? "0" . floor($resultado / 3600) : floor($resultado / 3600);
+            $hora_ponto = intval((floor($resultado / 3600) < 10) ? "0" . floor($resultado / 3600) : floor($resultado / 3600));
             $resultado = $resultado - ($hora_ponto * 3600);
             $min_ponto = (floor($resultado / 60) < 10) ? "0" . floor($resultado / 60) : floor($resultado / 60);
-
             return $hora_ponto.":".$min_ponto;
         }
 
