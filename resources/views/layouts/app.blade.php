@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal GA OI</title>
-    <!-- CSS -->
+    {{-- CUSTOM CSS --}}
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {{-- BOOTSTRAP --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    {{-- SELECT 2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/1469da1d47.js" crossorigin="anonymous"></script>
 </head>
@@ -90,15 +93,17 @@
     <script src="{{ asset('js/atividades.js?v0.2') }}"></script>
     {{-- CK EDITOR --}}
     <script src="http://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    {{-- SELECT2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         CKEDITOR.replace ("description")
     </script>
 
     <script>
         $(document).ready(function() {
-            // $(".open-modalStop").click(() => {
-            //     $('#modalReport').modal('show');
-            // });
+            $('.select-2-personalizado').select2({ 
+                width: '100%' 
+            });
         });
     </script>
 

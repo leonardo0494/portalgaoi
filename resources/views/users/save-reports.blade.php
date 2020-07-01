@@ -24,7 +24,6 @@
                     <select name="tipo" id="tipo" class="form-control">
                         <option value="">Selecione o tipo de atividade</option>
                         <option value="DEFEITO">DEFEITO</option>
-                        <option value="DEFEITO_ARS">DEFEITO + ARS</option>
                         <option value="CALL">CALL</option>
                         <option value="ARS">ARS</option>
                         <option value="MELHORIAS">MELHORIAS</option>
@@ -37,6 +36,28 @@
 
                 <div class="d-none" id="cod">
                     <div class="row">
+                        
+                        <div class="col-12">
+                            <div class="form-group" id="cat-defeito">
+                                <label for="categorie-def">Categoria</label>
+                                <select name="categorie-def" id="categorie-def" class="form-control">
+                                    <option>Selecione uma categoria</option>
+                                    <option value="ERRO DE MIGRACAO">ERRO DE MIGRACAO</option>
+                                    <option value="INDISPONIBILIDADE">INDISPONIBILIDADE</option>
+                                    <option value="PARAMETRIZACAO">PARAMETRIZACAO</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id='def-ars'>
+                                <label for="categorie-def-ars">Categoria</label>
+                                <select name="categorie-def-ars" id="categorie-def-ars" class="form-control">
+                                    <option>Selecione uma categoria</option>
+                                    <option value="CODIGO">CODIGO</option>
+                                    <option value="INFRAESTRUTURA">INFRAESTRUTURA</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-12">
                             <table class="table" id="table-def-prj">
                                 <thead>
@@ -53,6 +74,32 @@
                                 </tbody>
                             </table>
                         </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="d-none mb-3 col-1" id="show_ars_div">
+                        <div class="row">
+                            <div class="col-12" >
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="show_ars" id="show_ars">
+                                    <label class="form-check-label" for="show_ars">Tem ARS?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-none mb-3 col-9" id="show_def_div">
+                        <div class="row">
+                            <div class="col-12" >
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="show_def" id="show_def">
+                                    <label class="form-check-label" for="show_def">Tem Defeito?</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -60,6 +107,16 @@
                     <div class="form-group">
                         <label for="chamado">ARS</label>
                         <input type="text" name="chamado" id="chamado" placeholder="Ex: 000000012345678"  maxlength="14" class="form-control" />
+                    </div>
+
+                    <div class="form-group" id='ars-cat'>
+                        <label for="categorie-ars">Categoria</label>
+                        <select name="categorie-ars" id="categorie-ars" class="form-control">
+                            <option>Selecione uma categoria</option>
+                            <option value="MIGRACAO">MIGRACAO</option>
+                            <option value="MANUTENCAO">MANUTENCAO</option>
+                            <option value="SUPORTE A TESTE">SUPORTE A TESTE</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -72,9 +129,9 @@
                 </div>
 
                 <div class="form-group d-none" id="sys">
-                    <label for="sistema">Sistema</label>
+                    <label for="sistema">Sistema</label><br>
                     <!-- <input type="text" class="form-control" name='sistema' placeholder="Ex: SIEBEL 6.3" /> -->
-                    <select name="sistema" id="sistema" class="form-control">
+                    <select name="sistema" id="sistema" class="form-control select-2-personalizado">
                         @foreach($sistemas as $sistema)
                             <option value="{{ $sistema->sistema }}">{{ $sistema->sistema }}</option>
                         @endforeach

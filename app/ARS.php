@@ -4,18 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Defeito extends Model
+class ARS extends Model
 {
 
+    protected $table = "arss";
+
     protected $fillable=[
-        'prj_ent',
-        'def',
+        'ars',
         'categorie',
+        'pendencia',
         'reports_id'
     ];
 
     public function reports(){
         return $this->belongsTo(Reports::class, 'reports_id', 'id');
     }
-
 }
