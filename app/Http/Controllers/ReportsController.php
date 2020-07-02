@@ -18,14 +18,20 @@ date_default_timezone_set("America/Sao_Paulo");
 class ReportsController extends Controller
 {
 
-    public function listReports(){
-        if(Auth::user()->level_id == 1){
-            $reports = DB::table('reports')->orderBy('final_atendimento', 'DESC')->get();
+    public function listReports()
+    {
+        if (Auth::user()->level_id == 1) {
+            $reports = DB::table('reports')
+                ->orderBy('final_atendimento', 'DESC')
+                ->get();
         } else {
-            $reports = DB::table('reports')->where('user_id', Auth::user()->rowid)->orderBy('final_atendimento', 'DESC')->get();
+            $reports = DB::table('reports')
+                ->where('user_id', Auth::user()->rowid)
+                ->orderBy('final_atendimento', 'DESC')
+                ->get();
         }
 
-        foreach($reports as $key => $value){
+        foreach ($reports as $key => $value) { 
             /* Nome do Usuário */
             $username        = User::select('name')->where('rowid', $reports[$key]->user_id)->first(['name'])->name;
             $username        = explode(" ", $username);
@@ -33,7 +39,6 @@ class ReportsController extends Controller
             $horaDataInicial = explode(" ", $reports[$key]->inicio_atendimento);
             $horaDataFinal   = explode(" ", $reports[$key]->final_atendimento);
 
-            $reports[$key]->ars                 = ($reports[$key]->ars == "") ? "-" : $reports[$key]->ars;
             $reports[$key]->sistema             = ($reports[$key]->sistema == "") ? "-" : $reports[$key]->sistema;
             $reports[$key]->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaDataInicial[1], $horaDataFinal[1], $horaDataInicial[0], $horaDataFinal[0]);
             $reports[$key]->username            = $username;
@@ -44,12 +49,13 @@ class ReportsController extends Controller
             unset($reports[$key]->created_at);
             unset($reports[$key]->updated_at);
         }
-	
+
         return view('users.reports', ['relatorios' => $reports]);
 
     }
 
-    public function detailsReports(Request $request){
+    public function detailsReports(Request $request) 
+    {
 
         $reports                      = Reports::find($request->get('id'));
         $defeitos                     = $reports->defeitos()->get();
@@ -62,7 +68,6 @@ class ReportsController extends Controller
         $reports->inicio_atendimento  = Utils::converterDataParaPadraoBrasileiro($reports->inicio_atendimento);
         $reports->final_atendimento   = Utils::converterDataParaPadraoBrasileiro($reports->final_atendimento);
 
-
         return response()->json(
             [
                 "reports" => $reports,
@@ -72,34 +77,34 @@ class ReportsController extends Controller
 
     }
 
-    public function saveReportsScreen() {
+    public function saveReportsScreen() 
+    {
         $activityOnline = ActivityOnline::where('user_id', Auth::user()->rowid)->first();
-        $sistemas = Sistema::select('sistema')->get();
+        $sistemas = Sistema::select('sistema')
+            ->orderBy('sistema', 'ASC')
+            ->distinct()
+            ->get();
 
-        if( ($activityOnline) && ($activityOnline->hora_termino != "")){
-            return view('users.save-reports', ["activityOnline" => $activityOnline, "sistemas" => $sistemas]);
+        if (($activityOnline) && ($activityOnline->hora_termino != "")) {
+            return view(
+                'users.save-reports', 
+                [
+                    "activityOnline" => $activityOnline, 
+                    "sistemas" => $sistemas
+                ]
+            );
         } else {
             return redirect()->route('inicial');
         }
 
     }
 
-    public function saveReports(Request $request) {
-
+    public function saveReports(Request $request) 
+    {
         $reports        = new Reports();
         $activityOnline = ActivityOnline::find($request->input('id-atividade'));
 
-        /**
-         * Tanto faz pegar pelo PRJ ou pelo defeito.
-         *
-         * Para garantir, sempre que um prj ou defeito não
-         * vir preenchido ele vai ser pulado.
-         *
-         */
-
         $reports->tipo = $request->input('tipo');
-        $reports->ars = $request->input('chamado');
-        $reports->pendencia = $request->input('pendencia');
         $reports->sistema = $request->input('sistema');
         $reports->descricao = $request->input('descricao');
         $reports->inicio_atendimento = Utils::converterDataParaPadraoAmericano($activityOnline->hora_inicio);
@@ -108,29 +113,18 @@ class ReportsController extends Controller
 
         $reports->save();
 
-        if($reports){
+        if ($reports) {
 
-            if($request->input('prj_ent')[0] != null){
-
-                foreach($request->input('prj_ent') as $key => $value){
-
-                    $prj_ent = $request->input('prj_ent')[$key];
-                    $defeito = $request->input('defeito')[$key];
-
-                    if($prj_ent == "" || $defeito == ""){
-                        continue;
-                    } else {
-                        $reports->defeitos()->create([
-                            "prj_ent" => $prj_ent,
-                            "def" => $defeito
-                        ]);
-                    }
-
-                }
-
+            if ($reports->tipo== "DEFEITO" || $request->input('show_def')) {
+                $ars = ($request->input('show_ars')) ? true : false;
+                $this->_insertDefeitos($reports, $request, $ars);
             }
 
-            ActivityOnline::find($request->input('id-atividade'))->delete();
+            if ($reports->tipo== "ARS" || $request->input('show_ars')) {
+                $this->_insertArs($reports, $request);
+            }
+            
+            //ActivityOnline::find($request->input('id-atividade'))->delete();
 
         }
 
@@ -140,7 +134,8 @@ class ReportsController extends Controller
 
     }
 
-    public function exposeBusyResource(){
+    public function exposeBusyResource() 
+    {
         $activityOnline = new ActivityOnline();
         $activityOnline->recurso = Auth::user()->name;
         $activityOnline->user_id = Auth::user()->rowid;
@@ -152,33 +147,80 @@ class ReportsController extends Controller
 
     }
 
-    public function completeBusyResourceActivity(Request $request){
-	$activityOnline = ActivityOnline::find($request->input('id-atividade'));
+    public function completeBusyResourceActivity(Request $request) 
+    {
+        $activityOnline = ActivityOnline::find($request->input('id-atividade'));
         $activityOnline->hora_termino = Utils::converterDataParaPadraoBrasileiro(date('Y-m-d H:i:s'));
         $activityOnline->save();
 
         return redirect()->route('save-reports');
     }
 
-    public function checkReport(){
+    public function checkReport() 
+    {
 
-        $activityOnline = ActivityOnline::where('user_id', Auth::user()->rowid)->first();
+        $activityOnline = ActivityOnline::where(
+            'user_id', 
+            Auth::user()->rowid
+        )->first();
 
-        if($activityOnline && $activityOnline->hora_termino != ""){
+        if ($activityOnline && $activityOnline->hora_termino != "") {
             return response()
                 ->json(['existe' => 'finalizada']);
-        } else if($activityOnline && $activityOnline->hora_termino == "") {
+        } else if ($activityOnline && $activityOnline->hora_termino == "") {
             return response()
-                ->json([
-                    'existe' => 'iniciada',
-                    'hora_inicio' => $activityOnline->hora_inicio,
-                    'id_atividade' => $activityOnline->id
-                ]);
+                ->json(
+                    [
+                        'existe' => 'iniciada',
+                        'hora_inicio' => $activityOnline->hora_inicio,
+                        'id_atividade' => $activityOnline->id
+                    ]
+                );
         }
 
         return response()
             ->json(['existe' => false]);
 
+    }
+
+    // PRIVATE METHODS 
+
+    private function _insertDefeitos($reports, $request, $defArs = false) 
+    {
+        foreach ($request->input('prj_ent') as $key => $value) {
+
+            $prj_ent = $request->input('prj_ent')[$key];
+            $defeito = $request->input('defeito')[$key];
+            $categorie =  $defArs ?  $request->input('categorie-def-ars') :  $request->input('categorie-def');
+            
+            if ($prj_ent == "" || $defeito == "") {
+                continue;
+            } else {
+                $reports->defeitos()->create(
+                    [
+                        "prj_ent" => $prj_ent,
+                        "def" => $defeito,
+                        'categorie' => $categorie
+                    ]
+                );
+            }
+
+        }
+    }
+
+    private function _insertArs($reports, $request) 
+    {
+        $ars               = $request->input('chamado');
+        $pendencia = $request->input('pendencia');
+        $categorie   = $request->input('categorie-ars');
+
+        $reports->arses()->create(
+            [
+                "ars" => $ars,
+                "pendencia" => $pendencia,
+                "categorie" => $categorie
+            ]
+        );     
     }
 
 }

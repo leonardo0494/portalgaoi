@@ -23,4 +23,8 @@ class Reports extends Model
         return $this->hasMany(Defeito::class, 'reports_id', 'id');
     }
 
+    public function arses(){
+        return $this->hasMany(ARS::class, 'reports_id', 'id');
+    }
+
 }

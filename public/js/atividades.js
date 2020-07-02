@@ -10,12 +10,18 @@ $(document).ready(function(){
 
     const TIPO_ATIVIDADE = $("#tipo");
     const COD_ATIVIDADE  = $("#cod");
-    const ARS_ATIVIDADE  = $("#ars");
-    const SYS_ATIVIDADE  = $("#sys");
-    const HORA_INICIO    = $("#hora-inicio");
-    const HORA_FIM       = $("#hora-fim");
+    const ARS_ATIVIDADE   = $("#ars");
+    const SYS_ATIVIDADE    = $("#sys");
+    const ARS_CATEGORIE  = $("#ars-cat");
+    const ARS_DEF_CATEG = $("#def-ars");
+    const DEFEITO_CATEG  = $("#cat-defeito");
+    const HORA_INICIO        = $("#hora-inicio");
     const HORA_INICIO_RL = $("#hora-inicio-real");
-    const HORA_FIM_RL    = $("#hora-fim-real");
+    const SHOW_ARS             = $("#show_ars");
+    const SHOW_ARS_DIV    = $("#show_ars_div");
+    const SHOW_DEF             = $("#show_def");
+    const SHOW_DEF_DIV    = $("#show_def_div");
+
 
     $(INICIAR_ATIVIDADE).click(function(){
 
@@ -64,25 +70,32 @@ $(document).ready(function(){
         $(COD_ATIVIDADE).addClass('d-none');
         $(ARS_ATIVIDADE).addClass('d-none');
         $(SYS_ATIVIDADE).addClass('d-none');
+        $(SHOW_ARS_DIV).addClass('d-none');
+        $(SHOW_ARS).prop("checked", false);
+        $(SHOW_DEF_DIV).addClass('d-none');
+        $(SHOW_DEF).prop("checked", false);
 
         // COD -> PRJ e DEF
         // ARS -> ARS e PENDENCIA
         // SYS - SISTEMAS
 
-        if(TIPO_ATIVIDADE.val() == 'DEFEITO' || TIPO_ATIVIDADE.val() == 'CALL'){
+        if(TIPO_ATIVIDADE.val() == 'DEFEITO'){
             $(COD_ATIVIDADE).removeClass('d-none');
             $(SYS_ATIVIDADE).removeClass('d-none');
-            return true;
+            $(SHOW_ARS_DIV).removeClass('d-none');
+            $(ARS_CATEGORIE).addClass('d-none');
+            $(ARS_DEF_CATEG).addClass('d-none');
         }
 
-        if(TIPO_ATIVIDADE.val() == 'DEFEITO_ARS'){
-            $(COD_ATIVIDADE).removeClass('d-none');
-            $(ARS_ATIVIDADE).removeClass('d-none');
-            $(SYS_ATIVIDADE).removeClass('d-none');
-            return true;
+        if(TIPO_ATIVIDADE.val() == 'CALL'){
+            $(SHOW_ARS_DIV).removeClass('d-none');
+            $(SHOW_DEF_DIV).removeClass('d-none');
         }
 
         if(TIPO_ATIVIDADE.val() == 'ARS'){
+            $(DEF_CATEGORIE).addClass('d-none');
+            $(ARS_DEF_CATEG).addClass('d-none');
+            $(ARS_CATEGORIE).removeClass('d-none');
             $(ARS_ATIVIDADE).removeClass('d-none');
             $(SYS_ATIVIDADE).removeClass('d-none');
             return true;
@@ -94,6 +107,44 @@ $(document).ready(function(){
         }
 
         return true;
+    });
+
+    $(SHOW_DEF).change(function(){
+
+        if($(SHOW_DEF).is(":checked")){
+            $(COD_ATIVIDADE).removeClass('d-none');
+
+            if($(SHOW_ARS).is(":checked")){
+                $(ARS_DEF_CATEG).removeClass('d-none');
+                $(DEFEITO_CATEG).addClass('d-none');
+            } else {
+                $(ARS_DEF_CATEG).addClass('d-none');
+                $(DEFEITO_CATEG).removeClass('d-none');
+            }
+
+        } else {
+            $(COD_ATIVIDADE).addClass('d-none');
+        }
+
+    });
+
+    $(SHOW_ARS).change(function(){
+
+        if($(SHOW_ARS).is(":checked")){
+            $(ARS_ATIVIDADE).removeClass('d-none');
+            $(ARS_DEF_CATEG).removeClass('d-none');
+            $(ARS_CATEGORIE).removeClass('d-none');
+            $(ARS_DEF_CATEG).removeClass('d-none');
+            $(DEFEITO_CATEG).addClass('d-none');
+            $
+        } else {
+            $(ARS_ATIVIDADE).addClass('d-none');
+            $(ARS_DEF_CATEG).addClass('d-none');
+            $(ARS_CATEGORIE).addClass('d-none');
+            $(ARS_DEF_CATEG).addClass('d-none');
+            $(DEFEITO_CATEG).removeClass('d-none');
+        }
+
     });
 
     function createDate(){
