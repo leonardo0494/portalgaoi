@@ -23,12 +23,12 @@ class ReportsController extends Controller
         if (Auth::user()->level_id == 1) {
             $reports = DB::table('reports')
                 ->orderBy('final_atendimento', 'DESC')
-                ->get();
+                ->paginate(10);
         } else {
             $reports = DB::table('reports')
                 ->where('user_id', Auth::user()->rowid)
                 ->orderBy('final_atendimento', 'DESC')
-                ->get();
+                ->paginate(10);
         }
 
         foreach ($reports as $key => $value) { 
@@ -116,15 +116,15 @@ class ReportsController extends Controller
         if ($reports) {
 
             if ($reports->tipo== "DEFEITO" || $request->input('show_def')) {
-                $ars = ($request->input('show_ars')) ? true : false;
-                $this->_insertDefeitos($reports, $request, $ars);
+                $this->_insertDefeitos($reports, $request);
             }
 
+            
             if ($reports->tipo== "ARS" || $request->input('show_ars')) {
                 $this->_insertArs($reports, $request);
             }
             
-            //ActivityOnline::find($request->input('id-atividade'))->delete();
+            ActivityOnline::find($request->input('id-atividade'))->delete();
 
         }
 
@@ -185,13 +185,13 @@ class ReportsController extends Controller
 
     // PRIVATE METHODS 
 
-    private function _insertDefeitos($reports, $request, $defArs = false) 
+    private function _insertDefeitos($reports, $request) 
     {
         foreach ($request->input('prj_ent') as $key => $value) {
 
             $prj_ent = $request->input('prj_ent')[$key];
             $defeito = $request->input('defeito')[$key];
-            $categorie =  $defArs ?  $request->input('categorie-def-ars') :  $request->input('categorie-def');
+            $categorie =  $request->input('categorie-def');
             
             if ($prj_ent == "" || $defeito == "") {
                 continue;
