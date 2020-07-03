@@ -65,6 +65,7 @@
                             <label for="categorie-ars">Categoria do <strong>ARS</strong></label>
                             <select name="categorie-ars" id="categorie-ars" class="form-control">
                                 <option>Selecione uma categoria</option>
+				<option value="DEFEITO">DEFEITO</option>
                                 <option value="MIGRACAO">MIGRACAO</option>
                                 <option value="MANUTENCAO">MANUTENCAO</option>
                                 <option value="SUPORTE A TESTE">SUPORTE A TESTE</option>
