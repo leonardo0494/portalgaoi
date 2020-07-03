@@ -115,7 +115,7 @@
                                 <option value="REJEITADO">REJEITADO</option>
                                 <option value="ERRO DE MIGRACAO">ERRO DE MIGRACAO</option>
                                 <option value="INDISPONIBILIDADE">INDISPONIBILIDADE</option>
-                                <option value="PARAMETRIZACAO">PARAMETRIZACAO</option>
+                                <option value="PARAMETRIZACAO">PARAMETRIZACAO DE AMBIENTE</option>
                                 <option value="INFRAESTRUTURA">INFRAESTRUTURA</option>
                             </select>
                         </div>
