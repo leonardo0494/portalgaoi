@@ -65,87 +65,85 @@ $(document).ready(function(){
 
     });
 
-    $(TIPO_ATIVIDADE).change(function() {
+    // $(TIPO_ATIVIDADE).change(function() {
 
-        $(COD_ATIVIDADE).addClass('d-none');
-        $(ARS_ATIVIDADE).addClass('d-none');
-        $(SYS_ATIVIDADE).addClass('d-none');
-        $(SHOW_ARS_DIV).addClass('d-none');
-        $(SHOW_ARS).prop("checked", false);
-        $(SHOW_DEF_DIV).addClass('d-none');
-        $(SHOW_DEF).prop("checked", false);
+    //     $(COD_ATIVIDADE).addClass('d-none');
+    //     $(ARS_ATIVIDADE).addClass('d-none');
+    //     $(SYS_ATIVIDADE).addClass('d-none');
+    //     $(SHOW_ARS_DIV).addClass('d-none');
+    //     $(SHOW_ARS).prop("checked", false);
+    //     $(SHOW_DEF_DIV).addClass('d-none');
+    //     $(SHOW_DEF).prop("checked", false);
 
-        // COD -> PRJ e DEF
-        // ARS -> ARS e PENDENCIA
-        // SYS - SISTEMAS
+    //     // COD -> PRJ e DEF
+    //     // ARS -> ARS e PENDENCIA
+    //     // SYS - SISTEMAS
 
-        if(TIPO_ATIVIDADE.val() == 'DEFEITO'){
-            $(COD_ATIVIDADE).removeClass('d-none');
-            $(SYS_ATIVIDADE).removeClass('d-none');
-            $(SHOW_ARS_DIV).removeClass('d-none');
-            $(ARS_CATEGORIE).addClass('d-none');
-            $(ARS_DEF_CATEG).addClass('d-none');
-        }
+    //     if(TIPO_ATIVIDADE.val() == 'DEFEITO'){
+    //         $(COD_ATIVIDADE).removeClass('d-none');
+    //         $(SYS_ATIVIDADE).removeClass('d-none');
+    //         $(SHOW_ARS_DIV).removeClass('d-none');
+    //         $(ARS_CATEGORIE).addClass('d-none');
+    //         $(ARS_DEF_CATEG).addClass('d-none');
+    //     }
 
-        if(TIPO_ATIVIDADE.val() == 'CALL'){
-            $(SHOW_ARS_DIV).removeClass('d-none');
-            $(SHOW_DEF_DIV).removeClass('d-none');
-        }
+    //     if(TIPO_ATIVIDADE.val() == 'CALL'){
+    //         $(SHOW_ARS_DIV).removeClass('d-none');
+    //         $(SHOW_DEF_DIV).removeClass('d-none');
+    //     }
 
-        if(TIPO_ATIVIDADE.val() == 'ARS'){
-            $(DEF_CATEGORIE).addClass('d-none');
-            $(ARS_DEF_CATEG).addClass('d-none');
-            $(ARS_CATEGORIE).removeClass('d-none');
-            $(ARS_ATIVIDADE).removeClass('d-none');
-            $(SYS_ATIVIDADE).removeClass('d-none');
-            return true;
-        }
+    //     if(TIPO_ATIVIDADE.val() == 'ARS'){
+    //         $(ARS_DEF_CATEG).addClass('d-none');
+    //         $(ARS_CATEGORIE).removeClass('d-none');
+    //         $(ARS_ATIVIDADE).removeClass('d-none');
+    //         $(SYS_ATIVIDADE).removeClass('d-none');
+    //         return true;
+    //     }
 
-        if(TIPO_ATIVIDADE.val() == 'MELHORIAS' || TIPO_ATIVIDADE.val() == "MONITORAMENTO" || TIPO_ATIVIDADE.val() == "TREINAMENTO"){
-            $(SYS_ATIVIDADE).removeClass('d-none');
-            return true;
-        }
+    //     if(TIPO_ATIVIDADE.val() == 'MELHORIAS' || TIPO_ATIVIDADE.val() == "MONITORAMENTO" || TIPO_ATIVIDADE.val() == "TREINAMENTO"){
+    //         $(SYS_ATIVIDADE).removeClass('d-none');
+    //         return true;
+    //     }
 
-        return true;
-    });
+    //     return true;
+    // });
 
-    $(SHOW_DEF).change(function(){
+    // $(SHOW_DEF).change(function(){
 
-        if($(SHOW_DEF).is(":checked")){
-            $(COD_ATIVIDADE).removeClass('d-none');
+    //     if($(SHOW_DEF).is(":checked")){
+    //         $(COD_ATIVIDADE).removeClass('d-none');
 
-            if($(SHOW_ARS).is(":checked")){
-                $(ARS_DEF_CATEG).removeClass('d-none');
-                $(DEFEITO_CATEG).addClass('d-none');
-            } else {
-                $(ARS_DEF_CATEG).addClass('d-none');
-                $(DEFEITO_CATEG).removeClass('d-none');
-            }
+    //         if($(SHOW_ARS).is(":checked")){
+    //             $(ARS_DEF_CATEG).removeClass('d-none');
+    //             $(DEFEITO_CATEG).addClass('d-none');
+    //         } else {
+    //             $(ARS_DEF_CATEG).addClass('d-none');
+    //             $(DEFEITO_CATEG).removeClass('d-none');
+    //         }
 
-        } else {
-            $(COD_ATIVIDADE).addClass('d-none');
-        }
+    //     } else {
+    //         $(COD_ATIVIDADE).addClass('d-none');
+    //     }
 
-    });
+    // });
 
-    $(SHOW_ARS).change(function(){
+    // $(SHOW_ARS).change(function(){
 
-        if($(SHOW_ARS).is(":checked")){
-            $(ARS_ATIVIDADE).removeClass('d-none');
-            $(ARS_DEF_CATEG).removeClass('d-none');
-            $(ARS_CATEGORIE).removeClass('d-none');
-            $(ARS_DEF_CATEG).removeClass('d-none');
-            $(DEFEITO_CATEG).addClass('d-none');
-            $
-        } else {
-            $(ARS_ATIVIDADE).addClass('d-none');
-            $(ARS_DEF_CATEG).addClass('d-none');
-            $(ARS_CATEGORIE).addClass('d-none');
-            $(ARS_DEF_CATEG).addClass('d-none');
-            $(DEFEITO_CATEG).removeClass('d-none');
-        }
+    //     if($(SHOW_ARS).is(":checked")){
+    //         $(ARS_ATIVIDADE).removeClass('d-none');
+    //         $(ARS_DEF_CATEG).removeClass('d-none');
+    //         $(ARS_CATEGORIE).removeClass('d-none');
+    //         $(ARS_DEF_CATEG).removeClass('d-none');
+    //         $(DEFEITO_CATEG).addClass('d-none');
+    //     } else {
+    //         $(ARS_ATIVIDADE).addClass('d-none');
+    //         $(ARS_DEF_CATEG).addClass('d-none');
+    //         $(ARS_CATEGORIE).addClass('d-none');
+    //         $(ARS_DEF_CATEG).addClass('d-none');
+    //         $(DEFEITO_CATEG).removeClass('d-none');
+    //     }
 
-    });
+    // });
 
     function createDate(){
         let data     = new Date();

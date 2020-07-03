@@ -18,7 +18,7 @@
 
 <body>
 
-    <div class="wrapper">
+    <div class="wrapper" id="app">
         <div class="sidebar">
             <h2>Portal GA OI</h2>
             <ul>
@@ -88,22 +88,143 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <!-- CUSTOM JS -->
-    <script src="{{ asset('js/custom.js?v0.3') }}"></script>
+    <script src="{{ asset('js/custom.js?v0.4') }}"></script>
     <script src="{{ asset('js/sobre.js') }}"></script>
-    <script src="{{ asset('js/atividades.js?v0.2') }}"></script>
+    <script src="{{ asset('js/atividades.js?v0.3') }}"></script>
+    <script src="{{ asset('js/atividade-personalizada.js?v0.1') }}"></script>
     {{-- CK EDITOR --}}
     <script src="http://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
-    {{-- SELECT2 --}}
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         CKEDITOR.replace ("description")
     </script>
 
+    {{-- SELECT2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $('.select-2-personalizado').select2({ 
                 width: '100%' 
+            });     
+
+            $(".detalhes-tarefa").click(function(){
+                    let reportId = $(this).data('id');
+
+                    $.ajax({
+                        method: 'get',
+                        url: 'detalhe-atividade',
+                        data: {
+                            id: reportId
+                        }
+                    }).done( response => {
+
+                        let html = "";
+
+                        html += `
+                            <h5 style="font-weight: bold">Tipo Atividade</h5>
+                            <p style="font-size: 14px;">${response.reports.tipo}</p>
+                        `;
+
+                        if(response.reports.tipo == "DEFEITO" || response.reports.tipo == "CALL" ){
+                            html += `
+                                <h5 style="font-weight: bold">Defeitos</h5>
+                                <table class="table">
+                            `;
+
+                            response.defeitos.forEach( defeito => {
+                                html += `
+                                    <tr>
+                                        <td>${defeito.def}</td>
+                                        <td>${defeito.prj_ent}</td>
+                                    </tr>
+                                `;
+                            });
+
+                            html += `</table>`;
+
+                            html += `
+                                <h5 style="font-weight: bold">Sistema</h5>
+                                <p style="font-size: 14px;">${response.reports.sistema}</p>
+                            `;
+
+                        }
+
+                        if(response.reports.tipo == "DEFEITO_ARS" ){
+
+                            html = `
+                                <h5 style="font-weight: bold">Tipo Atividade</h5>
+                                <p style="font-size: 14px;">DEFEITO + ARS</p>
+                            `;
+
+                            html += `
+                                <h5 style="font-weight: bold">ARS</h5>
+                                <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
+
+                                <h5 style="font-weight: bold">Defeitos</h5>
+                                <table class="table">
+                            `;
+
+                            response.defeitos.forEach( defeito => {
+                                html += `
+                                    <tr>
+                                        <td>${defeito.def}</td>
+                                        <td>${defeito.prj_ent}</td>
+                                    </tr>
+                                `;
+                            });
+
+                            html += `</table>`;
+
+                            html += `
+                                <h5 style="font-weight: bold">Pendência</h5>
+                                <p style="font-size: 14px;">${response.reports.pendencia}</p>
+                            `;
+
+                            html += `
+                                <h5 style="font-weight: bold">Sistema</h5>
+                                <p style="font-size: 14px;">${response.reports.sistema}</p>
+                            `;
+
+                        }
+
+                        if(response.reports.tipo == "ARS" ){
+                            html += `
+                                <h5 style="font-weight: bold">ARS</h5>
+                                <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
+                            `;
+
+                            html += `
+                                <h5 style="font-weight: bold">Pendência</h5>
+                                <p style="font-size: 14px;">${response.reports.pendencia}</p>
+                            `;
+
+                            html += `
+                                <h5 style="font-weight: bold">Sistema</h5>
+                                <p style="font-size: 14px;">${response.reports.sistema}</p>
+                            `;
+
+                        }
+
+                        if(response.reports.tipo== 'MELHORIAS' || response.reports.tipo== "MONITORAMENTO" || response.reports.tipo== "TREINAMENTO"){
+
+                            html += `
+                                <h5 style="font-weight: bold">Sistema</h5>
+                                <p style="font-size: 14px;">${response.reports.sistema}</p>
+                            `;
+
+                        }
+
+                        html += `
+                            <h5 style="font-weight: bold">Descrição</h5>
+                            <p style="font-size: 14px;">${response.reports.descricao}</p>
+                        `;
+
+                        $("#reportsDetails").html(html);
+
+                    console.log(response);
+                });
+
             });
+            
         });
     </script>
 

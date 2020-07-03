@@ -9,12 +9,14 @@
     </ol>
 </nav>
 <div class="col-md-12 pb-4">
+   
     <div class="row">
         <h3>&nbsp;</h3>
     </div>
+    
     <div class="row">
         <div class="table-responsive">
-            <table class="table table-users table-bordered table-hover" style="text-align: center">
+            <table class="table table-bordered table-hover" style="text-align: center">
                 <thead>
                     <tr>
                         <th>TIPO</th>
@@ -46,19 +48,25 @@
 
         <div class="modal fade" id="modalReports" tabindex="-1" role="dialog" aria-labelledby="modalReportsTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-	                <h5 class="modal-title" id="exampleModalLongTitle">Detalhes da Atividade</h5>
-        	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                	    <span aria-hidden="true">&times;</span>
-	                </button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Detalhes da Atividade</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="reportsDetails">
+                    </div>
                 </div>
-                <div class="modal-body" id="reportsDetails">
-		</div>
-            </div>
-            </div>
+		    </div>
         </div>
 
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-end pr-0">
+            {{$relatorios->links()}}
+        </div>
     </div>
 
     <div class="row d-none">
