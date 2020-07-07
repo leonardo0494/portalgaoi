@@ -37,7 +37,7 @@
                             <td>{{$relatorio->final_atendimento}}</td>
                             <td>{{$relatorio->tempo_atendimento}}</td>
                             <td>{{$relatorio->username}}</td>
-                            <td><i class="fas fa-eye detalhes-tarefa" data-id="{{$relatorio->id}}" style="cursor: pointer;" data-toggle="modal" data-target="#modalReports"></i></td>
+                            <td><i class="fas fa-eye" data-id="{{$relatorio->id}}" style="cursor: pointer;" onclick="alert('Funcionalidade em construcao.')"></i></td>
                         </tr>
                     @endforeach
                 </tbody>
