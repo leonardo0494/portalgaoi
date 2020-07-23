@@ -24,6 +24,14 @@ class ActivityController extends Controller
         return view('activity.list', ['atividades' => $activities, 'usuarios' => $users]);
     }
 
+    public function checkNetwin() 
+    {
+        $arquivo   = "/home/portalga/.resultado.txt";
+	$resultado = fopen($arquivo, 'r');
+	$conteudo  = fread($resultado, filesize($arquivo));
+    	return view('activity.netwin', ['resultado' => $conteudo]);
+    }
+
     public function create(Request $request){
         
         $activity = new Activity;

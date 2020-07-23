@@ -77,4 +77,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/salvar-sobre/{id}', 'SobreController@save')->name('salvar-sobre');
 
+    // NETWIN
+
+    Route::get('/check-netwin', 'ActivityController@checkNetwin')->name('check-netwin');
+
 });
