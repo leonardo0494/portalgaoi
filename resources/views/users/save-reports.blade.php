@@ -21,7 +21,7 @@
                 <input type="hidden" name="id-atividade" value="{{$activityOnline->id}}" class="d-none">
                 <div class="form-group">
                     <label for="tipo">Tipo</label>
-                    <select name="tipo" id="tipo-atividade" class="form-control">
+                    <select name="tipo" id="tipo-atividade" class="form-control" required>
                         <option value="">Selecione o tipo de atividade</option>
                         <option value="DEFEITO">DEFEITO</option>
                         <option value="CALL">CALL</option>
@@ -39,12 +39,12 @@
                     <div class="col-12">
                         <span id="ars-opc" class="d-none">
                             <input type="checkbox" id="show_ars" name="show_ars">
-                            <label for="show_ars">Tem ARS?</label> 
+                            <label for="show_ars">Tem ARS?</label>
                         </span>
                         &nbsp; &nbsp;
                         <span id="def-opc" class="d-none">
                             <input type="checkbox" id="show_defeito" name="show_def">
-                            <label for="checkbox">Tem Defeito?</label> 
+                            <label for="checkbox">Tem Defeito?</label>
                         </span>
                     </div>
                 </div>
@@ -64,8 +64,8 @@
                         <div class="form-group" id='ars-cat'>
                             <label for="categorie-ars">Categoria do <strong>ARS</strong></label>
                             <select name="categorie-ars" id="categorie-ars" class="form-control">
-                                <option>Selecione uma categoria</option>
-				<option value="DEFEITO">DEFEITO</option>
+                                <option value="">Selecione uma categoria</option>
+				                <option value="DEFEITO">DEFEITO</option>
                                 <option value="MIGRACAO">MIGRACAO</option>
                                 <option value="MANUTENCAO">MANUTENCAO</option>
                                 <option value="SUPORTE A TESTE">SUPORTE A TESTE</option>
@@ -96,25 +96,25 @@
                             </thead>
                             <tbody>
                                 <tr class="first-line">
-                                    <td><input type="text" name="prj_ent[]" id="prj_ent" maxlength="24" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" /></td>
-                                    <td><input type="text" name="defeito[]" id="defeito" maxlength="5" placeholder="Ex: 765" class="form-control" /></td>
+                                    <td><input type="text" name="prj_ent[]" id="prj_ent" maxlength="24" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" required /></td>
+                                    <td><input type="text" name="defeito[]" id="defeito" maxlength="5" placeholder="Ex: 765" class="form-control" required /></td>
                                     <td class="text-center pt-3"><button type="button" class="btn btn-sm btn-md btn-danger" disabled><i class="far fa-trash-alt"></i></button></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    
+
                     {{-- CATEGORIA DEFEITO --}}
                     <div class="col-12">
                         <div class="form-group" id="cat-defeito">
                             <label for="categorie-def">Categoria do <strong>Defeito</strong></label>
                             <select name="categorie-def" id="categorie-def" class="form-control">
-                                <option>Selecione uma categoria</option>
+                                <option value="">Selecione uma categoria</option>
                                 <option value="CODIGO">CODIGO</option>
                                 <option value="INVESTIGACAO">INVESTIGACAO</option>
                                 <option value="REJEITADO">REJEITADO</option>
                                 <option value="ERRO DE MIGRACAO">ERRO DE MIGRACAO</option>
-				<option value="MODELO DE DADOS">MODELO DE DADOS</option>
+				                <option value="MODELO DE DADOS">MODELO DE DADOS</option>
                                 <option value="INDISPONIBILIDADE">INDISPONIBILIDADE</option>
                                 <option value="PARAMETRIZACAO">PARAMETRIZACAO DE AMBIENTE</option>
                                 <option value="INFRAESTRUTURA">INFRAESTRUTURA</option>
@@ -138,8 +138,8 @@
                 {{-- DESCRICAO --}}
                 <div class="form-group">
                     <label for="descricao">Descrição</label>
-                    <textarea class="form-control" rows="3" col="30" name='descricao' maxlength="50" placeholder="Limite de 50 caracteres..."></textarea>
-                </div> 
+                    <textarea class="form-control" rows="3" col="30" name='descricao' maxlength="50" placeholder="Limite de 50 caracteres..." required></textarea>
+                </div>
 
                 {{-- DATAS --}}
                 <div class="form-group row">
