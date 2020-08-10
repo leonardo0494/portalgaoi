@@ -103,9 +103,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.select-2-personalizado').select2({ 
-                width: '100%' 
-            });     
+            $('.select-2-personalizado').select2({
+                width: '100%'
+            });
 
             $(".detalhes-tarefa").click(function(){
                     let reportId = $(this).data('id');
@@ -125,10 +125,15 @@
                             <p style="font-size: 14px;">${response.reports.tipo}</p>
                         `;
 
+                        html += `
+                            <h5 style="font-weight: bold">Tempo Atendimento</h5>
+                            <p style="font-size: 14px;">${response.reports.tempo_atendimento}</p>
+                        `;
+
                         if(response.reports.tipo == "DEFEITO" || response.reports.tipo == "CALL" ){
                             html += `
                                 <h5 style="font-weight: bold">Defeitos</h5>
-                                <table class="table">
+                                <table class="table table-bordered">
                             `;
 
                             response.defeitos.forEach( defeito => {
@@ -149,59 +154,23 @@
 
                         }
 
-                        if(response.reports.tipo == "DEFEITO_ARS" ){
-
-                            html = `
-                                <h5 style="font-weight: bold">Tipo Atividade</h5>
-                                <p style="font-size: 14px;">DEFEITO + ARS</p>
+                        if(response.reports.tipo == "ARS" || response.ars.length > 0 ){
+                            html += `
+                                <h5 style="font-weight: bold">ARS</h5>
+                                <p style="font-size: 14px;">${response.ars[0].ars ? response.ars[0].ars : '-'}</p>
                             `;
 
                             html += `
-                                <h5 style="font-weight: bold">ARS</h5>
-                                <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
-
-                                <h5 style="font-weight: bold">Defeitos</h5>
-                                <table class="table">
+                                <h5 style="font-weight: bold">Pendência</h5>
+                                <p style="font-size: 14px;">${response.ars[0].pendencia}</p>
                             `;
 
-                            response.defeitos.forEach( defeito => {
+                            if (response.reports.tipo == "ARS") {
                                 html += `
-                                    <tr>
-                                        <td>${defeito.def}</td>
-                                        <td>${defeito.prj_ent}</td>
-                                    </tr>
+                                    <h5 style="font-weight: bold">Sistema</h5>
+                                    <p style="font-size: 14px;">${response.reports.sistema}</p>
                                 `;
-                            });
-
-                            html += `</table>`;
-
-                            html += `
-                                <h5 style="font-weight: bold">Pendência</h5>
-                                <p style="font-size: 14px;">${response.reports.pendencia}</p>
-                            `;
-
-                            html += `
-                                <h5 style="font-weight: bold">Sistema</h5>
-                                <p style="font-size: 14px;">${response.reports.sistema}</p>
-                            `;
-
-                        }
-
-                        if(response.reports.tipo == "ARS" ){
-                            html += `
-                                <h5 style="font-weight: bold">ARS</h5>
-                                <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
-                            `;
-
-                            html += `
-                                <h5 style="font-weight: bold">Pendência</h5>
-                                <p style="font-size: 14px;">${response.reports.pendencia}</p>
-                            `;
-
-                            html += `
-                                <h5 style="font-weight: bold">Sistema</h5>
-                                <p style="font-size: 14px;">${response.reports.sistema}</p>
-                            `;
+                            }
 
                         }
 
@@ -221,11 +190,10 @@
 
                         $("#reportsDetails").html(html);
 
-                    console.log(response);
                 });
 
             });
-            
+
         });
     </script>
 

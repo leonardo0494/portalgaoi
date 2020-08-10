@@ -9,16 +9,17 @@
     </ol>
 </nav>
 <div class="col-md-12 pb-4">
-   
+
     <div class="row">
         <h3>&nbsp;</h3>
     </div>
-    
+
     <div class="row">
         <div class="table-responsive">
             <table class="table table-bordered table-hover" style="text-align: center">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>TIPO</th>
                         <th>DESCRICAO</th>
                         <th>INICIO ATENDIMENTO</th>
@@ -31,13 +32,14 @@
                 <tbody>
                     @foreach($relatorios as $relatorio)
                         <tr>
+                            <td>{{$relatorio->id}}</td>
                             <td>{{$relatorio->tipo}}</td>
                             <td>{{$relatorio->descricao}}</td>
                             <td>{{$relatorio->inicio_atendimento}}</td>
                             <td>{{$relatorio->final_atendimento}}</td>
                             <td>{{$relatorio->tempo_atendimento}}</td>
                             <td>{{$relatorio->username}}</td>
-                            <td><i class="fas fa-eye" data-id="{{$relatorio->id}}" style="cursor: pointer;" onclick="alert('Funcionalidade em construcao.')"></i></td>
+                            <td><i class="fas fa-eye detalhes-tarefa" data-target="#modalReports" data-toggle="modal" data-id="{{$relatorio->id}}" style="cursor: pointer;"></i></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -70,10 +72,8 @@
     </div>
 
     <div class="row d-none">
-
         <div class="card">
             <div class="card-body">
-
                 <div class="col-md-12">
 
                     <h5 style="font-weight: bold">Tipo Tarefa</h5>
@@ -105,10 +105,8 @@
                     <p style="font-size: 14px;">Lorem ipsum dolor sit amet consectetur adipisicing</p>
 
                 </div>
-
             </div>
         </div>
-
     </div>
 
 </div>
