@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/atividade-online', 'ReportsController@exposeBusyResource')->name('atividade-online');
     Route::get('/check-atividade', 'ReportsController@checkReport')->name('check-atividade');
     Route::get('/detalhe-atividade', 'ReportsController@detailsReports')->name('detalhes-atividade');
+    Route::get('/filtrar-reports', 'ReportsController@filtrarReports')->name('filtrar-reports');
 
     Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
     Route::post('/atividade-finalizada', 'ReportsController@completeBusyResourceActivity')->name('atividade-finalizada');

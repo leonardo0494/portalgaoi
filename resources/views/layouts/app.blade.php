@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {{-- BOOTSTRAP --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     {{-- SELECT 2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <!-- FONT AWESOME -->
@@ -87,9 +87,10 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <!-- CUSTOM JS -->
-    <script src="{{ asset('js/custom.js?v0.4') }}"></script>
+    <script src="{{ asset('js/mask.js?') }}"></script>
+    <script src="{{ asset('js/custom.js?v0.6') }}"></script>
     <script src="{{ asset('js/sobre.js') }}"></script>
     <script src="{{ asset('js/atividades.js?v0.3') }}"></script>
     <script src="{{ asset('js/atividade-personalizada.js?v0.1') }}"></script>

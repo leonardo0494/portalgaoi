@@ -18,7 +18,7 @@ date_default_timezone_set("America/Sao_Paulo");
 class ReportsController extends Controller
 {
 
-    public function listReports()
+    public function listReports($filtro = null)
     {
         if (Auth::user()->level_id == 1) {
             $reports = DB::table('reports')
@@ -30,6 +30,12 @@ class ReportsController extends Controller
                 ->orderBy('final_atendimento', 'DESC')
                 ->paginate(10);
         }
+
+        if ($filtro != null) {
+            $reports = $filtro;
+        }
+
+        $Usuarios = User::select('rowid', 'name')->get();
 
         foreach ($reports as $key => $value) {
             /* Nome do Usuário */
@@ -50,7 +56,12 @@ class ReportsController extends Controller
             unset($reports[$key]->updated_at);
         }
 
-        return view('users.reports', ['relatorios' => $reports]);
+        return view('users.reports',
+            [
+                'relatorios' => $reports,
+                'Usuarios' => $Usuarios
+            ]
+        );
 
     }
 
@@ -76,6 +87,48 @@ class ReportsController extends Controller
                 "ars" => $ars
             ]
         );
+
+    }
+
+    public function filtrarReports(Request $request)
+    {
+
+        if (Auth::user()->level_id == 1) {
+
+            $nomeDoUsuario   = $request->input('usuario');
+            $dataRangeInicio = $request->input('data_range_inicio');
+            $dataRangeFim    = $request->input('data_range_fim');
+            $tipoAtividade   = $request->input('tipo');
+            $reports         = DB::table('reports');
+
+            if ($dataRangeFim != "") {
+
+                $dataFim    = explode("/", $dataRangeFim);
+                $dataFim    = $dataFim[2]."-".$dataFim[1]."-".$dataFim[0];
+                $dataInicio = explode("/", $dataRangeInicio);
+                $dataInicio = $dataInicio[2]."-".$dataInicio[1]."-".$dataInicio[0];
+                $reports->whereRaw('date(inicio_atendimento) between ? and ?', array($dataInicio,$dataFim));
+            }
+
+            if ($dataRangeInicio != "" && $dataRangeFim == "") {
+                $dataInicio = explode("/", $dataRangeInicio);
+                $dataInicio = $dataInicio[2]."-".$dataInicio[1]."-".$dataInicio[0];
+                $reports->whereRaw("date(inicio_atendimento) = ?", array($dataInicio));
+            }
+
+            if ($nomeDoUsuario != "") {
+                $reports->where('user_id', "=", $nomeDoUsuario);
+            }
+
+            if ($tipoAtividade != "") {
+                $reports->where('tipo', "=", $tipoAtividade);
+            }
+
+            return $this->listReports($reports->paginate(10));
+
+        } else {
+            return redirect()->back();
+        }
 
     }
 

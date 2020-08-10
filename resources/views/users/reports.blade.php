@@ -10,9 +10,56 @@
 </nav>
 <div class="col-md-12 pb-4">
 
-    <div class="row">
-        <h3>&nbsp;</h3>
-    </div>
+    @if(Auth::user()->level_id == 1)
+        <div class="row mb-3">
+            <div class="col-12 px-0">
+                <div class="card">
+                    <div class="card-header">Filtros</div>
+                    <div class="card-body">
+                        <form action="{{route('filtrar-reports')}}" method="GET">
+                            <div class="form-row">
+                                <div class="form-group col-4">
+                                    <label for="recurso">Usuário</label>
+                                    <select name="usuario" id="recurso" class="form-control">
+                                        <option value="">Selecione um Usuário</option>
+                                        @foreach ($Usuarios as $usuario)
+                                            <option value="{{$usuario->rowid}}" @if(isset($_GET['usuario'])) @if($_GET['usuario'] == $usuario->rowid) selected @endif @endif >{{$usuario->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-2">
+                                    <label for="data-range-inicio">Data Inicio</label>
+                                    <input type="text" name="data_range_inicio" placeholder="dd/mm/yyyy" @if(isset($_GET['data_range_inicio'])) value="{{ $_GET['data_range_inicio']}}" @endif id="data-range-inicio" class="form-control data-mask">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label for="data-range-fim">Data Fim</label>
+                                    <input type="text" name="data_range_fim" placeholder="dd/mm/yyyy" @if(isset($_GET['data_range_fim'])) value="{{ $_GET['data_range_fim']}}" @endif id="data-range-fim" class="form-control data-mask data-range-fim">
+                                </div>
+                                <div class="form-group col-3">
+                                    <label for="tipo">Tipo Atividade</label>
+                                    <select name="tipo" id="tipo" class="form-control">
+                                        <option value="">Selecione um tipo</option>
+                                        <option value="DEFEITO" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "DEFEITO") selected @endif @endif>DEFEITO</option>
+                                        <option value="CALL" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "CALL") selected @endif @endif>CALL</option>
+                                        <option value="ARS" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "ARS") selected @endif @endif>ARS</option>
+                                        <option value="MELHORIAS" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "MELHORIAS") selected @endif @endif>MELHORIAS</option>
+                                        <option value="MONITORAMENTO" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "MONITORAMENTO") selected @endif @endif>MONITORAMENTO</option>
+                                        <option value="TREINAMENTO" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "TREINAMENTO") selected @endif @endif>TREINAMENTO</option>
+                                        <option value="RELATORIOS" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "RELATORIOS") selected @endif @endif>RELATORIOS</option>
+                                        <option value="REUNIÃO" @if(isset($_GET['tipo'])) @if($_GET['tipo'] == "REUNIÃO") selected @endif @endif>REUNIÃO</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-1">
+                                    <label for="enviar" class="mb-2">&nbsp;</label><br>
+                                    <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="row">
         <div class="table-responsive">

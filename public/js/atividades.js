@@ -7,21 +7,8 @@ $(document).ready(function(){
     const PARAR_ATIVIDADE   = $("#parar-atividade");
 
     /* CAMPOS ATIVIDADE */
-
-    const TIPO_ATIVIDADE = $("#tipo");
-    const COD_ATIVIDADE  = $("#cod");
-    const ARS_ATIVIDADE   = $("#ars");
-    const SYS_ATIVIDADE    = $("#sys");
-    const ARS_CATEGORIE  = $("#ars-cat");
-    const ARS_DEF_CATEG = $("#def-ars");
-    const DEFEITO_CATEG  = $("#cat-defeito");
     const HORA_INICIO        = $("#hora-inicio");
     const HORA_INICIO_RL = $("#hora-inicio-real");
-    const SHOW_ARS             = $("#show_ars");
-    const SHOW_ARS_DIV    = $("#show_ars_div");
-    const SHOW_DEF             = $("#show_def");
-    const SHOW_DEF_DIV    = $("#show_def_div");
-
 
     $(INICIAR_ATIVIDADE).click(function(){
 
