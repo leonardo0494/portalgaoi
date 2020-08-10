@@ -96,8 +96,8 @@
                             </thead>
                             <tbody>
                                 <tr class="first-line">
-                                    <td><input type="text" name="prj_ent[]" id="prj_ent" maxlength="24" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control" required /></td>
-                                    <td><input type="text" name="defeito[]" id="defeito" maxlength="5" placeholder="Ex: 765" class="form-control" required /></td>
+                                    <td><input type="text" name="prj_ent[]" id="prj_ent" maxlength="24" placeholder="Ex: PRJ0001234_ENT00004567" class="form-control"/></td>
+                                    <td><input type="text" name="defeito[]" id="defeito" maxlength="5" placeholder="Ex: 765" class="form-control"/></td>
                                     <td class="text-center pt-3"><button type="button" class="btn btn-sm btn-md btn-danger" disabled><i class="far fa-trash-alt"></i></button></td>
                                 </tr>
                             </tbody>

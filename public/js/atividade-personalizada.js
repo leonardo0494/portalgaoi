@@ -22,6 +22,8 @@ $(document).ready(function(){
         $("#categorie-def").prop("required", false);
         $("#chamado").prop("required", false);
         $("#categorie-ars").prop("required", false);
+        $("#prj_ent").prop("required", false);
+        $("#defeito").prop("required", false);
 
         // HIDE FORM FIELDS
 
@@ -57,6 +59,8 @@ $(document).ready(function(){
             $("#defeito").removeClass('d-none');
             $("#sistema").removeClass('d-none');
             $("#categorie-def").prop("required", true);
+            $("#prj_ent").prop("required", true);
+            $("#defeito").prop("required", true);
         }
 
         // ARS
@@ -110,9 +114,13 @@ $(document).ready(function(){
         if( (showDefeito).is(":checked")){
             $("#defeito").removeClass('d-none');
             $("#categorie-def").prop("required", true);
+            $("#prj_ent").prop("required", true);
+            $("#defeito").prop("required", true);
         } else {
             $("#defeito").addClass('d-none');
             $("#categorie-def").prop("required", false);
+            $("#prj_ent").prop("required", false);
+            $("#defeito").prop("required", false);
         }
 
         if($("#tipo-atividade").val() == "CALL"){

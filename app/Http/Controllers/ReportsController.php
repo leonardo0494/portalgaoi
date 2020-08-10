@@ -166,7 +166,7 @@ class ReportsController extends Controller
         $reports->final_atendimento = Utils::converterDataParaPadraoAmericano($activityOnline->hora_termino);
         $reports->user_id = Auth::user()->rowid;
 
-       /* $reports->save();
+       $reports->save();
 
         if ($reports) {
 
@@ -186,10 +186,6 @@ class ReportsController extends Controller
         session()->flash('status', "Atividade registrada com sucesso.");
 
         return redirect()->route('inicial');
-        */
-
-        return redirect()->back();
-
     }
 
     public function exposeBusyResource()
