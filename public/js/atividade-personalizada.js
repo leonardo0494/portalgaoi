@@ -35,6 +35,11 @@ $(document).ready(function(){
         if(!(defOpc).hasClass('d-none'))
             (defOpc).addClass('d-none');
 
+	// RESETAR CAMPO ATIVIDADES
+	$("#campo-descricao").attr("maxlength", 50);
+        $("#campo-descricao").attr("placeholder", "Limite de 50 caracteres...");
+	$("#texto-descricao").html("Descrição");
+
     }
 
     $("#tipo-atividade").change(function(){
@@ -88,6 +93,22 @@ $(document).ready(function(){
         if($("#tipo-atividade").val() == "CALL"){
             $("#sistema").removeClass('d-none');
         }
+
+    });
+
+    $(".pendencia").change(function() {
+	
+	let valor = $(this).val();
+	
+	if(valor == "SIM") {
+		$("#campo-descricao").attr("maxlength", 250);
+		$("#campo-descricao").attr("placeholder", "Limite de 250 caracteres...");
+		$("#texto-descricao").html("Escreva sua história triste");
+	} else {
+		$("#campo-descricao").attr("maxlength", 50);
+		$("#campo-descricao").attr("placeholder", "Limite de 50 caracteres...");
+		$("#texto-descricao").html("Descrição");
+	}
 
     });
 

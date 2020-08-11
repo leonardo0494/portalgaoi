@@ -77,8 +77,8 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="pendencia" class="pb-2">Pendência</label><br>
-                            <input type="radio" name="pendencia" id="pendencia" value='NAO' checked> Nao &nbsp;
-                            <input type="radio" name="pendencia" id="pendencia" value='SIM'> Sim
+                            <input type="radio" name="pendencia" class="pendencia" id="pendencia" value='NAO' checked> Nao &nbsp;
+                            <input type="radio" name="pendencia" class="pendencia" id="pendencia" value='SIM'> Sim
                         </div>
                     </div>
                 </div>
@@ -137,8 +137,8 @@
 
                 {{-- DESCRICAO --}}
                 <div class="form-group">
-                    <label for="descricao">Descrição</label>
-                    <textarea class="form-control" rows="3" col="30" name='descricao' maxlength="50" placeholder="Limite de 50 caracteres..."></textarea>
+                    <label for="descricao" id="texto-descricao">Descrição</label>
+                    <textarea class="form-control" id="campo-descricao" rows="3" col="30" name='descricao' maxlength="50" placeholder="Limite de 50 caracteres..."></textarea>
                 </div> 
 
                 {{-- DATAS --}}
