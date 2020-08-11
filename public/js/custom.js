@@ -114,124 +114,75 @@ $(document).ready(function() {
         )
     }, 1500);
 
-    $(".detalhes-tarefa").on('click', 'i', function(){
-        let reportId = $(this).data('id');
-
-	$.ajax({
-            method: 'get',
-            url: 'detalhe-atividade',
-            data: {
-                id: reportId
-            }
-        }).done( response => {
-
-            let html = "";
-
-            html += `
-                <h5 style="font-weight: bold">Tipo Atividade</h5>
-                <p style="font-size: 14px;">${response.reports.tipo}</p>
-            `;
-
-            if(response.reports.tipo == "DEFEITO" || response.reports.tipo == "CALL" ){
-                html += `
-                    <h5 style="font-weight: bold">Defeitos</h5>
-                    <table class="table">
-                `;
-
-                response.defeitos.forEach( defeito => {
-                    html += `
-                        <tr>
-                            <td>${defeito.def}</td>
-                            <td>${defeito.prj_ent}</td>
-                        </tr>
-                    `;
-                });
-
-                html += `</table>`;
-
-                html += `
-                    <h5 style="font-weight: bold">Sistema</h5>
-                    <p style="font-size: 14px;">${response.reports.sistema}</p>
-                `;
-
-            }
-
-            if(response.reports.tipo == "DEFEITO_ARS" ){
-
-                html = `
-                    <h5 style="font-weight: bold">Tipo Atividade</h5>
-                    <p style="font-size: 14px;">DEFEITO + ARS</p>
-                `;
-
-                html += `
-                    <h5 style="font-weight: bold">ARS</h5>
-                    <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
-
-                    <h5 style="font-weight: bold">Defeitos</h5>
-                    <table class="table">
-                `;
-
-                response.defeitos.forEach( defeito => {
-                    html += `
-                        <tr>
-                            <td>${defeito.def}</td>
-                            <td>${defeito.prj_ent}</td>
-                        </tr>
-                    `;
-                });
-
-                html += `</table>`;
-
-                html += `
-                    <h5 style="font-weight: bold">Pendência</h5>
-                    <p style="font-size: 14px;">${response.reports.pendencia}</p>
-                `;
-
-                html += `
-                    <h5 style="font-weight: bold">Sistema</h5>
-                    <p style="font-size: 14px;">${response.reports.sistema}</p>
-                `;
-
-            }
-
-            if(response.reports.tipo == "ARS" ){
-                html += `
-                    <h5 style="font-weight: bold">ARS</h5>
-                    <p style="font-size: 14px;">${response.reports.ars ? response.reports.ars : '-'}</p>
-                `;
-
-                html += `
-                    <h5 style="font-weight: bold">Pendência</h5>
-                    <p style="font-size: 14px;">${response.reports.pendencia}</p>
-                `;
-
-                html += `
-                    <h5 style="font-weight: bold">Sistema</h5>
-                    <p style="font-size: 14px;">${response.reports.sistema}</p>
-                `;
-
-            }
-
-            if(response.reports.tipo== 'MELHORIAS' || response.reports.tipo== "MONITORAMENTO" || response.reports.tipo== "TREINAMENTO"){
-
-                html += `
-                    <h5 style="font-weight: bold">Sistema</h5>
-                    <p style="font-size: 14px;">${response.reports.sistema}</p>
-                `;
-
-            }
-
-            html += `
-                <h5 style="font-weight: bold">Descrição</h5>
-                <p style="font-size: 14px;">${response.reports.descricao}</p>
-            `;
-
-            $("#reportsDetails").html(html);
-
-            console.log(response);
-        })
-
-
+    $(".data-mask").mask("00/00/0000");
+    $("#data-range-inicio").datepicker({
+        dateFormat: 'dd/mm/yy',
+        closeText:"Fechar",
+        prevText:"&#x3C;Anterior",
+        nextText:"Próximo&#x3E;",
+        currentText:"Hoje",
+        monthNames: ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],
+        monthNamesShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
+            dayNames:["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"],
+            dayNamesShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],
+        dayNamesMin:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],
+        weekHeader:"Sm",
+        firstDay:1
+    });
+    $("#data-range-fim").datepicker({
+        dateFormat: 'dd/mm/yy',
+        closeText:"Fechar",
+        prevText:"&#x3C;Anterior",
+        nextText:"Próximo&#x3E;",
+        currentText:"Hoje",
+        monthNames: ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],
+        monthNamesShort:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
+            dayNames:["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"],
+            dayNamesShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],
+        dayNamesMin:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],
+        weekHeader:"Sm",
+        firstDay:1
     });
 
+    const dataRangeInicio = $("#data-range-inicio");
+    const dataRangeFim = $("#data-range-fim");
+
+    $("#data-range-inicio").change(function(){
+
+        let dataInicio = splitDate($(dataRangeInicio).val());
+        let dataFim    = splitDate($(dataRangeFim).val());
+
+        dataInicio = `${dataInicio[1]}/${dataInicio[0]}/${dataInicio[2]}`;
+        dataFim    = `${dataFim[1]}/${dataFim[0]}/${dataFim[2]}`;
+
+        let newDataInicio = new Date(dataInicio);
+        let newDataFim    = new Date(dataFim);
+
+        if ((newDataInicio.getTime() > newDataFim.getTime()) || (newDataInicio.getTime() == newDataFim.getTime())) {
+            $("#data-range-fim").val('');
+        }
+    });
+
+    $("#data-range-fim").change(function(){
+
+        let dataInicio = splitDate($(dataRangeInicio).val());
+        let dataFim    = splitDate($(dataRangeFim).val());
+
+        dataInicio = `${dataInicio[1]}/${dataInicio[0]}/${dataInicio[2]}`;
+        dataFim    = `${dataFim[1]}/${dataFim[0]}/${dataFim[2]}`;
+
+        let newDataInicio = new Date(dataInicio);
+        let newDataFim    = new Date(dataFim);
+
+        if ((newDataInicio.getTime() > newDataFim.getTime()) || (newDataInicio.getTime() == newDataFim.getTime())) {
+            $("#data-range-fim").val($(dataRangeFim).val());
+            $("#data-range-fim").val('');
+        }
+    });
+
+    function splitDate(data){
+        return data.split('/');
+    }
+
 });
+
