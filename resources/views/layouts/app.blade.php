@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     {{-- SELECT 2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    {{-- Daterangepicker --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/1469da1d47.js" crossorigin="anonymous"></script>
 </head>
@@ -25,8 +27,10 @@
                 <li><a href="{{route("inicial")}}"><i class="fa fa-home"></i>&nbsp; Dashboard</a></li>
                 <li><a href="{{route("atividades")}}"><i class="fa fa-tasks"></i>&nbsp; Atividades</a></li>
                 <li><a href="{{route('list-reports')}}"><i class="fas fa-hourglass-end"></i>&nbsp; Relatório de Horas</a></li>
-                {{-- <li><a href="{{route("calendario")}}"><i class="fa fa-calendar"></i>&nbsp; Calendário</a></li> --}}
-                <li><a href="{{route('usuarios')}}"><i class="fa fa-users"></i>&nbsp; Usuários</a></li>
+                @if(Auth::user()->level_id == 1)
+                    <li><a href="{{route("plantao")}}"><i class="fa fa-calendar"></i>&nbsp; Plantão</a></li>
+                @endif
+                <li><a href="{{route('usuarios')}}"><i class="fa fa-users"></i> Usuários</a></li>
                 <li><a href="{{route('perfil')}}"><i class="fa fa-user"></i>&nbsp; Perfil</a></li>
 		<li><a href="{{route('sobre')}}"><i class="fas fa-question-circle"></i>&nbsp;Sobre</a></li>
 	        <li><a href="{{route('check-netwin')}}"><i class="fas fa-server"></i>&nbsp;Serviços Netwin</a></li>
@@ -94,8 +98,12 @@
     <script src="{{ asset('js/sobre.js') }}"></script>
     <script src="{{ asset('js/atividades.js?v0.3') }}"></script>
     <script src="{{ asset('js/atividade-personalizada.js?v0.9') }}"></script>
+    <script src="{{ asset('js/plantao.js') }}"></script>
     {{-- CK EDITOR --}}
     <script src="http://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    {{-- Daterangepicker --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         CKEDITOR.replace ("description")
     </script>
@@ -106,6 +114,48 @@
         $(document).ready(function() {
             $('.select-2-personalizado').select2({
                 width: '100%'
+            });
+
+            $('.select2-multiple-personalizado').select2({
+                width: '100%',
+                placeholder: "Selecione os usuários"
+            });
+
+            $(".datarangepicker").daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Ok",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "De",
+                    "toLabel": "Para",
+                    "customRangeLabel": "Customizado",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Dom",
+                        "Seg",
+                        "Ter",
+                        "Qua",
+                        "Qui",
+                        "Sex",
+                        "Sáb"
+                    ],
+                    "monthNames": [
+                        "Janeiro",
+                        "Fevereiro",
+                        "Março",
+                        "Abril",
+                        "Maio",
+                        "Junho",
+                        "Julho",
+                        "Agosto",
+                        "Setembro",
+                        "Outubro",
+                        "Novembro",
+                        "Dezembro"
+                    ],
+                    "firstDay": 0
+                },
             });
 
             $(".detalhes-tarefa").click(function(){
@@ -194,10 +244,8 @@
                 });
 
             });
-
         });
     </script>
-
 </body>
 
 </html>

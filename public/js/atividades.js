@@ -69,28 +69,6 @@ $(document).ready(function(){
         return `${horaSplite[0]}/${dataFull[1]}/${dataFull[0]} ${horaSplite[1]}`;
     }
 
-    function iniciarAtividade(hora = 00, minutos = 00, segundos = 00, sinalizarAtividade=true){
-
-        if(sinalizarAtividade)
-            document.getElementById("horasAtividade").innerHTML = '00:00:00';
-
-        setInterval(()=>{
-            if(localStorage.getItem('atividade') == 'true'){
-                segundos +=1;
-                if(segundos == 60){
-                    minutos += 1;
-                    segundos = 0;
-                    if(minutos == 60){
-                        hora +=1;
-                        minutos = 0;
-                    }
-                }
-                document.getElementById("horasAtividade").innerHTML = `${(hora < 10) ? '0' + hora : hora}:${(minutos < 10) ? '0' + minutos : minutos}:${(segundos < 10) ? '0' + segundos : segundos}`
-                localStorage.setItem('time', `${(hora < 10) ? '0' + hora : hora}:${(minutos < 10) ? '0' + minutos : minutos}:${(segundos < 10) ? '0' + segundos : segundos}`);
-            }
-        }, 1000);
-    }
-
     function fecharAtividade(data){
         HORA_FIM.value    = converterDataPadraoBrasileiro(data);
         HORA_FIM_RL.value = data;
@@ -151,6 +129,9 @@ $(document).ready(function(){
 
      });
 
+     /**
+      * DELETAR LINHA
+      * */
      $(document).on('click', '#del-line-def', function(){
         let linhaParaDeletar = $(this).data('linha');
 

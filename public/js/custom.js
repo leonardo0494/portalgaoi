@@ -115,6 +115,7 @@ $(document).ready(function() {
     }, 1500);
 
     $(".data-mask").mask("00/00/0000");
+
     $("#data-range-inicio").datepicker({
         dateFormat: 'dd/mm/yy',
         closeText:"Fechar",
@@ -129,6 +130,7 @@ $(document).ready(function() {
         weekHeader:"Sm",
         firstDay:1
     });
+
     $("#data-range-fim").datepicker({
         dateFormat: 'dd/mm/yy',
         closeText:"Fechar",

@@ -12,6 +12,7 @@ use App\Reports;
 use Illuminate\Support\Facades\Storage;
 use Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -20,15 +21,22 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){    
-        
+    public function index(){
+
         $resultsPerPage = 10;
         $users = User::all();
         $notices = Notice::where('status', 'PENDENTE')->get();
         $activiyOnline = ActivityOnline::select('recurso', 'hora_inicio')->get();
         $activities = (Auth::user()->level_id == 1) ? Activity::where('status', 'ABERTO')->orderBy('status', 'asc')->paginate($resultsPerPage) : Activity::where('user_id', Auth::user()->rowid)->where('status', 'ABERTO')->orderby('status', 'asc')->paginate($resultsPerPage);
 
-        return view('users.home', ['atividades' => $activities, 'usuarios' => $users, 'notices' => $notices, 'recursosOcupados' => $activiyOnline]);
+        return view('users.home',
+            [
+                'atividades' => $activities,
+                'usuarios' => $users,
+                'notices' => $notices,
+                'recursosOcupados' => $activiyOnline
+            ]
+        );
     }
 
     public function perfil(){
@@ -55,22 +63,22 @@ class UserController extends Controller
         $workPhohe        = $request->input('work_phone');
         $personalPhone    = $request->input('personal_phone');
         $loginOi          = $request->input('login_oi');
-        $loginRemedy      = $request->input('login_remedy');        
+        $loginRemedy      = $request->input('login_remedy');
         $password         = ($request->input('password') != "") ? Hash::make($request->input('password')) : null;
-        
+
         $selectUserLogado = User::find(\Auth::user()->rowid);
         $selectUserLogado->profile_image = $profileImageName;
         $selectUserLogado->work_phone = $workPhohe;
         $selectUserLogado->personal_phone = $personalPhone;
         $selectUserLogado->login_oi = $loginOi;
         $selectUserLogado->login_remedy = $loginRemedy;
-        
+
         if($password != null)
-            $selectUserLogado->password = $password;        
+            $selectUserLogado->password = $password;
 
-        $selectUserLogado->save();       
+        $selectUserLogado->save();
 
-        return redirect()->route('perfil');        
+        return redirect()->route('perfil');
 
     }
 
@@ -78,6 +86,6 @@ class UserController extends Controller
         $Users = User::all(['name', 'email', 'work_phone', 'personal_phone', 'login_oi', 'login_remedy', 'period']);
         return view('users.list', ['usuarios' => $Users]);
     }
-    
+
 }
 

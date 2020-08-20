@@ -52,8 +52,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/cadastrar-aviso', 'NoticeController@create')->name('cadastrar-aviso');
     Route::get('/close-notice/{id}', 'NoticeController@destroy')->name('close-notice');
 
-    // Calendário
-    Route::get('/calendario', 'TeamScheduleController@index')->name('calendario');
+    // Plantão
+    Route::get('/plantao', 'PlantaoEquipeController@index')->name('plantao');
+    Route::post("/salvar-plantao", "PlantaoEquipeController@salvarPlantao")->name('salvar-plantao');
+
 
     // REPORTS
     Route::get('/save-reports', 'ReportsController@saveReportsScreen')->name('save-reports');

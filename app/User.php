@@ -21,19 +21,23 @@ class User extends Authenticatable
 
     protected $primaryKey = 'rowid';
 
-    public function level(){
+    public function level()
+    {
         return $this->belongsTo('App\Level', 'level_id');
     }
 
-    public function activity(){
+    public function activity()
+    {
         return $this->belongsToMany('App\Acitivity');
     }
 
-    public function teamSchedule(){
-        return $this->belongsToMany('App\TeamSchedule');
+    public function plantoes()
+    {
+        return $this->hasMany("App\PlantaoEquipe", "user_id", "rowid");
     }
 
-    public function notices(){
+    public function notices()
+    {
         return $this->belongsTo('App\Notice', 'rowid');
     }
 
