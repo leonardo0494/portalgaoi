@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    
+
 @if(session()->has('status'))
     <div class='alert alert-success' id='mensagem-atividade'>
         {{ session('status')}}
@@ -33,7 +33,7 @@
                         <tr>
                             <td>{{$recurso->recurso}}</td>
                             <td>{{$recurso->hora_inicio}}</td>
-                        </tr>                        
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -46,7 +46,7 @@
     <div class="row">
         <h3>Próximas GMUDS</h3>
     </div>
-    <div class="row">            
+    <div class="row">
     @if(\Auth::user()->level_id == 1)
         <table id="tabela-atividades" class="table table-bordered table-hover">
             <thead>
@@ -100,7 +100,7 @@
                             <td>{{ $atividade->ars_number }}</td>
                             <td>{{ $atividade->ttype }}</td>
                             <td>{{ \App\Utils::converterDataParaPadraoBrasileiro($atividade->start_date) }}</td>
-                            <td>{{ \App\Utils::converterDataParaPadraoBrasileiro($atividade->end_date) }}</td>                               
+                            <td>{{ \App\Utils::converterDataParaPadraoBrasileiro($atividade->end_date) }}</td>
                             <td>{{ $atividade->status }}</td>
                         </tr>
                     @endforeach
@@ -108,6 +108,37 @@
             </tbody>
         </table>
     @endif
+    </div>
+</div>
+
+<div class="col-md-12 border-bottom mb-3">
+    <div class="row mb-1">
+        <div class="col-md-10 pl-0 pt-2">
+            <h3>Plantão da Semana</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th width="30%">Usuário</th>
+                    <th>Telefone Trabalho</th>
+                    <th>Telefone Pessoal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($usuariosPlantao as $usuario)
+                    <tr>
+                        <td>{{$usuario["name"]}}</td>
+                        <td>{{$usuario["work_phone"]}}</td>
+                        <td>{{$usuario["personal_phone"]}}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -157,33 +188,6 @@
         @endif
     </div>
 </div>
-
-{{-- <div class="col-md-12 border-bottom mb-3">
-    <div class="row">
-        <h3>Plantão da Semana</h3>
-    </div>
-</div>
-
-<div class="col-md-12">
-    <div class="row">
-        <div class="user-plantao">
-            <img src="images/perfil-user.jpg">
-            <p>Nome do Usuário</p>
-        </div>
-        <div class="user-plantao">
-            <img src="images/perfil-user.jpg">
-            <p>Nome do Usuário</p>
-        </div>
-        <div class="user-plantao">
-            <img src="images/perfil-user.jpg">
-            <p>Nome do Usuário</p>
-        </div>
-        <div class="user-plantao">
-            <img src="images/perfil-user.jpg">
-            <p>Nome do Usuário</p>
-        </div>
-    </div>
-</div> --}}
 
 
 {{-- MODAL DE CADASTRAR ATIVIDADES --}}

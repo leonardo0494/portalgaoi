@@ -8,10 +8,13 @@ use App\Level;
 use App\Activity;
 use App\ActivityOnline;
 use App\Notice;
+use App\PlantaoEquipe;
+use App\PlantaoEquipeUser;
 use App\Reports;
 use Illuminate\Support\Facades\Storage;
 use Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -20,15 +23,38 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){    
-        
+    public function index(){
+
         $resultsPerPage = 10;
         $users = User::all();
         $notices = Notice::where('status', 'PENDENTE')->get();
         $activiyOnline = ActivityOnline::select('recurso', 'hora_inicio')->get();
         $activities = (Auth::user()->level_id == 1) ? Activity::where('status', 'ABERTO')->orderBy('status', 'asc')->paginate($resultsPerPage) : Activity::where('user_id', Auth::user()->rowid)->where('status', 'ABERTO')->orderby('status', 'asc')->paginate($resultsPerPage);
 
-        return view('users.home', ['atividades' => $activities, 'usuarios' => $users, 'notices' => $notices, 'recursosOcupados' => $activiyOnline]);
+        $diaDaSemana     = date('w', strtotime(date('Y-m-d')));
+        $domingoPassado  = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("-6 days")) : date('Y-m-d', strtotime("-$diaDaSemana days"));
+        $plantao         = PlantaoEquipe::select('id')->whereRaw(" date(start_date) > ? ", $domingoPassado)->skip(0)->take(1)->first();
+        $equipePlantao   = PlantaoEquipeUser::select('user_id')->where('plantao_equipe_id', $plantao->id)->get();
+        $usuariosPlantao = [];
+
+        foreach($equipePlantao as $recurso) {
+            $usuario           = User::select('name', 'work_phone', 'personal_phone')->where('rowid', $recurso->user_id)->first();
+            $usuariosPlantao[] = [
+                "name" => $usuario->name,
+                "work_phone" => $usuario->work_phone,
+                "personal_phone" => $usuario->personal_phone
+            ];
+        }
+
+        return view('users.home',
+            [
+                'atividades' => $activities,
+                'usuarios' => $users,
+                'notices' => $notices,
+                'recursosOcupados' => $activiyOnline,
+                'usuariosPlantao' => $usuariosPlantao
+            ]
+        );
     }
 
     public function perfil(){
@@ -55,22 +81,22 @@ class UserController extends Controller
         $workPhohe        = $request->input('work_phone');
         $personalPhone    = $request->input('personal_phone');
         $loginOi          = $request->input('login_oi');
-        $loginRemedy      = $request->input('login_remedy');        
+        $loginRemedy      = $request->input('login_remedy');
         $password         = ($request->input('password') != "") ? Hash::make($request->input('password')) : null;
-        
+
         $selectUserLogado = User::find(\Auth::user()->rowid);
         $selectUserLogado->profile_image = $profileImageName;
         $selectUserLogado->work_phone = $workPhohe;
         $selectUserLogado->personal_phone = $personalPhone;
         $selectUserLogado->login_oi = $loginOi;
         $selectUserLogado->login_remedy = $loginRemedy;
-        
+
         if($password != null)
-            $selectUserLogado->password = $password;        
+            $selectUserLogado->password = $password;
 
-        $selectUserLogado->save();       
+        $selectUserLogado->save();
 
-        return redirect()->route('perfil');        
+        return redirect()->route('perfil');
 
     }
 
@@ -78,6 +104,6 @@ class UserController extends Controller
         $Users = User::all(['name', 'email', 'work_phone', 'personal_phone', 'login_oi', 'login_remedy', 'period']);
         return view('users.list', ['usuarios' => $Users]);
     }
-    
+
 }
 

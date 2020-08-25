@@ -115,6 +115,7 @@ $(document).ready(function() {
     }, 1500);
 
     $(".data-mask").mask("00/00/0000");
+
     $("#data-range-inicio").datepicker({
         dateFormat: 'dd/mm/yy',
         closeText:"Fechar",
@@ -129,6 +130,7 @@ $(document).ready(function() {
         weekHeader:"Sm",
         firstDay:1
     });
+
     $("#data-range-fim").datepicker({
         dateFormat: 'dd/mm/yy',
         closeText:"Fechar",
@@ -183,6 +185,16 @@ $(document).ready(function() {
     function splitDate(data){
         return data.split('/');
     }
+
+    // BUSCAR ARS
+
+    $("#pesquisar-ars").click(function(e){
+        e.preventDefault();
+        let numeroArs = $("#pesquisar_numero_ars").val();
+        let urlArs = `http://10.32.214.139/statusreport/chamado.php?ars=${numeroArs}`;
+        window.open(urlArs, '_Blank');
+        $("#pesquisar_numero_ars").val();
+    });
 
 });
 
