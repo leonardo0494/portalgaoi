@@ -34,17 +34,22 @@ class UserController extends Controller
         $diaDaSemana     = date('w', strtotime(date('Y-m-d')));
         $domingoPassado  = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("-6 days")) : date('Y-m-d', strtotime("-$diaDaSemana days"));
         $plantao         = PlantaoEquipe::select('id')->whereRaw(" date(start_date) > ? ", $domingoPassado)->skip(0)->take(1)->first();
-        $equipePlantao   = PlantaoEquipeUser::select('user_id')->where('plantao_equipe_id', $plantao->id)->get();
-        $usuariosPlantao = [];
+	$usuariosPlantao = [];
 
-        foreach($equipePlantao as $recurso) {
-            $usuario           = User::select('name', 'work_phone', 'personal_phone')->where('rowid', $recurso->user_id)->first();
-            $usuariosPlantao[] = [
-                "name" => $usuario->name,
-                "work_phone" => $usuario->work_phone,
-                "personal_phone" => $usuario->personal_phone
-            ];
-        }
+	if ($plantao) {
+
+		$equipePlantao   = PlantaoEquipeUser::select('user_id')->where('plantao_equipe_id', $plantao->id)->get();
+        
+
+	        foreach($equipePlantao as $recurso) {
+        	    $usuario           = User::select('name', 'work_phone', 'personal_phone')->where('rowid', $recurso->user_id)->first();
+	            $usuariosPlantao[] = [
+        	        "name" => $usuario->name,
+                	"work_phone" => $usuario->work_phone,
+	                "personal_phone" => $usuario->personal_phone
+        	    ];
+	        }
+	}
 
         return view('users.home',
             [

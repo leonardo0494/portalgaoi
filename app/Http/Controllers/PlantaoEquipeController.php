@@ -34,9 +34,9 @@ class PlantaoEquipeController extends Controller
     public function salvarPlantao(Request $request)
     {
         // Inserindo semanas
-        $quantidadeSemans = 4;
+        $quantidadeSemans = 5;
 
-        for ($x=1; $x<=$quantidadeSemans; $x++) {
+        for ($x=1; $x<$quantidadeSemans; $x++) {
             if ($request->input("usuarios-semana-$x")) {
 
                 $data = explode('-', $request->input("semana$x"));

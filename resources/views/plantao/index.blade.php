@@ -145,7 +145,7 @@
                             </div>
                             <div class="col-8">
                                 <label for="users">Usuários</label>
-                                <select name="usuarios-semana4[]" class="form-control select2-multiple-personalizado" multiple>
+                                <select name="usuarios-semana-4[]" class="form-control select2-multiple-personalizado" multiple>
                                     @foreach ($users as $user)
                                     <option value="{{$user->rowid}}">{{$user->name}}</option>
                                     @endforeach

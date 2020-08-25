@@ -98,7 +98,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <!-- CUSTOM JS -->
     <script src="{{ asset('js/mask.js?') }}"></script>
-    <script src="{{ asset('js/custom.js?v0.7') }}"></script>
+    <script src="{{ asset('js/custom.js?v0.8') }}"></script>
     <script src="{{ asset('js/sobre.js') }}"></script>
     <script src="{{ asset('js/atividades.js?v0.4') }}"></script>
     <script src="{{ asset('js/atividade-personalizada.js?v0.10') }}"></script>

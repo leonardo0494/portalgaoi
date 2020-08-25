@@ -130,13 +130,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($usuariosPlantao as $usuario)
-                    <tr>
-                        <td>{{$usuario["name"]}}</td>
-                        <td>{{$usuario["work_phone"]}}</td>
-                        <td>{{$usuario["personal_phone"]}}</td>
-                    </tr>
-                @endforeach
+	    	@if (count($usuariosPlantao) > 0)
+		    	@foreach ($usuariosPlantao as $usuario)
+        	            <tr>
+                	        <td>{{$usuario["name"]}}</td>
+                        	<td>{{$usuario["work_phone"]}}</td>
+	                        <td>{{$usuario["personal_phone"]}}</td>
+        	            </tr>
+                	@endforeach
+		@else
+			<tr>
+				<td colspan='3' class='text-center'>Não foi registrado plantão para essa semana...</td>
+			</tr>
+		@endif
             </tbody>
         </table>
     </div>
