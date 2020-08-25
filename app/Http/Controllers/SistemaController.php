@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Sistema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PHPExcel_IOFactory;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class SistemaController extends Controller
 {
@@ -24,7 +24,7 @@ class SistemaController extends Controller
 
     private function _processarPlanilhaDeSistemas($file){
         date_default_timezone_set('America/Sao_Paulo');
-        $excelReader = PHPExcel_IOFactory::createReaderForFile($file);
+        $excelReader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
         $excelObj    = $excelReader->load($file);
         $excelArray = $excelObj->getActiveSheet()->toArray(null, true, true, true);
         array_shift($excelArray);

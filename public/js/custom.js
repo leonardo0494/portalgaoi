@@ -186,5 +186,15 @@ $(document).ready(function() {
         return data.split('/');
     }
 
+    // BUSCAR ARS
+
+    $("#pesquisar-ars").click(function(e){
+        e.preventDefault();
+        let numeroArs = $("#pesquisar_numero_ars").val();
+        let urlArs = `http://10.32.214.139/statusreport/chamado.php?ars=${numeroArs}`;
+        window.open(urlArs, '_Blank');
+        $("#pesquisar_numero_ars").val();
+    });
+
 });
 

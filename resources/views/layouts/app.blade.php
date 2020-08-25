@@ -63,6 +63,10 @@
                 @endif
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <ul class="navbar-nav ml-auto">
+                        <form class="form-inline mr-4">
+                            <input type="search" name="ars_number" id="pesquisar_numero_ars" class="search-box form-control-sm mr-3" placeholder="Informe o número do ARS...">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary" id="pesquisar-ars">Buscar ARS</button>
+                        </form>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="{{  asset( 'storage/imagens/' . \Auth::user()->profile_image . '') }}" class="user-image">

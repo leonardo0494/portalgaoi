@@ -113,8 +113,13 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12 d-flex justify-content-end pr-0">
+        <div class="col-md-10 d-flex justify-content-start pl-0">
             {{$relatorios->links()}}
+        </div>
+        <div class="col-md-2 pr-0">
+            <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#exportarDados">
+                Exportar Dados
+            </button>
         </div>
     </div>
 
@@ -157,4 +162,31 @@
     </div>
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exportarDados" tabindex="-1" role="dialog" aria-labelledby="exportarDados" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Exportação - Relatório de Horas</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{route('exportar-reports')}}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="data_inicial">Selecione o período.</label>
+                    <input type="text" name="periodo_exportacao" id="data-range-inicio" class="form-control datarangepicker" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Concluir Exportação</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection

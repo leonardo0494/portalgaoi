@@ -22,6 +22,22 @@ class Utils extends Model
         return $data[2] . "/" . $data[1] . "/" . $data[0] . " " . $hora[0] . ":" . $hora[1];
     }
 
+    public static function converterDataParaPadraoAmericanoSemHora($dataFormulario){
+        $separaHoraDaData = explode(' ', $dataFormulario);
+        $hora = $separaHoraDaData[1];
+        $data = explode('/', $separaHoraDaData[0]);
+
+        return $data[2] . "-" . $data[1] . "-" . $data[0];
+    }
+
+    public static function converterDataParaPadraoBrasileiroSemHora($dataFormulario, $hora=0){
+        $separaHoraDaData = explode(' ', $dataFormulario);
+        $hora = explode(':', $separaHoraDaData[1]);
+        $data = explode('-', $separaHoraDaData[0]);
+
+        return $data[2] . "/" . $data[1] . "/" . $data[0];
+    }
+
     public static function calcularIntervaloDeHoras($horaEntrada, $horaSaida, $dataEntrada, $dataSaida){
         $horaEntrada = explode(":",$horaEntrada);
         $horaSaida   = explode(":",$horaSaida);

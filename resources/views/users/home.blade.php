@@ -130,6 +130,13 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($usuariosPlantao as $usuario)
+                    <tr>
+                        <td>{{$usuario["name"]}}</td>
+                        <td>{{$usuario["work_phone"]}}</td>
+                        <td>{{$usuario["personal_phone"]}}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\ActivityOnline;
 use App\Defeito;
+use App\Exports\ExportReports;
 use App\Reports;
 use App\Sistema;
 use App\User;
 use Illuminate\Http\Request;
 use App\Utils;
-use Hamcrest\Util;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 date_default_timezone_set("America/Sao_Paulo");
 
@@ -62,6 +63,20 @@ class ReportsController extends Controller
                 'Usuarios' => $Usuarios
             ]
         );
+
+    }
+
+    public function exportarReports(Request $request)
+    {
+        $periodo = explode('-', $request->input('periodo_exportacao'));
+
+        $startDate = (string) trim($periodo[0]) . " 00:00:00";
+        $endDate   = (string) trim($periodo[1]) . " 00:00:00";
+
+        $startDate = Utils::converterDataParaPadraoAmericanoSemHora($startDate);
+        $endDate   = Utils::converterDataParaPadraoAmericanoSemHora($endDate);
+
+        return (new ExportReports($startDate, $endDate))->download('exportacao.xlsx');
 
     }
 

@@ -18,8 +18,4 @@ class PlantaoEquipeUser extends Model
         'updated_at'
     ];
 
-    public function plantoes()
-    {
-        return $this->belongsTo(PlantaoEquipe::class, "plantao_equipe_id", "id");
-    }
 }

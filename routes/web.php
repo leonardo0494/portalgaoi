@@ -56,7 +56,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/plantao', 'PlantaoEquipeController@index')->name('plantao');
     Route::post("/salvar-plantao", "PlantaoEquipeController@salvarPlantao")->name('salvar-plantao');
 
-
     // REPORTS
     Route::get('/save-reports', 'ReportsController@saveReportsScreen')->name('save-reports');
     Route::get('/list-reports', 'ReportsController@listReports')->name('list-reports');
@@ -64,6 +63,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/check-atividade', 'ReportsController@checkReport')->name('check-atividade');
     Route::get('/detalhe-atividade', 'ReportsController@detailsReports')->name('detalhes-atividade');
     Route::get('/filtrar-reports', 'ReportsController@filtrarReports')->name('filtrar-reports');
+
+    Route::post('/exportar-reports', 'ReportsController@exportarReports')->name('exportar-reports');
 
     Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
     Route::post('/atividade-finalizada', 'ReportsController@completeBusyResourceActivity')->name('atividade-finalizada');

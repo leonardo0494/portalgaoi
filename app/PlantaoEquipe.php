@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlantaoEquipe extends Model
 {
+
+    protected $table = "plantao_equipe";
+
     protected $fillable = [
         "id",
         "dia_plantao",
@@ -16,11 +19,5 @@ class PlantaoEquipe extends Model
         "created_at",
         "updated_at"
     ];
-
-    public function plantao_usuarios()
-    {
-        return $this->hasMany(PlantaoEquipeUser::class, "plantao_equipe_id", "id");
-    }
-
 
 }

@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $("#cadastrar-plantao").hide();
+
     $("#minimize").click(function() {
         $("#cadastrar-plantao").animate({height: '10px', opacity: '0'}, "slow", function(){
             $("#cadastrar-plantao").hide();
