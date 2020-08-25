@@ -98,7 +98,12 @@ class ReportsController extends Controller
             $nomeDoUsuario   = $request->input('usuario');
             $dataRangeInicio = $request->input('data_range_inicio');
             $dataRangeFim    = $request->input('data_range_fim');
-            $tipoAtividade   = $request->input('tipo');
+	    $tipoAtividade   = $request->input('tipo');
+
+	    if($nomeDoUsuario == "" && $dataRangeInicio == "" && $dataRangeFim == "" && $tipoAtividade == "") {
+		    return redirect()->route('list-reports');
+	    }
+
             $reports         = DB::table('reports');
 
             if ($dataRangeFim != "") {
@@ -124,7 +129,9 @@ class ReportsController extends Controller
                 $reports->where('tipo', "=", $tipoAtividade);
             }
 
-            return $this->listReports($reports->paginate(10));
+	   $reports->orderBy('final_atendimento', 'DESC'); 
+	    
+	    return $this->listReports($reports->paginate(10));
 
         } else {
             return redirect()->back();
