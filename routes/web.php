@@ -63,9 +63,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/check-atividade', 'ReportsController@checkReport')->name('check-atividade');
     Route::get('/detalhe-atividade', 'ReportsController@detailsReports')->name('detalhes-atividade');
     Route::get('/filtrar-reports', 'ReportsController@filtrarReports')->name('filtrar-reports');
+    Route::get('/cancelar-report/{recurso}', 'ReportsController@cancelarReport')->name('cancelar-report');
 
     Route::post('/exportar-reports', 'ReportsController@exportarReports')->name('exportar-reports');
-
     Route::post('/save-reports', 'ReportsController@saveReports')->name('save-reports');
     Route::post('/atividade-finalizada', 'ReportsController@completeBusyResourceActivity')->name('atividade-finalizada');
 

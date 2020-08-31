@@ -24,7 +24,7 @@ class ActivityController extends Controller
         return view('activity.list', ['atividades' => $activities, 'usuarios' => $users]);
     }
 
-    public function checkNetwin() 
+    public function checkNetwin()
     {
         $arquivo   = "/home/portalga/.resultado.txt";
 	$resultado = fopen($arquivo, 'r');
@@ -33,25 +33,28 @@ class ActivityController extends Controller
     }
 
     public function create(Request $request){
-        
+
         $activity = new Activity;
         $executor = User::find($request->input('user_id'));
+
+        // SE EXISTIR ID DA ATIVIDADE
+        if ($request->input('id-atividade')) {
+            $activity = $activity->find($request->input('id-atividade'));
+        }
 
         $activity->ars_number = $request->input('ars_number');
         $activity->ttype      = $request->input('ttype');
         $activity->user_id    = $request->input('user_id');
         $activity->start_date = Utils::converterDataParaPadraoAmericano($request->input('start_date'));
         $activity->end_date   = Utils::converterDataParaPadraoAmericano($request->input('end_date'));
-
         $activity->save();
 
+        // Converte data da atividade no padrão BR para enviar o e-mail.
         $activity->start_date = Utils::converterDataParaPadraoBrasileiro($activity->start_date);
         $activity->end_date   = Utils::converterDataParaPadraoBrasileiro($activity->end_date);
 
-        Mail::to($executor->email)
-            ->send(new NotificacaoGmud($activity, $executor));
-
-        //dd($activity);
+        /*Mail::to($executor->email)
+            ->send(new NotificacaoGmud($activity, $executor));*/
 
         return redirect()->route('atividades');
 
@@ -63,6 +66,7 @@ class ActivityController extends Controller
         $atividade = [
             'tipo' => $activity->ttype,
             'numero_atividade' => $activity->ars_number,
+            'executor' => $activity->user_id,
             'data_inicio' => Utils::converterDataParaPadraoBrasileiro($activity->start_date),
             'data_fim' => Utils::converterDataParaPadraoBrasileiro($activity->end_date),
             'descricao' => $activity->description,
@@ -76,7 +80,7 @@ class ActivityController extends Controller
         $activity = Activity::find($request->get('id'));
         $activity->status = ($request->get('tipo') == 'concluir') ? "CONCLUÍDO" : "CANCELADA";
         $activity->save();
-        
+
         return $activity->status;
     }
 

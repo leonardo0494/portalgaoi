@@ -98,7 +98,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <!-- CUSTOM JS -->
     <script src="{{ asset('js/mask.js?') }}"></script>
-    <script src="{{ asset('js/custom.js?v0.8') }}"></script>
+    <script src="{{ asset('js/custom.js?v0.9') }}"></script>
     <script src="{{ asset('js/sobre.js') }}"></script>
     <script src="{{ asset('js/atividades.js?v0.4') }}"></script>
     <script src="{{ asset('js/atividade-personalizada.js?v0.10') }}"></script>
@@ -161,6 +161,46 @@
                     "firstDay": 0
                 },
             });
+
+            $(".data_gmud").daterangepicker({
+                singleDatePicker: true,
+                timePicker: true,
+                timePicker24Hour: true,
+                locale: {
+                    "format": "DD/MM/YYYY H:mm:ss",
+                    "separator": " - ",
+                    "applyLabel": "Ok",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "De",
+                    "toLabel": "Para",
+                    "customRangeLabel": "Customizado",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Dom",
+                        "Seg",
+                        "Ter",
+                        "Qua",
+                        "Qui",
+                        "Sex",
+                        "Sáb"
+                    ],
+                    "monthNames": [
+                        "Janeiro",
+                        "Fevereiro",
+                        "Março",
+                        "Abril",
+                        "Maio",
+                        "Junho",
+                        "Julho",
+                        "Agosto",
+                        "Setembro",
+                        "Outubro",
+                        "Novembro",
+                        "Dezembro"
+                    ],
+                    "firstDay": 0
+                },
+            })
 
             $(".detalhes-tarefa").click(function(){
                     let reportId = $(this).data('id');

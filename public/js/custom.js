@@ -51,10 +51,9 @@ $(document).ready(function() {
         }
     });
 
-    $("#tabela-atividades tbody tr").dblclick(function() {
-        let idAtividade = $(this).attr('data-atividade');
-
-        $(".atualizar-atividade").attr('data-atividade', idAtividade);
+    $(".dados-atividade").click(function() {
+        let idAtividade = $(this).attr('data-atividade-id');
+        $(".atualizar-atividade").attr('data-atividade-id', idAtividade);
 
         $.ajax({
             method: "get",
@@ -63,14 +62,11 @@ $(document).ready(function() {
                 id: idAtividade
             },
             success: function(response) {
+
                 $("#title-activity").html(`${response.tipo} - ${response.numero_atividade}`);
                 $("#hour-activity").html(`${response.data_inicio} - ${response.data_fim}`);
-                $("#body-activity").html(response.descricao);
-
-                console.log(response.status);
-
-                if (response.status != 'ABERTO')
-                    $('.modal-footer').hide();
+                if (response.status.toString() != 'ABERTO')
+                    $('#modal-footer-acao').hide();
 
             }
 
@@ -93,12 +89,42 @@ $(document).ready(function() {
                     tipo: tipoStatus
                 },
                 success: function(response) {
+                    console.log(response);
                     let resp = response;
                     alert(`Atividade ${resp.toLowerCase()} com sucesso`);
                     location.reload();
                 }
             })
         }
+
+    });
+
+    $(".cadastrar-atividade").click(function(){
+        $(".cadastrar-action").removeClass('d-none');
+        $(".editar-action").addClass('d-none');
+    });
+
+    $(".editar-atividade").click(function(){
+        $(".cadastrar-action").addClass('d-none');
+        $(".editar-action").removeClass('d-none');
+        let idAtividade = $(this).attr('data-id-atividade');
+        $('#id-atividade-editar').val(idAtividade);
+
+        $.ajax({
+            method: "get",
+            url: "searchById",
+            data: {
+                id: idAtividade
+            },
+            success: function(response) {
+                $("#ars_number").val(response.numero_atividade);
+                $("#start_date").val(response.data_inicio);
+                $("#end_date").val(response.data_fim);
+                $("#user_id").val(response.executor);
+            }
+        }).done(function() {
+            $("#carregando-info").html('');
+        });
 
     });
 

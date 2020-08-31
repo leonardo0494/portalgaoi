@@ -26,6 +26,7 @@
                     <tr>
                         <th>Recurso</th>
                         <th>Em atividade desde</th>
+                        <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,7 @@
                         <tr>
                             <td>{{$recurso->recurso}}</td>
                             <td>{{$recurso->hora_inicio}}</td>
+                            <td width="10%"><a href="{{route('cancelar-report', ["recurso" => base64_encode($recurso->recurso)])}}" class="btn btn-sm btn-danger">Cancelar Atividade</a></td>
                         </tr>
                     @endforeach
                 </tbody>

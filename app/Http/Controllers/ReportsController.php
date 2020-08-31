@@ -80,6 +80,16 @@ class ReportsController extends Controller
 
     }
 
+    public function cancelarReport (String $recurso)
+    {
+        $recurso = base64_decode($recurso);
+        ActivityOnline::where('recurso', $recurso)->delete();
+
+        session()->flash('status',  'Atividade do usuário(a) ' . $recurso . ' cancelada com sucesso');
+
+        return redirect()->back();
+    }
+
     public function detailsReports(Request $request)
     {
 
@@ -144,8 +154,8 @@ class ReportsController extends Controller
                 $reports->where('tipo', "=", $tipoAtividade);
             }
 
-	   $reports->orderBy('final_atendimento', 'DESC'); 
-	    
+	   $reports->orderBy('final_atendimento', 'DESC');
+
 	    return $this->listReports($reports->paginate(10));
 
         } else {
