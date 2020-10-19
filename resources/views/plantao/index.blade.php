@@ -67,114 +67,118 @@
         </div>
     </div>
 
-    {{-- CADASTRAR PLANTÕES --}}
-    <div class="row mb-0">
-        <div class="col-11 pt-2">
-            <h3>Plantão da Equipe</h3>
-        </div>
-        <div class="col-1 text-right">
-            <button class="btn btn-sm btn-dark pb-2 d-none" id="minimize"><i class="fas fa-window-minimize" style="font-size: 12px"></i></button>
-            <button class="btn btn-sm btn-dark no-border pt-2"  id="maxmize"><i class="far fa-window-maximize"></i></button>
-        </div>
-    </div>
+    @if(Auth::user()->level_id == 1)
 
-    <hr />
-
-    {{-- CADASTRAR PLANTÕES FORMULÁRIO --}}
-    <div class="card pb-0 mb-0" id="cadastrar-plantao">
-        <div class="card-body">
-
-            <div class="row" id="adicionar-plantao">
-                <div class="col-8">
-                    <form action="{{route('salvar-plantao')}}" method="POST">
-                        @csrf
-
-                        {{-- SEMANA 1 --}}
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="data">Semana do Plantão</label>
-                                <input type="text" name="semana1" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
-                            </div>
-                            <div class="col-8">
-                                <label for="users">Usuários</label>
-                                <select name="usuarios-semana-1[]" class="form-control select2-multiple-personalizado" multiple>
-                                    @foreach ($users as $user)
-                                    <option value="{{$user->rowid}}">{{$user->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        {{-- SEMANA 2 --}}
-                        <div class="row mt-3">
-                            <div class="col-4">
-                                <label for="data">Semana do Plantão</label>
-                                <input type="text" name="semana2" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
-                            </div>
-                            <div class="col-8">
-                                <label for="users">Usuários</label>
-                                <select name="usuarios-semana-2[]" class="form-control select2-multiple-personalizado" multiple>
-                                    @foreach ($users as $user)
-                                    <option value="{{$user->rowid}}">{{$user->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        {{-- SEMANA 3 --}}
-                        <div class="row mt-3">
-                            <div class="col-4">
-                                <label for="data">Semana do Plantão</label>
-                                <input type="text" name="semana3" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
-                            </div>
-                            <div class="col-8">
-                                <label for="users">Usuários</label>
-                                <select name="usuarios-semana-3[]" class="form-control select2-multiple-personalizado" multiple>
-                                    @foreach ($users as $user)
-                                    <option value="{{$user->rowid}}">{{$user->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        {{-- SEMANA 4 --}}
-                        <div class="row mt-3">
-                            <div class="col-4">
-                                <label for="data">Semana do Plantão</label>
-                                <input type="text" name="semana4" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
-                            </div>
-                            <div class="col-8">
-                                <label for="users">Usuários</label>
-                                <select name="usuarios-semana-4[]" class="form-control select2-multiple-personalizado" multiple>
-                                    @foreach ($users as $user)
-                                    <option value="{{$user->rowid}}">{{$user->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        {{-- SALVAR DADOS --}}
-                        <div class="row">
-                            <div class="col-12 text-right">
-                                <button type="submit" class="btn btn-block btn-primary mt-4">Salvar Dados</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="col-4 mt-4 pt-2">
-                    <div class="alert alert-danger display" role="alert">
-                        <h4 class="alert-heading pt-3">Avisos Importantes.</h4>
-                        <hr />
-                        <p>- Não é possível deletar uma semana de plantão.</p>
-                        <p>- Para retirar uma usuário de uma semana, basta edita-la e será renovado a listagem.</p>
-                        <p>- Não é possível registrar semanas iguais, ou seja, se você tentar registrar a semana 17/08/2020 até 23/08/2020 e ele já existir, todos os dados antigos relacionados a ela serão apagados e um novo registro com os novos dados será criado.</p>
-                      </div>
-                </div>
+        {{-- CADASTRAR PLANTÕES --}}
+        <div class="row mb-0">
+            <div class="col-11 pt-2">
+                <h3>Plantão da Equipe</h3>
             </div>
-
+            <div class="col-1 text-right">
+                <button class="btn btn-sm btn-dark pb-2 d-none" id="minimize"><i class="fas fa-window-minimize" style="font-size: 12px"></i></button>
+                <button class="btn btn-sm btn-dark no-border pt-2"  id="maxmize"><i class="far fa-window-maximize"></i></button>
+            </div>
         </div>
-    </div>
+
+        <hr />
+
+        {{-- CADASTRAR PLANTÕES FORMULÁRIO --}}
+        <div class="card pb-0 mb-0" id="cadastrar-plantao">
+            <div class="card-body">
+
+                <div class="row" id="adicionar-plantao">
+                    <div class="col-8">
+                        <form action="{{route('salvar-plantao')}}" method="POST">
+                            @csrf
+
+                            {{-- SEMANA 1 --}}
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="data">Semana do Plantão</label>
+                                    <input type="text" name="semana1" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
+                                </div>
+                                <div class="col-8">
+                                    <label for="users">Usuários</label>
+                                    <select name="usuarios-semana-1[]" class="form-control select2-multiple-personalizado" multiple>
+                                        @foreach ($users as $user)
+                                        <option value="{{$user->rowid}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- SEMANA 2 --}}
+                            <div class="row mt-3">
+                                <div class="col-4">
+                                    <label for="data">Semana do Plantão</label>
+                                    <input type="text" name="semana2" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
+                                </div>
+                                <div class="col-8">
+                                    <label for="users">Usuários</label>
+                                    <select name="usuarios-semana-2[]" class="form-control select2-multiple-personalizado" multiple>
+                                        @foreach ($users as $user)
+                                        <option value="{{$user->rowid}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- SEMANA 3 --}}
+                            <div class="row mt-3">
+                                <div class="col-4">
+                                    <label for="data">Semana do Plantão</label>
+                                    <input type="text" name="semana3" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
+                                </div>
+                                <div class="col-8">
+                                    <label for="users">Usuários</label>
+                                    <select name="usuarios-semana-3[]" class="form-control select2-multiple-personalizado" multiple>
+                                        @foreach ($users as $user)
+                                        <option value="{{$user->rowid}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- SEMANA 4 --}}
+                            <div class="row mt-3">
+                                <div class="col-4">
+                                    <label for="data">Semana do Plantão</label>
+                                    <input type="text" name="semana4" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
+                                </div>
+                                <div class="col-8">
+                                    <label for="users">Usuários</label>
+                                    <select name="usuarios-semana-4[]" class="form-control select2-multiple-personalizado" multiple>
+                                        @foreach ($users as $user)
+                                        <option value="{{$user->rowid}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- SALVAR DADOS --}}
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button type="submit" class="btn btn-block btn-primary mt-4">Salvar Dados</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-4 mt-4 pt-2">
+                        <div class="alert alert-danger display" role="alert">
+                            <h4 class="alert-heading pt-3">Avisos Importantes.</h4>
+                            <hr />
+                            <p>- Não é possível deletar uma semana de plantão.</p>
+                            <p>- Para retirar uma usuário de uma semana, basta edita-la e será renovado a listagem.</p>
+                            <p>- Não é possível registrar semanas iguais, ou seja, se você tentar registrar a semana 17/08/2020 até 23/08/2020 e ele já existir, todos os dados antigos relacionados a ela serão apagados e um novo registro com os novos dados será criado.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    @endif
 
     <div class="row pt-5 mt-5">
 

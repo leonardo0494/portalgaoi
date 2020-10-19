@@ -44,6 +44,55 @@
     </div>
 @endif
 
+
+
+<div class="col-md-12 border-bottom mb-3">
+    <div class="row mb-1">
+        <div class="col-md-10 pl-0 pt-2">
+            <h3>Avisos</h3>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 mb-2">
+    <div class="row">
+        <div class="col-md-12 text-right p-0">
+            <button type="button" class="btn btn-success" data-toggle='modal' data-target='#cadastrar-aviso'>Cadastrar Aviso</button>
+        </div>
+    </div>
+    <div class="row">
+        @if($notices->count() > 0)
+            <div class="card-columns">
+                @foreach($notices as $notice)
+                    <div class="card">
+                        <div class="card-header pb-0"><h5><strong>{{ mb_strtoupper($notice->title) }}</strong></h5></div>
+                        <div class="card-body">
+                            <p class="card-text text-justify">{!! $notice->description !!}</p>
+                            <a href="{{route("close-notice", ["id" => $notice->rowid])}}" class="btn btn-primary">Concluir</a>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-muted">{{\App\User::find($notice->user_id)->name}}<br>
+                                @php
+                                    $dataCriacao = explode(' ', $notice->created_at);
+                                    $horaCriacao = explode(':', $dataCriacao[1]);
+                                    $horaFormatada = $horaCriacao[0] . ":" . $horaCriacao[1];
+                                @endphp
+                                @if(date('Y-m-d') == $dataCriacao[0])
+                                Hoje às {{ $horaFormatada }}.
+                                @else
+                                    Criado em {{ \App\Utils::converterDataParaPadraoBrasileiro($notice->created_at) }}.
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <p class="text-mutted">Não há avisos...</p>
+        @endif
+    </div>
+</div>
+
 <div class="col-md-12">
     <div class="row">
         <h3>Próximas GMUDS</h3>
@@ -147,53 +196,6 @@
 		@endif
             </tbody>
         </table>
-    </div>
-</div>
-
-<div class="col-md-12 border-bottom mb-3">
-    <div class="row mb-1">
-        <div class="col-md-10 pl-0 pt-2">
-            <h3>Avisos</h3>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-12 mb-2">
-    <div class="row">
-        <div class="col-md-12 text-right p-0">
-            <button type="button" class="btn btn-success" data-toggle='modal' data-target='#cadastrar-aviso'>Cadastrar Aviso</button>
-        </div>
-    </div>
-    <div class="row">
-        @if($notices->count() > 0)
-            <div class="card-columns">
-                @foreach($notices as $notice)
-                    <div class="card">
-                        <div class="card-header pb-0"><h5><strong>{{ mb_strtoupper($notice->title) }}</strong></h5></div>
-                        <div class="card-body">
-                            <p class="card-text text-justify">{!! $notice->description !!}</p>
-                            <a href="{{route("close-notice", ["id" => $notice->rowid])}}" class="btn btn-primary">Concluir</a>
-                        </div>
-                        <div class="card-footer">
-                            <p class="text-muted">{{\App\User::find($notice->user_id)->name}}<br>
-                                @php
-                                    $dataCriacao = explode(' ', $notice->created_at);
-                                    $horaCriacao = explode(':', $dataCriacao[1]);
-                                    $horaFormatada = $horaCriacao[0] . ":" . $horaCriacao[1];
-                                @endphp
-                                @if(date('Y-m-d') == $dataCriacao[0])
-                                Hoje às {{ $horaFormatada }}.
-                                @else
-                                    Criado em {{ \App\Utils::converterDataParaPadraoBrasileiro($notice->created_at) }}.
-                                @endif
-                            </p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <p class="text-mutted">Não há avisos...</p>
-        @endif
     </div>
 </div>
 

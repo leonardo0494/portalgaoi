@@ -29,27 +29,44 @@ class UserController extends Controller
         $users = User::all();
         $notices = Notice::where('status', 'PENDENTE')->get();
         $activiyOnline = ActivityOnline::select('recurso', 'hora_inicio')->get();
-        $activities = (Auth::user()->level_id == 1) ? Activity::where('status', 'ABERTO')->orderBy('status', 'asc')->paginate($resultsPerPage) : Activity::where('user_id', Auth::user()->rowid)->where('status', 'ABERTO')->orderby('status', 'asc')->paginate($resultsPerPage);
+        $diaAtual = date('Y-m-d');
+
+        if (Auth::user()->level_id == 1) {
+            $activities = Activity::where('status', 'ABERTO')
+                            ->whereRaw(" date(start_date) > ? ", $diaAtual)
+                            ->orderBy('status', 'asc')
+                            ->paginate($resultsPerPage);
+        } else {
+            $activities = Activity::where(
+                                [
+                                    ['user_id', Auth::user()->rowid],
+                                    ['status', 'ABERTO']
+                                ]
+                            )
+                            ->whereRaw(" date(start_date) > ? ", $diaAtual)
+                            ->orderby('status', 'asc')
+                            ->paginate($resultsPerPage);
+        }
 
         $diaDaSemana     = date('w', strtotime(date('Y-m-d')));
         $domingoPassado  = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("-6 days")) : date('Y-m-d', strtotime("-$diaDaSemana days"));
         $plantao         = PlantaoEquipe::select('id')->whereRaw(" date(start_date) > ? ", $domingoPassado)->skip(0)->take(1)->first();
-	$usuariosPlantao = [];
+	    $usuariosPlantao = [];
 
-	if ($plantao) {
+        if ($plantao) {
 
-		$equipePlantao   = PlantaoEquipeUser::select('user_id')->where('plantao_equipe_id', $plantao->id)->get();
-        
+            $equipePlantao   = PlantaoEquipeUser::select('user_id')->where('plantao_equipe_id', $plantao->id)->get();
 
-	        foreach($equipePlantao as $recurso) {
-        	    $usuario           = User::select('name', 'work_phone', 'personal_phone')->where('rowid', $recurso->user_id)->first();
-	            $usuariosPlantao[] = [
-        	        "name" => $usuario->name,
-                	"work_phone" => $usuario->work_phone,
-	                "personal_phone" => $usuario->personal_phone
-        	    ];
-	        }
-	}
+
+                foreach($equipePlantao as $recurso) {
+                    $usuario           = User::select('name', 'work_phone', 'personal_phone')->where('rowid', $recurso->user_id)->first();
+                    $usuariosPlantao[] = [
+                        "name" => $usuario->name,
+                        "work_phone" => $usuario->work_phone,
+                        "personal_phone" => $usuario->personal_phone
+                    ];
+                }
+        }
 
         return view('users.home',
             [

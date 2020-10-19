@@ -27,9 +27,7 @@
                 <li><a href="{{route("inicial")}}"><i class="fa fa-home"></i>&nbsp; Dashboard</a></li>
                 <li><a href="{{route("atividades")}}"><i class="fa fa-tasks"></i>&nbsp; Atividades</a></li>
                 <li><a href="{{route('list-reports')}}"><i class="fas fa-hourglass-end"></i>&nbsp; Relatório de Horas</a></li>
-                @if(Auth::user()->level_id == 1)
-                    <li><a href="{{route("plantao")}}"><i class="fa fa-calendar"></i>&nbsp; Plantão</a></li>
-                @endif
+                <li><a href="{{route("plantao")}}"><i class="fa fa-calendar"></i>&nbsp; Plantão</a></li>
                 <li><a href="{{route('usuarios')}}"><i class="fa fa-users"></i> Usuários</a></li>
                 <li><a href="{{route('perfil')}}"><i class="fa fa-user"></i>&nbsp; Perfil</a></li>
 		<li><a href="{{route('sobre')}}"><i class="fas fa-question-circle"></i>&nbsp;Sobre</a></li>

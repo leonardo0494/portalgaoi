@@ -78,7 +78,9 @@ $(document).ready(function() {
 
     $(".atualizar-atividade").click(function() {
         let tipoStatus = $(this).attr('data-tipo');
-        let idAtividade = $(this).attr('data-atividade');
+        let idAtividade = $(this).attr('data-atividade-id');
+
+        console.log(idAtividade);
 
         if (confirm(`Você tem certeza que deseja ${tipoStatus.toUpperCase()} essa atividade?`)) {
             $.ajax({
