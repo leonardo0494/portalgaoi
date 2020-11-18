@@ -114,9 +114,10 @@
                                 <option value="INVESTIGACAO">INVESTIGACAO</option>
                                 <option value="REJEITADO">REJEITADO</option>
                                 <option value="ERRO DE MIGRACAO">ERRO DE MIGRACAO</option>
-				                <option value="MODELO DE DADOS">MODELO DE DADOS</option>
+				<option value="MODELO DE DADOS">MODELO DE DADOS</option>
                                 <option value="INDISPONIBILIDADE">INDISPONIBILIDADE</option>
                                 <option value="PARAMETRIZACAO">PARAMETRIZACAO DE AMBIENTE</option>
+				<option value="AMBIENTE">AMBIENTE</option>
                                 <option value="INFRAESTRUTURA">INFRAESTRUTURA</option>
                             </select>
                         </div>
