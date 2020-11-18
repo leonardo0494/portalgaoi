@@ -36,25 +36,35 @@ class ReportsController extends Controller
             $reports = $filtro;
         }
 
-        $Usuarios = User::select('rowid', 'name')->get();
+        $Usuarios = User::select('rowid', 'name')->orderby('name', 'ASC')->get();
 
         foreach ($reports as $key => $value) {
             /* Nome do Usuário */
             $username        = User::select('name')->where('rowid', $reports[$key]->user_id)->first(['name'])->name;
             $username        = explode(" ", $username);
             $username        = ucfirst(strtolower($username[0])) . " " . ucfirst(strtolower($username[count($username) - 1]));
-            $horaDataInicial = explode(" ", $reports[$key]->inicio_atendimento);
-            $horaDataFinal   = explode(" ", $reports[$key]->final_atendimento);
 
             $reports[$key]->sistema             = ($reports[$key]->sistema == "") ? "-" : $reports[$key]->sistema;
-            $reports[$key]->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaDataInicial[1], $horaDataFinal[1], $horaDataInicial[0], $horaDataFinal[0]);
             $reports[$key]->username            = $username;
-            $reports[$key]->inicio_atendimento  = Utils::converterDataParaPadraoBrasileiro($reports[$key]->inicio_atendimento);
-            $reports[$key]->final_atendimento   = Utils::converterDataParaPadraoBrasileiro($reports[$key]->final_atendimento);
+
+            if($reports[$key]->editado == '0') {
+                $horaDataInicial = explode(" ", $reports[$key]->inicio_atendimento);
+                $horaDataFinal   = explode(" ", $reports[$key]->final_atendimento);
+                $reports[$key]->inicio_atendimento  = Utils::converterDataParaPadraoBrasileiro($reports[$key]->inicio_atendimento);
+                $reports[$key]->final_atendimento   = Utils::converterDataParaPadraoBrasileiro($reports[$key]->final_atendimento);
+            } else {
+                $horaDataInicial = explode(" ", $reports[$key]->inicio_atendimento_editado);
+                $horaDataFinal   = explode(" ", $reports[$key]->final_atendimento_editado);
+                $reports[$key]->inicio_atendimento  = Utils::converterDataParaPadraoBrasileiro($reports[$key]->inicio_atendimento_editado);
+                $reports[$key]->final_atendimento   = Utils::converterDataParaPadraoBrasileiro($reports[$key]->final_atendimento_editado);
+            }
+
+            $reports[$key]->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaDataInicial[1], $horaDataFinal[1], $horaDataInicial[0], $horaDataFinal[0]);
 
             unset($reports[$key]->user_id);
             unset($reports[$key]->created_at);
             unset($reports[$key]->updated_at);
+
         }
 
         return view('users.reports',
@@ -123,11 +133,11 @@ class ReportsController extends Controller
             $nomeDoUsuario   = $request->input('usuario');
             $dataRangeInicio = $request->input('data_range_inicio');
             $dataRangeFim    = $request->input('data_range_fim');
-	    $tipoAtividade   = $request->input('tipo');
+	        $tipoAtividade   = $request->input('tipo');
 
-	    if($nomeDoUsuario == "" && $dataRangeInicio == "" && $dataRangeFim == "" && $tipoAtividade == "") {
-		    return redirect()->route('list-reports');
-	    }
+            if($nomeDoUsuario == "" && $dataRangeInicio == "" && $dataRangeFim == "" && $tipoAtividade == "") {
+                return redirect()->route('list-reports');
+            }
 
             $reports         = DB::table('reports');
 
@@ -154,9 +164,37 @@ class ReportsController extends Controller
                 $reports->where('tipo', "=", $tipoAtividade);
             }
 
-	   $reports->orderBy('final_atendimento', 'DESC');
+            $reports = $reports->orderBy('final_atendimento', 'DESC');
+            $reports = $reports->paginate(10);
+            $Usuarios = User::select('rowid', 'name')->get();
 
-	    return $this->listReports($reports->paginate(10));
+            foreach ($reports as $key => $value) {
+                /* Nome do Usuário */
+                $username        = User::select('name')->where('rowid', $reports[$key]->user_id)->first(['name'])->name;
+                $username        = explode(" ", $username);
+                $username        = ucfirst(strtolower($username[0])) . " " . ucfirst(strtolower($username[count($username) - 1]));
+                $horaDataInicial = explode(" ", $reports[$key]->inicio_atendimento);
+                $horaDataFinal   = explode(" ", $reports[$key]->final_atendimento);
+
+                $reports[$key]->sistema             = ($reports[$key]->sistema == "") ? "-" : $reports[$key]->sistema;
+                $reports[$key]->tempo_atendimento   = Utils::calcularIntervaloDeHoras($horaDataInicial[1], $horaDataFinal[1], $horaDataInicial[0], $horaDataFinal[0]);
+                $reports[$key]->username            = $username;
+                $reports[$key]->inicio_atendimento  = Utils::converterDataParaPadraoBrasileiro($reports[$key]->inicio_atendimento);
+                $reports[$key]->final_atendimento   = Utils::converterDataParaPadraoBrasileiro($reports[$key]->final_atendimento);
+
+                unset($reports[$key]->user_id);
+                unset($reports[$key]->created_at);
+                unset($reports[$key]->updated_at);
+            }
+
+            return view('users.reports',
+                [
+                    'relatorios' => $reports,
+                    'Usuarios' => $Usuarios
+                ]
+            );
+
+	        //return $this->listReports($reports->paginate(10));
 
         } else {
             return redirect()->back();
@@ -183,6 +221,32 @@ class ReportsController extends Controller
         } else {
             return redirect()->route('inicial');
         }
+
+    }
+
+    public function editReportsScreen(int $id_atividade)
+    {
+        $reports = Reports::find($id_atividade);
+        $usuario = Auth::user();
+        $sistemas = Sistema::select('sistema')
+        ->orderBy('sistema', 'ASC')
+        ->distinct()
+        ->get();
+
+        //dd($usuario->level_id, $usuario->rowid, $reports->user_id, $reports->editado);
+
+        if( (($usuario->level_id != 1) && ($usuario->rowid != $reports->user_id)) || $reports->editado == 1 ){
+            session()->flash('error',  'Você só pode editar as suas horas e apenas um única vez.');
+            return redirect()->back();
+        }
+
+        return view('users.edit-reports', [
+            "reports" => $reports,
+            "sistemas" => $sistemas,
+            "defeitos" => $reports->defeitos()->get(),
+            "ars" => $reports->arses()->get()
+        ]);
+
 
     }
 
@@ -218,6 +282,19 @@ class ReportsController extends Controller
         session()->flash('status', "Atividade registrada com sucesso.");
 
         return redirect()->route('inicial');
+    }
+
+    public function updateReports(Request $request) {
+
+        $report = Reports::find($request->input('id-atividade'));
+        $report->inicio_atendimento_editado = Utils::converterDataParaPadraoAmericano($request->input('horainicio') . ":00");
+        $report->final_atendimento_editado = Utils::converterDataParaPadraoAmericano($request->input('horafim') . ":00");
+        $report->editado = 1;
+        $report->save();
+
+        session()->flash('success', 'Horário editado com sucesso');
+        return redirect()->route('list-reports');
+
     }
 
     public function exposeBusyResource()

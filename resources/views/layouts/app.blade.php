@@ -15,7 +15,7 @@
     {{-- Daterangepicker --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- FONT AWESOME -->
-    <script src="https://kit.fontawesome.com/1469da1d47.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/27467a36ca.js" crossorigin="anonymous"></script>
 </head>
 
 <body>

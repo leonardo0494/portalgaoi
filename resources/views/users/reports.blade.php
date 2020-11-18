@@ -2,10 +2,21 @@
 
 @section('content')
 
+@include("flash-messages")
+
+{{-- @if(session()->has('status'))
+    <div class='alert alert-success' id='mensagem-atividade'>
+        {{ session('status')}}
+        @php
+            session()->forget('status');
+        @endphp
+    </div>
+@endif --}}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item" aria-current="page">Home</li>
-        <li class="breadcrumb-item active" aria-current="page">Relatório de Horas</li>
+        <li class="breadcrumb-item active" aria-current="page">Relatório de Horas asda</li>
     </ol>
 </nav>
 <div class="col-md-12 pb-4">
@@ -86,7 +97,14 @@
                             <td>{{$relatorio->final_atendimento}}</td>
                             <td>{{$relatorio->tempo_atendimento}}</td>
                             <td>{{$relatorio->username}}</td>
-                            <td><i class="fas fa-eye detalhes-tarefa" data-target="#modalReports" data-toggle="modal" data-id="{{$relatorio->id}}" style="cursor: pointer;"></i></td>
+                            <td>
+                                @if($relatorio->editado == 1)
+                                    <i class="fas fa-edit text-secondary" title="Não pode editar um horário já editado" style="cursor: pointer; margin-right: 15px;"></i>
+                                @else
+                                    <a href="{{route('edit-reports', ['id_atividade' => $relatorio->id])}}"><i class="fas fa-edit" style="cursor: pointer; margin-right: 15px;"></i></a>
+                                @endif
+                                <i class="fas fa-eye detalhes-tarefa" data-target="#modalReports" data-toggle="modal" data-id="{{$relatorio->id}}" style="cursor: pointer;"></i>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -114,7 +132,11 @@
 
     <div class="row">
         <div class="col-md-10 d-flex justify-content-start pl-0">
-            {{$relatorios->links()}}
+            @if(isset($_SERVER['QUERY_STRING']))
+                {{$relatorios->appends(Request::except('page'))->links()}}
+            @else
+                {{$relatorios->links()}}
+            @endif
         </div>
         <div class="col-md-2 pr-0">
             <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#exportarDados">
@@ -123,55 +145,17 @@
         </div>
     </div>
 
-    <div class="row d-none">
-        <div class="card">
-            <div class="card-body">
-                <div class="col-md-12">
-
-                    <h5 style="font-weight: bold">Tipo Tarefa</h5>
-                    <p style="font-size: 14px;">ARS</p>
-
-                    <h5 style="font-weight: bold">ARS</h5>
-                    <p style="font-size: 14px;">000000012345678</p>
-
-                    <h5 style="font-weight: bold">Defeitos</h5>
-                    <table class="table">
-                        <tr>
-                            <td>12345</td>
-                            <td>PRJ00001234_ENT00001234</td>
-                        </tr>
-                        <tr>
-                            <td>12345</td>
-                            <td>PRJ00001234_ENT00001234</td>
-                        </tr>
-                        <tr>
-                            <td>12345</td>
-                            <td>PRJ00001234_ENT00001234</td>
-                        </tr>
-                    </table>
-
-                    <h5 style="font-weight: bold">Sistema</h5>
-                    <p style="font-size: 14px;">SIEBEL</p>
-
-                    <h5 style="font-weight: bold">Descrição</h5>
-                    <p style="font-size: 14px;">Lorem ipsum dolor sit amet consectetur adipisicing</p>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
-<!-- Modal -->
+<!-- Modal EXPORTAR HORAS-->
 <div class="modal fade" id="exportarDados" tabindex="-1" role="dialog" aria-labelledby="exportarDados" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+        <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Exportação - Relatório de Horas</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title" id="exampleModalLongTitle">Exportação - Relatório de Horas</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
-          </button>
+            </button>
         </div>
         <div class="modal-body">
             <form action="{{route('exportar-reports')}}" method="POST">
@@ -185,8 +169,8 @@
                 </div>
             </form>
         </div>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
 
 @endsection
