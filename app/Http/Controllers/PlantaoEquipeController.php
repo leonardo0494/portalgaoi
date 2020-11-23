@@ -20,9 +20,7 @@ class PlantaoEquipeController extends Controller
         $domingoPassado = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("-6 days")) : date('Y-m-d', strtotime("-$diaDaSemana days"));
         $plantoes = PlantaoEquipe::select('id', 'start_date', 'end_date')
             ->whereRaw(" date(start_date) > ? ", $domingoPassado)
-            ->skip(0)
-            ->take(4)
-            ->get();
+            ->paginate(5);
         return view("plantao.index",
             [
                 "users" => $users,
