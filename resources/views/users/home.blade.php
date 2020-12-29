@@ -199,6 +199,47 @@
     </div>
 </div>
 
+<div class="col-md-12 border-bottom mb-3">
+    <div class="row mb-1">
+        <div class="col-md-10 pl-0 pt-2">
+            <h3>Férias/Folga da Equipe</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">    
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Recurso</th>
+                    <th>Tipo</th>
+                    <th>Período</th>
+                </tr>
+            </thead>
+            <tbody>
+	    	@if (count($usuariosEmRecesso) > 0)
+                @foreach($usuariosEmRecesso as $feriasFolga)
+                    <tr>
+                        <td>{{$feriasFolga->username}}</td>
+                        <td>{{$feriasFolga->tipo}}</td>
+                        @if($feriasFolga->tipo == "FOLGA" && $feriasFolga->start_date_mod == $feriasFolga->end_date_mod)
+                            <td>{{$feriasFolga->start_date_mod}}</td>
+                        @else
+                            <td>{{$feriasFolga->start_date_mod}} - {{$feriasFolga->end_date_mod}}</td>
+                        @endif
+                    </tr>
+                @endforeach
+		    @else
+                <tr>
+                    <td colspan='3' class='text-center'>Não há colegas de férias ou folga...</td>
+                </tr>
+		    @endif
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
 {{-- MODAL DE CADASTRAR ATIVIDADES --}}
 <div class="modal fade" id="cadastrar-aviso" tabindex="-1" role="dialog" arial-labelledby='cadastrar-aviso-label' aria-hidden="true">
