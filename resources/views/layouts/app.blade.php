@@ -31,7 +31,7 @@
                 <li><a href="{{route('usuarios')}}"><i class="fa fa-users"></i> Usuários</a></li>
                 <li><a href="{{route('perfil')}}"><i class="fa fa-user"></i>&nbsp; Perfil</a></li>
 		<li><a href="{{route('sobre')}}"><i class="fas fa-question-circle"></i>&nbsp;Sobre</a></li>
-	        <li><a href="{{route('check-netwin')}}"><i class="fas fa-server"></i>&nbsp;Serviços Netwin</a></li>
+	       {{-- <li><a href="{{route('check-netwin')}}"><i class="fas fa-server"></i>&nbsp;Serviços Netwin</a></li>--}}
                 <li><a href="#"><i class="fas fa-link"></i>&nbsp; Links Úteis</a>
                     <ul>
                         <li><a href="http://portalbackup.telemar/">Portal Backup</a></li>
