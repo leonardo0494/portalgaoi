@@ -56,6 +56,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/plantao', 'PlantaoEquipeController@index')->name('plantao');
     Route::post("/salvar-plantao", "PlantaoEquipeController@salvarPlantao")->name('salvar-plantao');
 
+    // Ferias/Folga
+    Route::get('/ferias-folga', 'feriasFolgaController@index')->name('ferias-folga');
+    Route::get("/excluir-ferias-folga/{id}", "feriasFolgaController@excluirFeriasFolga")->name('excluir-ferias-folga');
+    Route::post("/salvar-ferias-folga", "feriasFolgaController@salvarFeriasFolga")->name('salvar-ferias-folga');
+
     // REPORTS
     Route::get('/save-reports', 'ReportsController@saveReportsScreen')->name('save-reports');
     Route::get('/edit-reports/{id_atividade}/', 'ReportsController@editReportsScreen')->name('edit-reports');

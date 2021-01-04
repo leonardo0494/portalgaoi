@@ -11,6 +11,8 @@ use App\Notice;
 use App\PlantaoEquipe;
 use App\PlantaoEquipeUser;
 use App\Reports;
+use App\feriasFolga;
+use App\Utils;
 use Illuminate\Support\Facades\Storage;
 use Hash;
 use Illuminate\Support\Facades\Auth;
@@ -51,7 +53,16 @@ class UserController extends Controller
         $diaDaSemana     = date('w', strtotime(date('Y-m-d')));
         $domingoPassado  = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("-6 days")) : date('Y-m-d', strtotime("-$diaDaSemana days"));
         $plantao         = PlantaoEquipe::select('id')->whereRaw(" date(start_date) > ? ", $domingoPassado)->skip(0)->take(1)->first();
-	    $usuariosPlantao = [];
+        $usuariosEmRecesso = feriasFolga::whereRaw(" date(end_date) > ? ", $domingoPassado)
+                                        ->orWhereRaw(" date(start_date) < ? ", $domingoPassado)
+                                        ->paginate(10);
+        $usuariosPlantao = [];
+        
+        foreach($usuariosEmRecesso as $recesso){
+            $recesso->start_date_mod = Utils::converterDataParaPadraoBrasileiroSemHora($recesso->start_date);
+            $recesso->end_date_mod = Utils::converterDataParaPadraoBrasileiroSemHora($recesso->end_date);
+            $recesso->username = User::where("rowid", $recesso->user_id)->select('name')->first()['name'];
+        }
 
         if ($plantao) {
 
@@ -74,7 +85,8 @@ class UserController extends Controller
                 'usuarios' => $users,
                 'notices' => $notices,
                 'recursosOcupados' => $activiyOnline,
-                'usuariosPlantao' => $usuariosPlantao
+                'usuariosPlantao' => $usuariosPlantao,
+                "usuariosEmRecesso" => $usuariosEmRecesso,
             ]
         );
     }
