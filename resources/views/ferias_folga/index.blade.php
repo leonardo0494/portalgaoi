@@ -99,6 +99,7 @@
                                 <div class="col-4">
                                     <label for="users">Usuário</label>
                                     <select name="usuarios-semana-1" class="form-control select2">
+                                        <option value="">Selecione um Usuário</option>
                                         @foreach ($users as $user)
                                         <option value="{{$user->rowid}}">{{$user->name}}</option>
                                         @endforeach
@@ -122,6 +123,7 @@
                                 <div class="col-4">
                                     <label for="users">Usuário</label>
                                     <select name="usuarios-semana-2" class="form-control select2">
+                                        <option value="">Selecione um Usuário</option>
                                         @foreach ($users as $user)
                                         <option value="{{$user->rowid}}">{{$user->name}}</option>
                                         @endforeach
@@ -145,6 +147,7 @@
                                 <div class="col-4">
                                     <label for="users">Usuário</label>
                                     <select name="usuarios-semana-3" class="form-control select2">
+                                        <option value="">Selecione um Usuário</option>
                                         @foreach ($users as $user)
                                         <option value="{{$user->rowid}}">{{$user->name}}</option>
                                         @endforeach
@@ -168,6 +171,7 @@
                                 <div class="col-4">
                                     <label for="users">Usuário</label>
                                     <select name="usuarios-semana-4" class="form-control select2">
+                                        <option value="">Selecione um Usuário</option>
                                         @foreach ($users as $user)
                                         <option value="{{$user->rowid}}">{{$user->name}}</option>
                                         @endforeach

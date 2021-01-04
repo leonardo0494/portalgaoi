@@ -52,12 +52,14 @@ class UserController extends Controller
 
         $diaDaSemana     = date('w', strtotime(date('Y-m-d')));
         $domingoPassado  = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("-6 days")) : date('Y-m-d', strtotime("-$diaDaSemana days"));
+        $proximoDomingo  = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("+6 days")) : date('Y-m-d', strtotime("+" . (7 - $diaDaSemana) . " days"));
         $plantao         = PlantaoEquipe::select('id')->whereRaw(" date(start_date) > ? ", $domingoPassado)->skip(0)->take(1)->first();
-        $usuariosEmRecesso = feriasFolga::whereRaw(" date(end_date) > ? ", $domingoPassado)
-                                        ->orWhereRaw(" date(start_date) < ? ", $domingoPassado)
+        $usuariosEmRecesso = feriasFolga::whereRaw("date(end_date) >= ? ", $proximoDomingo)
+                                        ->orWhereRaw("date(start_date) > ?", $diaAtual)
+                                        ->orderBy('start_date')
                                         ->paginate(10);
         $usuariosPlantao = [];
-        
+
         foreach($usuariosEmRecesso as $recesso){
             $recesso->start_date_mod = Utils::converterDataParaPadraoBrasileiroSemHora($recesso->start_date);
             $recesso->end_date_mod = Utils::converterDataParaPadraoBrasileiroSemHora($recesso->end_date);

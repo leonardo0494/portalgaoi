@@ -16,7 +16,7 @@ class feriasFolgaController extends Controller
         $domingoPassado = ($diaDaSemana == 0) ? date('Y-m-d', strtotime("-6 days")) : date('Y-m-d', strtotime("-$diaDaSemana days"));
         $usuariosEmRecesso = feriasFolga::whereRaw(" date(end_date) > ? ", $domingoPassado)
             ->paginate(10);
-  
+
         $users = User::all();
 
         //dd($usuariosEmRecesso);
@@ -36,7 +36,7 @@ class feriasFolgaController extends Controller
     }
 
     public function salvarFeriasFolga(Request $request)
-    {   
+    {
 
         //dd($request);
 
@@ -70,7 +70,7 @@ class feriasFolgaController extends Controller
     }
 
     public function excluirFeriasFolga(int $id)
-    {   
+    {
         feriasFolga::where('id', $id)->delete();
         session()->flash('status', "Férias/Folgas deletada com sucesso.");
         return redirect()->back();
