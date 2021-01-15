@@ -41,7 +41,7 @@ class feriasFolgaController extends Controller
         //dd($request);
 
         // Inserindo semanas
-        $quantidadeSemans = 5;
+        $quantidadeSemans = 1;
 
         for ($x=1; $x<$quantidadeSemans; $x++) {
             if ($request->input("usuarios-semana-$x")) {

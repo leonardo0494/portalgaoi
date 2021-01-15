@@ -66,16 +66,12 @@
             <div class="col-11 pt-2">
                 <h3>Férias/Folga da Equipe</h3>
             </div>
-            <div class="col-1 text-right">
-                <button class="btn btn-sm btn-dark pb-2 d-none" id="minimize"><i class="fas fa-window-minimize" style="font-size: 12px"></i></button>
-                <button class="btn btn-sm btn-dark no-border pt-2"  id="maxmize"><i class="far fa-window-maximize"></i></button>
-            </div>
         </div>
 
         <hr />
 
         {{-- CADASTRAR FÉRIAS/FOLGA FORMULÁRIO --}}
-        <div class="card pb-0 mb-0" id="cadastrar-plantao">
+        <div class="card pb-0 mb-0">
             <div class="card-body">
 
                 <div class="row" id="adicionar-plantao">
@@ -86,7 +82,7 @@
                             {{-- SEMANA 1 --}}
                             <div class="row">
                                 <div class="col-4">
-                                    <label for="data">SEMANA/DIA/MÊS das Férias/Folga</label>
+                                    <label for="data">Período</label>
                                     <input type="text" name="semana1" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
                                 </div>
                                 <div class="col-4">
@@ -99,78 +95,6 @@
                                 <div class="col-4">
                                     <label for="users">Usuário</label>
                                     <select name="usuarios-semana-1" class="form-control select2">
-                                        <option value="">Selecione um Usuário</option>
-                                        @foreach ($users as $user)
-                                        <option value="{{$user->rowid}}">{{$user->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- SEMANA 2 --}}
-                            <div class="row mt-3">
-                                <div class="col-4">
-                                    <label for="data">SEMANA/DIA/MÊS das Férias/Folga</label>
-                                    <input type="text" name="semana2" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
-                                </div>
-                                <div class="col-4">
-                                    <label for="users">TIPO</label>
-                                    <select name="usuario-tipo-2" id="usuario-tipo-2" class="form-control">
-                                        <option value="FÉRIAS">FÉRIAS</option>
-                                        <option value="FOLGA">FOLGA</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label for="users">Usuário</label>
-                                    <select name="usuarios-semana-2" class="form-control select2">
-                                        <option value="">Selecione um Usuário</option>
-                                        @foreach ($users as $user)
-                                        <option value="{{$user->rowid}}">{{$user->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- SEMANA 3 --}}
-                            <div class="row mt-3">
-                                <div class="col-4">
-                                    <label for="data">SEMANA/DIA/MÊS das Férias/Folga</label>
-                                    <input type="text" name="semana3" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
-                                </div>
-                                <div class="col-4">
-                                    <label for="users">TIPO</label>
-                                    <select name="usuario-tipo-3" id="usuario-tipo-3" class="form-control">
-                                        <option value="FÉRIAS">FÉRIAS</option>
-                                        <option value="FOLGA">FOLGA</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label for="users">Usuário</label>
-                                    <select name="usuarios-semana-3" class="form-control select2">
-                                        <option value="">Selecione um Usuário</option>
-                                        @foreach ($users as $user)
-                                        <option value="{{$user->rowid}}">{{$user->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- SEMANA 4 --}}
-                            <div class="row mt-3">
-                                <div class="col-4">
-                                    <label for="data">SEMANA/DIA/MÊS das Férias/Folga</label>
-                                    <input type="text" name="semana4" class="form-control datarangepicker" value="" placeholder="Selecione uma data">
-                                </div>
-                                <div class="col-4">
-                                    <label for="users">TIPO</label>
-                                    <select name="usuario-tipo-4" id="usuario-tipo-4" class="form-control">
-                                        <option value="FÉRIAS">FÉRIAS</option>
-                                        <option value="FOLGA">FOLGA</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label for="users">Usuário</label>
-                                    <select name="usuarios-semana-4" class="form-control select2">
                                         <option value="">Selecione um Usuário</option>
                                         @foreach ($users as $user)
                                         <option value="{{$user->rowid}}">{{$user->name}}</option>
