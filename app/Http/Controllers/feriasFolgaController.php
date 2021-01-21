@@ -41,27 +41,20 @@ class feriasFolgaController extends Controller
         //dd($request);
 
         // Inserindo semanas
-        $quantidadeSemans = 1;
+        $data = explode('-', $request->input("semana1"));
+        $usuario = $request->input("usuarios-semana-1");
+        $tipo = trim($request->input("usuario-tipo-1"));
+        $startDate = (string) trim($data[0]) . " 00:00:00";
+        $endDate   = (string) trim($data[1]) . " 00:00:00";
+        $startDateWithtHour = Utils::converterDataParaPadraoAmericano($startDate);
+        $endDateWithtHour = Utils::converterDataParaPadraoAmericano($endDate);
 
-        for ($x=1; $x<$quantidadeSemans; $x++) {
-            if ($request->input("usuarios-semana-$x")) {
-                $data = explode('-', $request->input("semana$x"));
-                $usuario = $request->input("usuarios-semana-$x");
-                $tipo = trim($request->input("usuario-tipo-$x"));
-                $startDate = (string) trim($data[0]) . " 00:00:00";
-                $endDate   = (string) trim($data[1]) . " 00:00:00";
-                $startDateWithtHour = Utils::converterDataParaPadraoAmericano($startDate);
-                $endDateWithtHour = Utils::converterDataParaPadraoAmericano($endDate);
-
-                $feriasFolga = new feriasFolga();
-                $feriasFolga->start_date = $startDateWithtHour;
-                $feriasFolga->end_date = $endDateWithtHour;
-                $feriasFolga->tipo = $tipo;
-                $feriasFolga->user_id = $usuario;
-                $feriasFolga->save();
-
-            }
-        }
+        $feriasFolga = new feriasFolga();
+        $feriasFolga->start_date = $startDateWithtHour;
+        $feriasFolga->end_date = $endDateWithtHour;
+        $feriasFolga->tipo = $tipo;
+        $feriasFolga->user_id = $usuario;
+        $feriasFolga->save();
 
         session()->flash('status', "Férias/Folgas cadastradas com sucesso.");
 
