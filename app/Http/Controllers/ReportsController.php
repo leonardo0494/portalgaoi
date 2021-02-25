@@ -297,12 +297,14 @@ class ReportsController extends Controller
 
     }
 
-    public function exposeBusyResource()
+    public function exposeBusyResource(Request $request)
     {
         $activityOnline = new ActivityOnline();
         $activityOnline->recurso = Auth::user()->name;
         $activityOnline->user_id = Auth::user()->rowid;
         $activityOnline->hora_inicio = Utils::converterDataParaPadraoBrasileiro(date('Y-m-d H:i:s'));
+        $activityOnline->call = ($request->get('call') == "false") ? "Não" : "Sim";
+        $activityOnline->motivo = $request->get('objetivo');
         $activityOnline->save();
 
         return response()

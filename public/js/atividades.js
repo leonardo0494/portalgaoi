@@ -14,6 +14,16 @@ $(document).ready(function(){
 
         let data = createDate();
 
+        let call = confirm("Você está entrando em uma call/reunião?");
+        let objetivo = "";
+
+        if(call) {
+            objetivo = window.prompt("Informe o projeto, treinamento ou motivo?");
+
+            if(!( objetivo != "" || objetivo != undefined))
+                return false;
+        }
+
         $(HORA_INICIO).val(converterDataPadraoBrasileiro(data));
         $(HORA_INICIO_RL).val(data);
 
@@ -26,11 +36,13 @@ $(document).ready(function(){
             method: 'GET',
             url : '/atividade-online',
             data: {
-                "hora_inicio" : data
+                "hora_inicio" : data,
+                "call" : call,
+                "objetivo" : objetivo
             }
         }).done( response => {
             $("#id-atividade").val(response.id_atividade);
-        })
+        });
 
         $("#contador-atividade").removeClass('d-none');
         $(INICIAR_ATIVIDADE).addClass('d-none');

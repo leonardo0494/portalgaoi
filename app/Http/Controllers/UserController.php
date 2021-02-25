@@ -30,7 +30,7 @@ class UserController extends Controller
         $resultsPerPage = 10;
         $users = User::all();
         $notices = Notice::where('status', 'PENDENTE')->get();
-        $activiyOnline = ActivityOnline::select('recurso', 'hora_inicio')->get();
+        $activiyOnline = ActivityOnline::select('recurso', 'hora_inicio', 'call', 'motivo')->get();
         $diaAtual = date('Y-m-d');
 
         if (Auth::user()->level_id == 1) {

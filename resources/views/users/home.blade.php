@@ -25,6 +25,8 @@
                 <thead>
                     <tr>
                         <th>Recurso</th>
+                        <th>Em Call?</th>
+                        <th>Motivo Call</th>
                         <th>Em atividade desde</th>
                         <th>Ação</th>
                     </tr>
@@ -33,6 +35,8 @@
                     @foreach ($recursosOcupados as $recurso)
                         <tr>
                             <td>{{$recurso->recurso}}</td>
+                            <td>{{$recurso->call}}</td>
+                            <td>{{($recurso->motivo != "") ? $recurso->motivo : "-"}}</td>
                             <td>{{$recurso->hora_inicio}}</td>
                             <td width="10%"><a href="{{route('cancelar-report', ["recurso" => base64_encode($recurso->recurso)])}}" class="btn btn-sm btn-danger">Cancelar Atividade</a></td>
                         </tr>
@@ -208,7 +212,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">    
+    <div class="col-md-12">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
