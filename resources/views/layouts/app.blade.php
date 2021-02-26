@@ -99,7 +99,7 @@
     <script src="{{ asset('js/mask.js?') }}"></script>
     <script src="{{ asset('js/custom.js?v0.9') }}"></script>
     <script src="{{ asset('js/sobre.js') }}"></script>
-    <script src="{{ asset('js/atividades.js?v0.4') }}"></script>
+    <script src="{{ asset('js/atividades.js?v0.5') }}"></script>
     <script src="{{ asset('js/atividade-personalizada.js?v0.10') }}"></script>
     <script src="{{ asset('js/plantao.js') }}"></script>
     {{-- CK EDITOR --}}
