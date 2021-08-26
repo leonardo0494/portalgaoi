@@ -55,7 +55,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="chamado">ARS</label>
-                            <input type="text" name="chamado" id="chamado" placeholder="Ex: 000000012345678"  maxlength="14" class="form-control" />
+                            <input type="text" name="chamado" id="chamado" placeholder="Ex: 000000012345678"  maxlength="25" class="form-control" />
                         </div>
                     </div>
 
